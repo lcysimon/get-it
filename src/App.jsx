@@ -1,23 +1,23 @@
 import { useState, useEffect } from 'react'
 import { quizzes, categories } from './data/quizzes'
 
-// Helper function to shuffle array (Fisher-Yates algorithm)
-const shuffleArray = (array) => {
-  const newArray = [...array]
-  for (let i = newArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    [newArray[i], newArray[j]] = [newArray[j], newArray[i]]
-  }
-  return newArray
-}
-
-// Helper function to select random questions
-const getRandomQuestions = (allQuestions, count = 20) => {
-  const shuffled = shuffleArray(allQuestions)
-  return shuffled.slice(0, Math.min(count, shuffled.length))
-}
-
 function App() {
+  // Helper function to shuffle array (Fisher-Yates algorithm)
+  const shuffleArray = (array) => {
+    const newArray = [...array]
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+    }
+    return newArray
+  }
+
+  // Helper function to select random questions
+  const getRandomQuestions = (allQuestions, count = 20) => {
+    const shuffled = shuffleArray(allQuestions)
+    return shuffled.slice(0, Math.min(count, shuffled.length))
+  }
+
   const [currentPage, setCurrentPage] = useState('home')
   const [selectedQuiz, setSelectedQuiz] = useState(null)
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -99,7 +99,7 @@ function App() {
         <main className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">Available Quizzes</h2>
-            <p className="text-gray-500">Select a quiz to start practicing - 20 random questions will be selected</p>
+            <p className="text-gray-500">Select a quiz to start - 20 random questions will be selected</p>
           </div>
 
           {/* Category Filter */}
@@ -145,7 +145,7 @@ function App() {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">{quiz.title}</h3>
                 <p className="text-gray-500 text-sm mb-4">{quiz.description}</p>
                 <div className="text-sm text-gray-400">
-                  {quiz.questions.length} questions available • 20 will be selected
+                  {quiz.questions.length} questions available • 20 random per session
                 </div>
               </div>
             ))}
