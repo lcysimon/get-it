@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { quizzes, categories } from './data/quizzes'
 
+// Helper function to shuffle array (Fisher-Yates algorithm)
+const shuffleArray = (array) => {
+  const newArray = [...array]
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+  }
+  return newArray
+}
+
+// Helper function to select random questions
+const getRandomQuestions = (allQuestions, count = 20) => {
+  const shuffled = shuffleArray(allQuestions)
+  return shuffled.slice(0, Math.min(count, shuffled.length))
+}
+
 function App() {
-  // Helper function to shuffle array (Fisher-Yates algorithm)
-  const shuffleArray = (array) => {
-    const newArray = [...array]
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]]
-    }
-    return newArray
-  }
-
-  // Helper function to select random questions
-  const getRandomQuestions = (allQuestions, count = 20) => {
-    const shuffled = shuffleArray(allQuestions)
-    return shuffled.slice(0, Math.min(count, shuffled.length))
-  }
-
   const [currentPage, setCurrentPage] = useState('home')
   const [selectedQuiz, setSelectedQuiz] = useState(null)
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -27,21 +27,23 @@ function App() {
   const [isAnswered, setIsAnswered] = useState(false)
   const [filterCategory, setFilterCategory] = useState('all')
 
-  const filteredQuizzes = filterCategory === 'all' 
-    ? quizzes 
+  const filteredQuizzes = filterCategory === 'all'
+    ? quizzes
     : quizzes.filter(q => q.category === filterCategory)
 
-  const handleAnswerSelect = (option) => {
+  const handleAnswerSelect = useCallback((option) => {
     if (isAnswered) return
     setSelectedAnswer(option)
     setIsAnswered(true)
     
-    if (option === selectedQuiz.questions[currentQuestion].correctAnswer) {
+    if (option === selectedQuiz?.questions[currentQuestion]?.correctAnswer) {
       setScore(prev => prev + 1)
     }
-  }
+  }, [isAnswered, selectedQuiz, currentQuestion])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
+    if (!selectedQuiz) return
+    
     if (currentQuestion < selectedQuiz.questions.length - 1) {
       setCurrentQuestion(prev => prev + 1)
       setSelectedAnswer(null)
@@ -49,10 +51,9 @@ function App() {
     } else {
       setCompleted(true)
     }
-  }
+  }, [selectedQuiz, currentQuestion])
 
-  const startQuiz = (quiz) => {
-    // Create a copy of the quiz with 20 random questions
+  const startQuiz = useCallback((quiz) => {
     const quizWithRandomQuestions = {
       ...quiz,
       questions: getRandomQuestions(quiz.questions, 20),
@@ -65,16 +66,17 @@ function App() {
     setSelectedAnswer(null)
     setIsAnswered(false)
     setCurrentPage('quiz')
-  }
+  }, [])
 
-  const restartQuiz = () => {
-    startQuiz(selectedQuiz)
-  }
+  const restartQuiz = useCallback(() => {
+    if (selectedQuiz) {
+      startQuiz(selectedQuiz)
+    }
+  }, [selectedQuiz, startQuiz])
 
-  const resetQuiz = () => {
-    setSelectedQuiz(null)
+  const resetQuiz = useCallback(() => {
     setCurrentPage('home')
-  }
+  }, [])
 
   // Home Page
   if (currentPage === 'home') {
@@ -107,8 +109,8 @@ function App() {
             <button
               onClick={() => setFilterCategory('all')}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                filterCategory === 'all' 
-                  ? 'bg-indigo-600 text-white' 
+                filterCategory === 'all'
+                  ? 'bg-indigo-600 text-white'
                   : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
               }`}
             >
@@ -119,8 +121,8 @@ function App() {
                 key={category}
                 onClick={() => setFilterCategory(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  filterCategory === category 
-                    ? 'bg-indigo-600 text-white' 
+                  filterCategory === category
+                    ? 'bg-indigo-600 text-white'
                     : 'bg-white text-gray-600 border border-gray-300 hover:bg-gray-50'
                 }`}
               >
@@ -132,8 +134,8 @@ function App() {
           {/* Quiz Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredQuizzes.map(quiz => (
-              <div 
-                key={quiz.id} 
+              <div
+                key={quiz.id}
                 className="card cursor-pointer hover:shadow-lg transition-shadow hover:-translate-y-1"
                 onClick={() => startQuiz(quiz)}
               >
@@ -164,7 +166,7 @@ function App() {
   // Quiz Page
   if (currentPage === 'quiz' && selectedQuiz) {
     const question = selectedQuiz.questions[currentQuestion]
-    const isCorrect = selectedAnswer === question.correctAnswer
+    const isCorrect = selectedAnswer === question?.correctAnswer
     const progress = ((currentQuestion + (isAnswered ? 1 : 0)) / selectedQuiz.questions.length * 100)
 
     // Completed State
@@ -210,6 +212,8 @@ function App() {
     }
 
     // Active Quiz
+    if (!question) return null
+
     return (
       <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50">
         <header className="bg-white shadow-sm">
@@ -232,7 +236,7 @@ function App() {
           {/* Progress Bar */}
           <div className="mb-6">
             <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
+              <div
                 className="bg-indigo-600 h-2 rounded-full"
                 style={{ width: `${progress}%` }}
               ></div>
@@ -244,8 +248,8 @@ function App() {
             <h3 className="text-lg font-medium text-gray-800 mb-6">{question.question}</h3>
             
             <div className="space-y-3">
-              {question.options.map((option, index) => {
-                const isSelected = selectedAnswer === option
+              {question.options && question.options.map((option, idx) => {
+                const isSel = selectedAnswer === option
                 let bgClass = 'bg-gray-50 hover:bg-gray-100'
                 let borderClass = 'border-2 border-transparent'
                 let textClass = 'text-gray-700'
@@ -255,7 +259,7 @@ function App() {
                     bgClass = 'bg-green-50'
                     borderClass = 'border-green-500'
                     textClass = 'text-green-700'
-                  } else if (isSelected) {
+                  } else if (isSel) {
                     bgClass = 'bg-red-50'
                     borderClass = 'border-red-500'
                     textClass = 'text-red-700'
@@ -263,13 +267,13 @@ function App() {
                     bgClass = 'bg-gray-50'
                     textClass = 'text-gray-400'
                   }
-                } else if (isSelected) {
+                } else if (isSel) {
                   bgClass = 'bg-indigo-50 border-indigo-500'
                 }
 
                 return (
                   <button
-                    key={index}
+                    key={idx}
                     onClick={() => handleAnswerSelect(option)}
                     disabled={isAnswered}
                     className={`w-full p-4 rounded-lg border ${borderClass} ${bgClass} transition-colors ${
@@ -280,7 +284,7 @@ function App() {
                     {isAnswered && option === question.correctAnswer && (
                       <span className="float-right text-green-600">✓</span>
                     )}
-                    {isAnswered && isSelected && option !== question.correctAnswer && (
+                    {isAnswered && isSel && option !== question.correctAnswer && (
                       <span className="float-right text-red-600">✗</span>
                     )}
                   </button>
@@ -304,7 +308,7 @@ function App() {
           </div>
 
           {/* Explanation (shown after answer) */}
-          {isAnswered && (
+          {isAnswered && question.explanation && (
             <div className="card mt-6 bg-indigo-50 border border-indigo-100">
               <div className="flex items-start">
                 <svg className="w-5 h-5 text-indigo-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
@@ -318,6 +322,8 @@ function App() {
       </div>
     )
   }
+
+  return null
 }
 
 export default App
