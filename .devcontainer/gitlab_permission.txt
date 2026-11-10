@@ -1,0 +1,58 @@
+Projects & Groups
+
+read_project
+read_group
+read_namespace
+read_member
+
+User
+
+read_user
+
+Code & Repository
+
+read_code
+read_commit
+read_repository
+download_code
+push_code
+read_repository_tag
+read_branch
+create_branch
+read_protected_branch
+
+Merge Requests
+
+create_merge_request
+read_merge_request
+update_merge_request
+read_merge_request_approval_rule
+read_approval_rule
+
+CI/CD & Pipelines
+
+read_pipeline
+read_job
+read_job_artifact
+read_pipeline_schedule
+
+Infrastructure
+
+read_terraform_state
+
+Project Features
+
+read_environment
+read_release
+read_release_link
+read_work_item
+read_label
+read_wiki
+read_snippet
+read_todo
+read_pages_domain
+read_badge
+
+Search
+
+use_global_search

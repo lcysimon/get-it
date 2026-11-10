@@ -1,0 +1,4 @@
+{
+  "apiKeyHelper": "/bin/bash -c 'echo $ANTHROPIC_API_KEY'",
+  "theme": "dark"
+}

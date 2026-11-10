@@ -1,0 +1,45 @@
+{
+    "name": "devcontainer",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "containerEnv": {
+        "MISTRAL_API_KEY": "${localEnv:MISTRAL_API_KEY}"
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2.7.1": {
+            "configureZsh": true
+        },
+        "ghcr.io/devcontainers/features/python:1.8.1": {},
+        "ghcr.io/anthropics/devcontainer-features/claude-code:1.0": {},
+        "ghcr.io/devcontainers/features/docker-in-docker:4.1.3": {},
+        "ghcr.io/devcontainers/features/node:1": {}
+    },
+    "extensions": [
+        "Mistralai.vibe"
+    ],
+    "mounts": [
+        {
+            "source": "${localWorkspaceFolder}/.devcontainer/vscode/.claude",
+            "target": "/home/vscode/.claude",
+            "type": "bind"
+        },
+        {
+            "source": "${localWorkspaceFolder}/.devcontainer/vscode/.vibe",
+            "target": "/home/vscode/.vibe",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/Downloads",
+            "target": "/home/vscode/downloads",
+            "type": "bind"
+        },
+        {
+            "source": "${localEnv:HOME}/ComfyUI-Shared",
+            "target": "/home/vscode/comfy-shared",
+            "type": "bind"
+        }
+    ],
+    "postCreateCommand": "sudo chown -R vscode:vscode /home/vscode",
+    "remoteUser": "vscode"
+}

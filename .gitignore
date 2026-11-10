@@ -1,0 +1,19 @@
+# Ignore everything by default
+*
+
+# Keep the README, this .gitignore, and Claude project instructions
+!README.md
+!.gitignore
+!CLAUDE.md
+
+# Keep the .devcontainer directory
+!.devcontainer/
+!.devcontainer/*
+
+!.devcontainer/vscode/
+!.devcontainer/vscode/.claude/
+!.devcontainer/vscode/.claude/settings.json
+
+# Keep .vibe directory but only config.toml
+!.devcontainer/vscode/.vibe/
+!.devcontainer/vscode/.vibe/config.toml

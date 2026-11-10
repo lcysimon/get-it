@@ -1,0 +1,28 @@
+# Infra / analytics
+# Note: tflint is a macOS-only Cask in Homebrew, so it's installed via its
+# official Linux script in on-create.sh instead.
+brew "tenv"           # Terraform/Terragrunt/OpenTofu version manager
+brew "terraform-docs" # Generate docs from Terraform modules
+brew "trivy"          # Scan IaC, container images, secrets & deps
+
+# Python / ai-services
+brew "uv"             # Fast Python installer, resolver & venv manager
+brew "ruff"           # Fast Python linter + formatter
+brew "hf"             # Hugging Face Hub CLI (auth via HF_TOKEN)
+brew "mistral-vibe"   # Mistral Vibe coding agent CLI (auth via MISTRAL_API_KEY)
+
+# Git / GitLab / GitHub
+brew "glab"           # GitLab CLI
+brew "gh"             # GitHub CLI
+brew "git-delta"      # Better git diffs
+brew "gitleaks"       # Detect secrets before committing/pushing
+
+# General dev tooling
+brew "jq"             # JSON processor
+brew "yq"             # YAML processor
+brew "direnv"         # Per-directory environment variables
+brew "ripgrep"        # Fast recursive search
+brew "fd"             # Fast, user-friendly file finder
+brew "pre-commit"     # Run a project's own pre-commit hooks locally
+brew "shellcheck"     # Shell script linter
+brew "shfmt"          # Shell script formatter

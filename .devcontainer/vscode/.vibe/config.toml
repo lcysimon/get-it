@@ -1,0 +1,21 @@
+# Project-local Vibe configuration for dev container
+# Auto-approves all tool calls (no permission prompts)
+bypass_tool_permissions = true
+
+# Mistral provider configuration
+[[providers]]
+name = "mistral"
+api_base = "https://api.mistral.ai/v1"
+api_key_env_var = "MISTRAL_API_KEY"
+backend = "mistral"
+
+# Model configuration - use Mistral's medium model by default
+[[models]]
+name = "mistral-medium"
+provider = "mistral"
+alias = "mistral-medium"
+temperature = 1.0
+thinking = "high"
+
+# Set active model (empty string follows server default, or specify explicitly)
+# active_model = "mistral-medium"
