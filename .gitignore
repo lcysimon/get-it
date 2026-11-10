@@ -1,19 +1,37 @@
-# Ignore everything by default
-*
+# Dependencies
+node_modules/
 
-# Keep the README, this .gitignore, and Claude project instructions
-!README.md
-!.gitignore
-!CLAUDE.md
+# Build output
+dist/
 
-# Keep the .devcontainer directory
-!.devcontainer/
-!.devcontainer/*
+# Logs
+*.log
+npm-debug.log*
 
-!.devcontainer/vscode/
-!.devcontainer/vscode/.claude/
-!.devcontainer/vscode/.claude/settings.json
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Keep .vibe directory but only config.toml
-!.devcontainer/vscode/.vibe/
-!.devcontainer/vscode/.vibe/config.toml
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Test coverage
+coverage/
+
+# Cache
+.cache/
