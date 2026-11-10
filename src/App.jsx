@@ -1,6 +1,22 @@
 import { useState, useEffect } from 'react'
 import { quizzes, categories } from './data/quizzes'
 
+// Helper function to shuffle array (Fisher-Yates algorithm)
+const shuffleArray = (array) => {
+  const newArray = [...array]
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+  }
+  return newArray
+}
+
+// Helper function to select random questions
+const getRandomQuestions = (allQuestions, count = 20) => {
+  const shuffled = shuffleArray(allQuestions)
+  return shuffled.slice(0, Math.min(count, shuffled.length))
+}
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home')
   const [selectedQuiz, setSelectedQuiz] = useState(null)
@@ -36,7 +52,13 @@ function App() {
   }
 
   const startQuiz = (quiz) => {
-    setSelectedQuiz(quiz)
+    // Create a copy of the quiz with 20 random questions
+    const quizWithRandomQuestions = {
+      ...quiz,
+      questions: getRandomQuestions(quiz.questions, 20),
+      originalQuestionsCount: quiz.questions.length
+    }
+    setSelectedQuiz(quizWithRandomQuestions)
     setCurrentQuestion(0)
     setScore(0)
     setCompleted(false)
@@ -77,7 +99,7 @@ function App() {
         <main className="max-w-4xl mx-auto px-4 py-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">Available Quizzes</h2>
-            <p className="text-gray-500">Select a quiz to start practicing</p>
+            <p className="text-gray-500">Select a quiz to start practicing - 20 random questions will be selected</p>
           </div>
 
           {/* Category Filter */}
@@ -123,7 +145,7 @@ function App() {
                 <h3 className="text-xl font-semibold text-gray-800 mb-2">{quiz.title}</h3>
                 <p className="text-gray-500 text-sm mb-4">{quiz.description}</p>
                 <div className="text-sm text-gray-400">
-                  {quiz.questions.length} questions
+                  {quiz.questions.length} questions available • 20 will be selected
                 </div>
               </div>
             ))}
@@ -167,11 +189,16 @@ function App() {
               <div className="text-sm text-gray-400 mt-2">
                 {Math.round((score / selectedQuiz.questions.length) * 100)}% Correct
               </div>
+              {selectedQuiz.originalQuestionsCount && selectedQuiz.originalQuestionsCount > selectedQuiz.questions.length && (
+                <div className="text-xs text-gray-400 mt-2">
+                  (Selected from {selectedQuiz.originalQuestionsCount} questions)
+                </div>
+              )}
             </div>
 
             <div className="space-y-3">
               <button onClick={restartQuiz} className="btn-primary w-full">
-                Try Again
+                Try Again (New Random Questions)
               </button>
               <button onClick={resetQuiz} className="btn-secondary w-full">
                 Back to Quizzes
