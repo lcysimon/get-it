@@ -1,0 +1,582 @@
+{
+  "id": 5,
+  "title": "Data Lake",
+  "description": "Architecture, storage, governance, and advanced concepts for data lakes",
+  "category": "Data",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is a data lake?",
+      "options": ["Centralized repository for raw data in native format", "Database with tables", "Processing engine", "Visualization tool"],
+      "correctAnswer": "Centralized repository for raw data in native format",
+      "explanation": "A data lake is a centralized repository that holds raw data in its native format, supporting structured, semi-structured, and unstructured data."
+    },
+    {
+      "id": 2,
+      "question": "What is schema-on-read?",
+      "options": ["Schema applied when reading data", "Schema applied when writing", "Schema during processing", "No schema"],
+      "correctAnswer": "Schema applied when reading data",
+      "explanation": "Schema-on-read applies the schema when data is read from the lake, not when it is written, allowing flexible data ingestion."
+    },
+    {
+      "id": 3,
+      "question": "What is schema-on-write?",
+      "options": ["Schema applied when writing data", "Schema applied when reading", "Schema during processing", "No schema"],
+      "correctAnswer": "Schema applied when writing data",
+      "explanation": "Schema-on-write applies schema and data validation when data is written to the system, ensuring data consistency."
+    },
+    {
+      "id": 4,
+      "question": "Data lake vs warehouse - key difference?",
+      "options": ["Lake-raw, schema-on-read; Warehouse-structured, schema-on-write", "Lake-NoSQL; Warehouse-SQL", "Lake-real-time; Warehouse-batch", "Lake-cloud; Warehouse-on-prem"],
+      "correctAnswer": "Lake-raw, schema-on-read; Warehouse-structured, schema-on-write",
+      "explanation": "Data lakes accept data in any format with schema-on-read; data warehouses require structured data with schema-on-write."
+    },
+    {
+      "id": 5,
+      "question": "What is a data lakehouse?",
+      "options": ["Combines lake and warehouse features", "Lake with house structure", "Warehouse with lake storage", "Hybrid cloud"],
+      "correctAnswer": "Combines lake and warehouse features",
+      "explanation": "A data lakehouse combines the flexibility of data lakes with the reliability and performance of data warehouses."
+    },
+    {
+      "id": 6,
+      "question": "What is Delta Lake?",
+      "options": ["Open-source storage layer with ACID transactions", "Processing framework", "Database", "Visualization tool"],
+      "correctAnswer": "Open-source storage layer with ACID transactions",
+      "explanation": "Delta Lake is an open-source storage layer that brings ACID transactions to Apache Spark and big data workloads."
+    },
+    {
+      "id": 7,
+      "question": "What is Apache Iceberg?",
+      "options": ["Open table format for analytic datasets", "Processing framework", "Database", "Streaming platform"],
+      "correctAnswer": "Open table format for analytic datasets",
+      "explanation": "Apache Iceberg is an open table format for huge analytic datasets, providing reliability and simplicity."
+    },
+    {
+      "id": 8,
+      "question": "What is Apache Hudi?",
+      "options": ["Open-source data lake with upserts, deletes", "Processing framework", "Database", "Streaming platform"],
+      "correctAnswer": "Open-source data lake with upserts, deletes",
+      "explanation": "Apache Hudi provides upserts, deletes, and near-real-time ingestion capabilities to data lakes."
+    },
+    {
+      "id": 9,
+      "question": "What are typical data lake zones?",
+      "options": ["Landing, Raw, Cleaned, Curated, Consumption", "Input, Process, Output", "Hot, Warm, Cold", "Prod, Stage, Dev"],
+      "correctAnswer": "Landing, Raw, Cleaned, Curated, Consumption",
+      "explanation": "Typical zones are: Landing (temporary), Raw (persistent raw data), Cleaned (validated), Curated (business-ready), Consumption (optimized for users)."
+    },
+    {
+      "id": 10,
+      "question": "What is a data swamp?",
+      "options": ["Disorganized data lake hard to use", "High storage costs", "Slow ingestion", "Lack of query capability"],
+      "correctAnswer": "Disorganized data lake hard to use",
+      "explanation": "A data swamp is what happens when a data lake lacks proper governance, metadata, and organization, making data hard to find, understand, and use."
+    },
+    {
+      "id": 11,
+      "question": "Which company originally developed Delta Lake?",
+      "options": ["Databricks", "Cloudera", "Microsoft", "Google"],
+      "correctAnswer": "Databricks",
+      "explanation": "Delta Lake was originally developed by Databricks as an open-source storage layer for Apache Spark."
+    },
+    {
+      "id": 12,
+      "question": "What file format does Delta Lake use?",
+      "options": ["Parquet", "ORC", "Avro", "CSV"],
+      "correctAnswer": "Parquet",
+      "explanation": "Delta Lake uses Parquet as its underlying file format for efficient columnar storage."
+    },
+    {
+      "id": 13,
+      "question": "What is the Delta Lake transaction log?",
+      "options": ["Record of all changes made to the table", "Log of queries", "Log of users", "Log of errors"],
+      "correctAnswer": "Record of all changes made to the table",
+      "explanation": "The Delta Lake transaction log is a set of JSON files that record all changes made to the table, enabling ACID transactions and time travel."
+    },
+    {
+      "id": 14,
+      "question": "What is time travel in Delta Lake?",
+      "options": ["Querying data as it was at a previous point in time", "Going back in time to fix errors", "Restoring deleted tables", "Accessing historical logs"],
+      "correctAnswer": "Querying data as it was at a previous point in time",
+      "explanation": "Time travel in Delta Lake allows you to query data as it was at a previous version or timestamp, using the transaction log."
+    },
+    {
+      "id": 15,
+      "question": "What is OPTIMIZE in Delta Lake?",
+      "options": ["Compacts small files into larger ones", "Optimizes queries", "Optimizes storage", "Compacts transaction logs"],
+      "correctAnswer": "Compacts small files into larger ones",
+      "explanation": "OPTIMIZE command in Delta Lake compacts small files into larger ones to improve query performance."
+    },
+    {
+      "id": 16,
+      "question": "What is Z-Ordering in Delta Lake?",
+      "options": ["Co-locates related data for faster reads", "Zips data files", "Orders data by time", "Compresses data with Z-standard"],
+      "correctAnswer": "Co-locates related data for faster reads",
+      "explanation": "Z-Ordering is a technique that co-locates related data in the same files to minimize the amount of data read during queries."
+    },
+    {
+      "id": 17,
+      "question": "What is VACUUM in Delta Lake?",
+      "options": ["Removes old files no longer referenced by the table", "Cleans transaction logs", "Removes all data", "Compacts files"],
+      "correctAnswer": "Removes old files no longer referenced by the table",
+      "explanation": "VACUUM removes old data files that are no longer referenced by the current table version, freeing up storage space."
+    },
+    {
+      "id": 18,
+      "question": "What is the purpose of the _delta_log directory?",
+      "options": ["Stores transaction log files", "Stores data files", "Stores configuration", "Stores temporary files"],
+      "correctAnswer": "Stores transaction log files",
+      "explanation": "The _delta_log directory stores all transaction log files that record changes to a Delta Lake table."
+    },
+    {
+      "id": 19,
+      "question": "Which companies originally developed Iceberg?",
+      "options": ["Netflix and Apple", "Google and Microsoft", "Cloudera and Twitter", "Databricks and Apache"],
+      "correctAnswer": "Netflix and Apple",
+      "explanation": "Apache Iceberg was originally developed by Netflix and Apple as an open table format."
+    },
+    {
+      "id": 20,
+      "question": "What is snapshot isolation in Iceberg?",
+      "options": ["Readers see a consistent snapshot of the table", "Writers see isolated snapshots", "Tables are isolated from each other", "Snapshots are isolated from users"],
+      "correctAnswer": "Readers see a consistent snapshot of the table",
+      "explanation": "Snapshot isolation in Iceberg ensures that readers see a consistent snapshot of the table at a point in time, even while writes are occurring."
+    },
+    {
+      "id": 21,
+      "question": "What is the metadata file in Iceberg?",
+      "options": ["Stores schema and table properties", "Stores data", "Stores configuration", "Stores logs"],
+      "correctAnswer": "Stores schema and table properties",
+      "explanation": "The metadata file in Iceberg contains the schema, table properties, and partition information."
+    },
+    {
+      "id": 22,
+      "question": "What is a manifest file in Iceberg?",
+      "options": ["Lists data files and their metadata", "Manifest of all changes", "List of snapshots", "List of partitions"],
+      "correctAnswer": "Lists data files and their metadata",
+      "explanation": "A manifest file in Iceberg contains a list of data files with their metadata, such as file location, size, and partition information."
+    },
+    {
+      "id": 23,
+      "question": "What is partition evolution in Iceberg?",
+      "options": ["Changing partition scheme without rewriting data", "Evolving partitions over time", "Adding new partitions", "Removing old partitions"],
+      "correctAnswer": "Changing partition scheme without rewriting data",
+      "explanation": "Partition evolution allows you to change the partitioning scheme of an Iceberg table without rewriting all the data."
+    },
+    {
+      "id": 24,
+      "question": "What is view evolution in Iceberg?",
+      "options": ["Changing schema without rewriting data", "Evolving views over time", "Adding new columns to views", "Removing columns from views"],
+      "correctAnswer": "Changing schema without rewriting data",
+      "explanation": "View evolution in Iceberg allows you to change the schema of a view without rewriting the underlying data."
+    },
+    {
+      "id": 25,
+      "question": "What is hidden partitioning in Iceberg?",
+      "options": ["Partitioning visible to queries but not to users", "Partitioning not visible to queries", "Partitioning hidden from metadata", "Partitioning hidden from storage"],
+      "correctAnswer": "Partitioning visible to queries but not to users",
+      "explanation": "Hidden partitioning in Iceberg allows partitioning data for performance while hiding the partitioning columns from query results."
+    },
+    {
+      "id": 26,
+      "question": "Which company originally developed Hudi?",
+      "options": ["Uber", "Netflix", "Google", "Microsoft"],
+      "correctAnswer": "Uber",
+      "explanation": "Apache Hudi was originally developed by Uber for near-real-time data ingestion and processing."
+    },
+    {
+      "id": 27,
+      "question": "What does Hudi stand for?",
+      "options": ["Hadoop Upsert Delete Incremental", "Hadoop Unified Data Infrastructure", "Hadoop Update and Incremental", "Hadoop Data Interface"],
+      "correctAnswer": "Hadoop Upsert Delete Incremental",
+      "explanation": "Hudi stands for Hadoop Upsert Delete Incremental, reflecting its support for upsert and delete operations on data lakes."
+    },
+    {
+      "id": 28,
+      "question": "What is MOR in Hudi?",
+      "options": ["Merge-On-Read table type", "Merge-Only-Read", "Merge-On-Record", "Merge-On-Reduce"],
+      "correctAnswer": "Merge-On-Read table type",
+      "explanation": "MOR (Merge-On-Read) is a table type in Hudi where updates are stored as delta files and merged during read time."
+    },
+    {
+      "id": 29,
+      "question": "What is COW in Hudi?",
+      "options": ["Copy-On-Write table type", "Change-On-Write", "Copy-On-Record", "Copy-On-Read"],
+      "correctAnswer": "Copy-On-Write table type",
+      "explanation": "COW (Copy-On-Write) is a table type in Hudi where updates create new file versions and old files are deleted."
+    },
+    {
+      "id": 30,
+      "question": "What is an index in Hudi?",
+      "options": ["Data structure to quickly locate records", "List of all records", "Metadata about files", "Transaction log"],
+      "correctAnswer": "Data structure to quickly locate records",
+      "explanation": "An index in Hudi is a data structure (like a HBase or bloom filter index) that allows quick location of records for updates and deletes."
+    },
+    {
+      "id": 31,
+      "question": "What is the purpose of the Landing zone in a data lake?",
+      "options": ["Temporary storage for incoming data", "Long-term storage", "Processed data storage", "User access layer"],
+      "correctAnswer": "Temporary storage for incoming data",
+      "explanation": "The Landing zone is for temporary storage of incoming raw data before it's validated and moved to the Raw zone."
+    },
+    {
+      "id": 32,
+      "question": "What is the purpose of the Raw zone in a data lake?",
+      "options": ["Persistent storage of immutable raw data", "Temporary storage", "Processed data", "User-facing data"],
+      "correctAnswer": "Persistent storage of immutable raw data",
+      "explanation": "The Raw zone stores immutable raw data in its original format, serving as the single source of truth."
+    },
+    {
+      "id": 33,
+      "question": "What is the purpose of the Cleaned zone?",
+      "options": ["Data that has been validated and cleansed", "Raw data", "User-facing data", "Temporary data"],
+      "correctAnswer": "Data that has been validated and cleansed",
+      "explanation": "The Cleaned zone contains data that has been validated, cleansed, and standardized from the Raw zone."
+    },
+    {
+      "id": 34,
+      "question": "What is the purpose of the Curated zone?",
+      "options": ["Business-ready data with relationships and rules", "Raw data", "Cleaned data", "User-facing data"],
+      "correctAnswer": "Business-ready data with relationships and rules",
+      "explanation": "The Curated zone contains business-ready data that has been enriched with relationships, business rules, and aggregations."
+    },
+    {
+      "id": 35,
+      "question": "What is the purpose of the Consumption zone?",
+      "options": ["Data optimized for end-user access and analytics", "Raw data", "Processed data", "Storage optimization"],
+      "correctAnswer": "Data optimized for end-user access and analytics",
+      "explanation": "The Consumption zone contains data that has been optimized for end-user access, analytics, and visualization."
+    },
+    {
+      "id": 36,
+      "question": "What is data governance in a data lake?",
+      "options": ["Policies, procedures, and standards for data management", "Data storage rules", "Data processing rules", "Data access rules"],
+      "correctAnswer": "Policies, procedures, and standards for data management",
+      "explanation": "Data governance defines policies, procedures, standards, and metrics that ensure the effective and efficient use of data."
+    },
+    {
+      "id": 37,
+      "question": "What is metadata management in a data lake?",
+      "options": ["Capture, storage, and management of data about data", "Storing data", "Processing data", "Managing users"],
+      "correctAnswer": "Capture, storage, and management of data about data",
+      "explanation": "Metadata management involves capturing, storing, and managing information about the data (schema, lineage, ownership, etc.)."
+    },
+    {
+      "id": 38,
+      "question": "What is data lineage in a data lake?",
+      "options": ["History of data transformations and movements", "Data origin", "Data destination", "Data processing history"],
+      "correctAnswer": "History of data transformations and movements",
+      "explanation": "Data lineage tracks the flow of data from source to destination, including all transformations and movements."
+    },
+    {
+      "id": 39,
+      "question": "What is a data catalog in a data lake?",
+      "options": ["Centralized repository of metadata for data discovery", "List of files", "List of tables", "Query history"],
+      "correctAnswer": "Centralized repository of metadata for data discovery",
+      "explanation": "A data catalog is a centralized repository of metadata that makes data assets discoverable, understandable, and usable."
+    },
+    {
+      "id": 40,
+      "question": "What is data quality management in a data lake?",
+      "options": ["Ensuring data meets quality standards", "Checking data exists", "Validating data format", "Monitoring data size"],
+      "correctAnswer": "Ensuring data meets quality standards",
+      "explanation": "Data quality management ensures data meets defined quality standards such as accuracy, completeness, consistency, and timeliness."
+    },
+    {
+      "id": 41,
+      "question": "What is data security in a data lake?",
+      "options": ["Protecting data from unauthorized access and breaches", "Encrypting all data", "Restricting access", "Monitoring users"],
+      "correctAnswer": "Protecting data from unauthorized access and breaches",
+      "explanation": "Data security involves protecting data from unauthorized access, use, disclosure, disruption, modification, or destruction."
+    },
+    {
+      "id": 42,
+      "question": "What is data retention in a data lake?",
+      "options": ["Policies for how long data should be kept", "Data backup policy", "Data storage policy", "Data archival policy"],
+      "correctAnswer": "Policies for how long data should be kept",
+      "explanation": "Data retention defines policies for how long different types of data should be kept in the data lake."
+    },
+    {
+      "id": 43,
+      "question": "What is data archiving in a data lake?",
+      "options": ["Moving infrequently accessed data to cheaper storage", "Deleting old data", "Compressing data", "Encrypting data"],
+      "correctAnswer": "Moving infrequently accessed data to cheaper storage",
+      "explanation": "Data archiving moves infrequently accessed data from expensive hot storage to cheaper cold storage while maintaining access."
+    },
+    {
+      "id": 44,
+      "question": "What is tiered storage in a data lake?",
+      "options": ["Different storage types based on access frequency", "Same storage for all data", "Storage by data type", "Storage by data size"],
+      "correctAnswer": "Different storage types based on access frequency",
+      "explanation": "Tiered storage uses different storage types (hot, warm, cold) based on data access frequency and performance requirements."
+    },
+    {
+      "id": 45,
+      "question": "What is hot storage in a data lake?",
+      "options": ["Fast, expensive storage for frequently accessed data", "Slow, cheap storage", "Archival storage", "Backup storage"],
+      "correctAnswer": "Fast, expensive storage for frequently accessed data",
+      "explanation": "Hot storage is fast, expensive storage (like SSD) used for frequently accessed data that requires low-latency access."
+    },
+    {
+      "id": 46,
+      "question": "What is cold storage in a data lake?",
+      "options": ["Slow, cheap storage for infrequently accessed data", "Fast, expensive storage", "Archive storage", "Backup storage"],
+      "correctAnswer": "Slow, cheap storage for infrequently accessed data",
+      "explanation": "Cold storage is slow, cheap storage (like HDD or cloud archive) used for infrequently accessed data."
+    },
+    {
+      "id": 47,
+      "question": "What is data partitioning in a data lake?",
+      "options": ["Dividing data into manageable subsets based on criteria", "Splitting data by file size", "Dividing data by type", "Separating data by source"],
+      "correctAnswer": "Dividing data into manageable subsets based on criteria",
+      "explanation": "Data partitioning divides large datasets into smaller, manageable subsets based on criteria like date, region, or business unit."
+    },
+    {
+      "id": 48,
+      "question": "What is partition pruning in a data lake?",
+      "options": ["Skipping irrelevant partitions during queries", "Combining partitions", "Removing old partitions", "Adding new partitions"],
+      "correctAnswer": "Skipping irrelevant partitions during queries",
+      "explanation": "Partition pruning is an optimization that skips reading partitions that don't contain relevant data for a query, improving performance."
+    },
+    {
+      "id": 49,
+      "question": "What is bucketing in a data lake?",
+      "options": ["Hash-based partitioning within partitions", "Grouping by date", "Dividing by size", "Splitting by type"],
+      "correctAnswer": "Hash-based partitioning within partitions",
+      "explanation": "Bucketing uses hash-based partitioning within existing partitions to co-locate related data and improve join performance."
+    },
+    {
+      "id": 50,
+      "question": "What is clustering in a data lake?",
+      "options": ["Co-locating related data in the same files", "Grouping files by size", "Dividing by type", "Sorting by date"],
+      "correctAnswer": "Co-locating related data in the same files",
+      "explanation": "Clustering (like Z-Ordering) co-locates related data in the same files to minimize I/O during queries."
+    },
+    {
+      "id": 51,
+      "question": "What is compaction in a data lake?",
+      "options": ["Combining small files into larger ones", "Compressing data", "Deleting files", "Merging partitions"],
+      "correctAnswer": "Combining small files into larger ones",
+      "explanation": "Compaction combines many small files into larger files to improve query performance by reducing the number of files to read."
+    },
+    {
+      "id": 52,
+      "question": "What is the small file problem in data lakes?",
+      "options": ["Too many small files causing performance issues", "Small files are hard to store", "Small files are hard to process", "Small files cause metadata overhead"],
+      "correctAnswer": "Too many small files causing performance issues",
+      "explanation": "The small file problem occurs when there are too many small files, which causes performance issues due to high metadata overhead and many I/O operations."
+    },
+    {
+      "id": 53,
+      "question": "What is data compression in a data lake?",
+      "options": ["Reducing data size to save storage and improve performance", "Encrypting data", "Encoding data", "Partitioning data"],
+      "correctAnswer": "Reducing data size to save storage and improve performance",
+      "explanation": "Data compression reduces the size of data files to save storage space and improve I/O performance by reading less data."
+    },
+    {
+      "id": 54,
+      "question": "What is columnar storage in a data lake?",
+      "options": ["Storing data by columns instead of rows", "Storing data by rows", "Storing data by partitions", "Storing data by files"],
+      "correctAnswer": "Storing data by columns instead of rows",
+      "explanation": "Columnar storage stores data by columns instead of rows, which is more efficient for analytical queries that typically read only a subset of columns."
+    },
+    {
+      "id": 55,
+      "question": "What is Parquet format?",
+      "options": ["Columnar storage format optimized for analytics", "Row-based storage", "Compressed JSON", "Binary CSV"],
+      "correctAnswer": "Columnar storage format optimized for analytics",
+      "explanation": "Parquet is an open-source columnar storage file format optimized for use with big data processing frameworks like Spark and Hadoop."
+    },
+    {
+      "id": 56,
+      "question": "What is ORC format?",
+      "options": ["Optimized Row Columnar format for Hadoop", "Parquet format", "JSON format", "CSV format"],
+      "correctAnswer": "Optimized Row Columnar format for Hadoop",
+      "explanation": "ORC (Optimized Row Columnar) is a columnar file format created for Hadoop that provides efficient columnar storage with compression."
+    },
+    {
+      "id": 57,
+      "question": "What is Avro format?",
+      "options": ["Row-based format with schema evolution support", "Columnar format", "JSON format", "Binary CSV"],
+      "correctAnswer": "Row-based format with schema evolution support",
+      "explanation": "Avro is a row-based binary format that supports schema evolution, making it suitable for data that changes over time."
+    },
+    {
+      "id": 58,
+      "question": "What is the advantage of columnar formats for analytics?",
+      "options": ["Efficient reading of specific columns", "Faster writes", "Better compression", "Easier to parse"],
+      "correctAnswer": "Efficient reading of specific columns",
+      "explanation": "Columnar formats allow analytical queries to read only the columns they need, dramatically reducing I/O and improving performance."
+    },
+    {
+      "id": 59,
+      "question": "What is predicate pushdown in a data lake?",
+      "options": ["Filtering data at the storage layer before reading", "Pushing predicates to executors", "Filtering after loading all data", "Processing predicates in parallel"],
+      "correctAnswer": "Filtering data at the storage layer before reading",
+      "explanation": "Predicate pushdown pushes filter conditions down to the storage layer, allowing files or partitions to be skipped entirely during reads."
+    },
+    {
+      "id": 60,
+      "question": "What is column pruning in a data lake?",
+      "options": ["Reading only the columns needed for a query", "Pruning rows based on conditions", "Removing duplicate columns", "Compressing columns"],
+      "correctAnswer": "Reading only the columns needed for a query",
+      "explanation": "Column pruning is an optimization where only the columns required by a query are read, rather than reading entire files."
+    },
+    {
+      "id": 61,
+      "question": "What is a data lake on AWS?",
+      "options": ["S3-based data lake", "RDS database", "Redshift warehouse", "DynamoDB table"],
+      "correctAnswer": "S3-based data lake",
+      "explanation": "On AWS, a data lake is typically built on Amazon S3, with services like AWS Glue for metadata and Athena for querying."
+    },
+    {
+      "id": 62,
+      "question": "What is AWS Glue?",
+      "options": ["Serverless ETL and data catalog service", "Data warehouse", "Query engine", "Storage service"],
+      "correctAnswer": "Serverless ETL and data catalog service",
+      "explanation": "AWS Glue is a serverless ETL (Extract, Transform, Load) service that also provides a data catalog for metadata management."
+    },
+    {
+      "id": 63,
+      "question": "What is Athena on AWS?",
+      "options": ["Serverless query service for data in S3", "Data warehouse", "ETL service", "Storage service"],
+      "correctAnswer": "Serverless query service for data in S3",
+      "explanation": "Amazon Athena is a serverless query service that allows you to analyze data in Amazon S3 using standard SQL."
+    },
+    {
+      "id": 64,
+      "question": "What is Azure Data Lake Storage?",
+      "options": ["Scalable cloud storage for big data analytics", "Database service", "Query engine", "ETL service"],
+      "correctAnswer": "Scalable cloud storage for big data analytics",
+      "explanation": "Azure Data Lake Storage is a scalable cloud storage service optimized for big data analytics workloads."
+    },
+    {
+      "id": 65,
+      "question": "What is Google Cloud Storage for data lakes?",
+      "options": ["Object storage service for data lakes", "Database service", "Query engine", "ETL service"],
+      "correctAnswer": "Object storage service for data lakes",
+      "explanation": "Google Cloud Storage is an object storage service that can be used as the foundation for a data lake on Google Cloud."
+    },
+    {
+      "id": 66,
+      "question": "What is BigQuery for data lakes?",
+      "options": ["Serverless data warehouse with data lake capabilities", "Storage service", "ETL service", "Query engine only"],
+      "correctAnswer": "Serverless data warehouse with data lake capabilities",
+      "explanation": "Google BigQuery is a serverless data warehouse that can query data directly from Cloud Storage, providing data lake capabilities."
+    },
+    {
+      "id": 67,
+      "question": "What is Databricks Lakehouse?",
+      "options": ["Unified data lake and warehouse platform", "Data lake only", "Data warehouse only", "ETL platform"],
+      "correctAnswer": "Unified data lake and warehouse platform",
+      "explanation": "Databricks Lakehouse Platform provides a unified architecture that combines the best of data lakes and data warehouses."
+    },
+    {
+      "id": 68,
+      "question": "What is Auto Loader in Databricks?",
+      "options": ["Incremental file ingestion service", "Batch loader", "Manual loader", "Streaming service"],
+      "correctAnswer": "Incremental file ingestion service",
+      "explanation": "Auto Loader is a Databricks service that incrementally ingests new files as they arrive in cloud storage."
+    },
+    {
+      "id": 69,
+      "question": "What is Photon in Databricks?",
+      "options": ["Vectorized query engine for faster SQL", "Storage format", "ETL service", "Query optimizer"],
+      "correctAnswer": "Vectorized query engine for faster SQL",
+      "explanation": "Photon is Databricks' vectorized query engine that provides significant performance improvements for SQL workloads."
+    },
+    {
+      "id": 70,
+      "question": "What is Unity Catalog in Databricks?",
+      "options": ["Centralized governance solution for data and AI assets", "Data catalog", "Metadata store", "Access control system"],
+      "correctAnswer": "Centralized governance solution for data and AI assets",
+      "explanation": "Unity Catalog is Databricks' centralized governance solution for managing data, files, tables, ML models, and dashboards."
+    },
+    {
+      "id": 71,
+      "question": "What is data sharing in Databricks?",
+      "options": ["Securely sharing data between organizations", "Copying data", "Moving data", "Exporting data"],
+      "correctAnswer": "Securely sharing data between organizations",
+      "explanation": "Databricks Delta Sharing allows organizations to securely share data with other organizations without copying or moving the data."
+    },
+    {
+      "id": 72,
+      "question": "What is the purpose of a bronze table in Databricks medallion architecture?",
+      "options": ["Raw data with minimal transformations", "Cleaned data", "Curated data", "Consumption data"],
+      "correctAnswer": "Raw data with minimal transformations",
+      "explanation": "In Databricks' medallion architecture, bronze tables contain raw data from source systems with minimal transformations."
+    },
+    {
+      "id": 73,
+      "question": "What is the purpose of a silver table in Databricks medallion architecture?",
+      "options": ["Cleaned, validated, and enriched data", "Raw data", "Curated data", "Consumption data"],
+      "correctAnswer": "Cleaned, validated, and enriched data",
+      "explanation": "Silver tables in the medallion architecture contain cleaned, validated, and enriched data that addresses data quality issues."
+    },
+    {
+      "id": 74,
+      "question": "What is the purpose of a gold table in Databricks medallion architecture?",
+      "options": ["Business-ready data for analytics and ML", "Raw data", "Cleaned data", "Processed data"],
+      "correctAnswer": "Business-ready data for analytics and ML",
+      "explanation": "Gold tables contain business-ready data that has been aggregated, joined, and prepared for analytics, reporting, and machine learning."
+    },
+    {
+      "id": 75,
+      "question": "What is CDF in Delta Lake?",
+      "options": ["Continuous Data Feed for change data capture", "Change Data Format", "Continuous Data Flow", "Change Data Framework"],
+      "correctAnswer": "Continuous Data Feed for change data capture",
+      "explanation": "CDF (Continuous Data Feed) is a feature in Delta Lake that enables change data capture, tracking row-level changes in tables."
+    },
+    {
+      "id": 76,
+      "question": "What is Dynamic File Pruning in Delta Lake?",
+      "options": ["Skipping files that don't match query predicates", "Dynamic partitioning", "File compression", "File merging"],
+      "correctAnswer": "Skipping files that don't match query predicates",
+      "explanation": "Dynamic File Pruning uses statistics stored in the transaction log to skip files that don't match query predicates, improving performance."
+    },
+    {
+      "id": 77,
+      "question": "What is Dynamic Partition Pruning in Delta Lake?",
+      "options": ["Skipping partitions that don't match query predicates", "Dynamic file pruning", "Partition merging", "Partition compression"],
+      "correctAnswer": "Skipping partitions that don't match query predicates",
+      "explanation": "Dynamic Partition Pruning skips entire partitions that don't match query predicates, providing significant performance improvements."
+    },
+    {
+      "id": 78,
+      "question": "What is the purpose of a data mesh?",
+      "options": ["Decentralized data architecture with domain ownership", "Centralized data lake", "Data warehouse architecture", "ETL architecture"],
+      "correctAnswer": "Decentralized data architecture with domain ownership",
+      "explanation": "Data mesh is a decentralized data architecture that treats data as a product, with domain ownership and self-serve data infrastructure."
+    },
+    {
+      "id": 79,
+      "question": "What is domain ownership in data mesh?",
+      "options": ["Business domains own their data products", "IT owns all data", "Central team owns data", "External vendors own data"],
+      "correctAnswer": "Business domains own their data products",
+      "explanation": "In data mesh, business domains (like Finance, Marketing) own their data products, ensuring quality and relevance."
+    },
+    {
+      "id": 80,
+      "question": "What is a data product in data mesh?",
+      "options": ["Self-contained, reusable data asset", "Raw data", "Processed data", "Storage system"],
+      "correctAnswer": "Self-contained, reusable data asset",
+      "explanation": "A data product in data mesh is a self-contained, reusable data asset that is managed as a product with defined interfaces and SLAs."
+    },
+    {
+      "id": 81,
+      "question": "What is self-serve data infrastructure in data mesh?",
+      "options": ["Platform that enables domain teams to serve their data", "Central IT infrastructure", "External hosting", "Managed service"],
+      "correctAnswer": "Platform that enables domain teams to serve their data",
+      "explanation": "Self-serve data infrastructure is a platform that enables domain teams to easily publish, discover, and consume data products without central IT involvement."
+    },
+    {
+      "id": 82,
+      "question": "What is federated computational governance in data mesh?",
+      "options": ["Global governance with local domain control", "Central governance", "No governance", "External governance"],
+      "correctAnswer": "Global governance with local domain control",
+      "explanation": "Federated computational governance balances global standards and policies with local domain control and decision-making."
+    }
+  ]
+}

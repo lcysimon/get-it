@@ -1,0 +1,603 @@
+{
+  "id": 6,
+  "title": "Apache Spark",
+  "description": "Big data processing with Spark Core, SQL, Streaming, and MLlib",
+  "category": "Data",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is Apache Spark?",
+      "options": ["Unified analytics engine for large-scale data processing", "Database management system", "Real-time streaming platform only", "Visualization tool"],
+      "correctAnswer": "Unified analytics engine for large-scale data processing",
+      "explanation": "Apache Spark is a unified analytics engine designed for large-scale data processing, with built-in modules for SQL, streaming, machine learning, and graph processing."
+    },
+    {
+      "id": 2,
+      "question": "What are the main components of Spark?",
+      "options": ["Spark Core, Spark SQL, Spark Streaming, MLlib, GraphX", "Spark Core, HDFS, YARN, Mesos", "Spark SQL, Kafka, Flink, Hadoop", "Spark Core, Hive, Pig, Tez"],
+      "correctAnswer": "Spark Core, Spark SQL, Spark Streaming, MLlib, GraphX",
+      "explanation": "The main components are: Spark Core (foundation), Spark SQL (structured data), Spark Streaming (real-time), MLlib (machine learning), and GraphX (graph processing)."
+    },
+    {
+      "id": 3,
+      "question": "What is Spark Core?",
+      "options": ["Foundation layer with task scheduling, memory management, and fault recovery", "SQL query engine", "Streaming processing module", "Machine learning library"],
+      "correctAnswer": "Foundation layer with task scheduling, memory management, and fault recovery",
+      "explanation": "Spark Core is the foundation layer providing distributed task dispatching, scheduling, memory management, and fault recovery capabilities."
+    },
+    {
+      "id": 4,
+      "question": "What does RDD stand for?",
+      "options": ["Resilient Distributed Dataset", "Replicated Data Directory", "Remote Data Driver", "Real-time Data Distribution"],
+      "correctAnswer": "Resilient Distributed Dataset",
+      "explanation": "RDD is Spark's core data structure: an immutable, fault-tolerant, distributed collection of objects that can be processed in parallel."
+    },
+    {
+      "id": 5,
+      "question": "What are the two types of RDD operations?",
+      "options": ["Transformations and Actions", "Map and Reduce", "Filter and Aggregate", "Parallel and Sequential"],
+      "correctAnswer": "Transformations and Actions",
+      "explanation": "RDDs support Transformations (which create new RDDs) and Actions (which compute results). Transformations are lazy while Actions trigger execution."
+    },
+    {
+      "id": 6,
+      "question": "Which of these is a Transformation operation?",
+      "options": ["map", "count", "collect", "reduce"],
+      "correctAnswer": "map",
+      "explanation": "map() is a Transformation that applies a function to each element of an RDD, creating a new RDD without triggering execution."
+    },
+    {
+      "id": 7,
+      "question": "Which of these is an Action operation?",
+      "options": ["count", "map", "filter", "flatMap"],
+      "correctAnswer": "count",
+      "explanation": "count() is an Action that returns the number of elements in an RDD, triggering execution of all accumulated Transformations."
+    },
+    {
+      "id": 8,
+      "question": "What is lazy evaluation in Spark?",
+      "options": ["Transformations are not executed until an Action is called", "Transformations execute immediately", "Actions are evaluated lazily", "Data is loaded lazily by default"],
+      "correctAnswer": "Transformations are not executed until an Action is called",
+      "explanation": "Spark uses lazy evaluation: Transformations build a DAG of operations but do not execute until an Action is called, enabling optimization of the entire pipeline."
+    },
+    {
+      "id": 9,
+      "question": "What is a DAG in Spark?",
+      "options": ["Directed Acyclic Graph representing the sequence of operations", "Data structure for storing RDDs", "Scheduling algorithm", "Partitioning strategy"],
+      "correctAnswer": "Directed Acyclic Graph representing the sequence of operations",
+      "explanation": "A DAG represents the sequence of Transformations and Actions to be executed, with nodes representing RDDs and edges representing operations between them."
+    },
+    {
+      "id": 10,
+      "question": "What is Spark SQL?",
+      "options": ["Module for structured and semi-structured data processing", "NoSQL database", "Streaming engine", "Graph processing library"],
+      "correctAnswer": "Module for structured and semi-structured data processing",
+      "explanation": "Spark SQL provides a DataFrame API and SQL interface for querying structured and semi-structured data from various sources like JSON, Parquet, and databases."
+    },
+    {
+      "id": 11,
+      "question": "What is a DataFrame in Spark?",
+      "options": ["Distributed collection of data organized into named columns", "Single machine data structure", "Key-value pair collection", "Graph data structure"],
+      "correctAnswer": "Distributed collection of data organized into named columns",
+      "explanation": "A DataFrame is a distributed collection of data organized into named columns (like a table in relational databases or a DataFrame in Python/R)."
+    },
+    {
+      "id": 12,
+      "question": "What is the difference between RDD and DataFrame?",
+      "options": ["DataFrames have schema information and optimized execution", "RDDs are faster", "DataFrames don't support SQL", "RDDs can only store integers"],
+      "correctAnswer": "DataFrames have schema information and optimized execution",
+      "explanation": "DataFrames provide schema information and use Catalyst optimizer for efficient execution, while RDDs are low-level without schema. DataFrames are built on top of RDDs."
+    },
+    {
+      "id": 13,
+      "question": "What is Catalyst optimizer in Spark SQL?",
+      "options": ["Query optimization framework that transforms logical to physical plans", "Memory management system", "Cluster manager", "Data partitioning tool"],
+      "correctAnswer": "Query optimization framework that transforms logical to physical plans",
+      "explanation": "Catalyst is Spark SQL's extensible query optimization framework that transforms logical execution plans into optimized physical execution plans using rule-based optimization."
+    },
+    {
+      "id": 14,
+      "question": "What is Tungsten in Spark?",
+      "options": ["Binary processing engine for improved performance", "Memory management system", "Cluster manager", "Data serialization format"],
+      "correctAnswer": "Binary processing engine for improved performance",
+      "explanation": "Tungsten is Spark's binary processing engine that improves performance through cache-aware computation, code generation, and off-heap memory management."
+    },
+    {
+      "id": 15,
+      "question": "What is Spark Streaming?",
+      "options": ["Micro-batch stream processing framework", "Real-time database", "Message queue", "Visualization tool"],
+      "correctAnswer": "Micro-batch stream processing framework",
+      "explanation": "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine."
+    },
+    {
+      "id": 16,
+      "question": "What is a DStream in Spark Streaming?",
+      "options": ["Discretized Stream - sequence of RDDs representing stream data", "Data Stream Manager", "Stream processing algorithm", "Distributed Stream"],
+      "correctAnswer": "Discretized Stream - sequence of RDDs representing stream data",
+      "explanation": "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval."
+    },
+    {
+      "id": 17,
+      "question": "What is Structured Streaming in Spark?",
+      "options": ["High-level API for stream processing built on DataFrame API", "Low-level API using RDDs", "Stream processing with SQL only", "Graph-based stream processing"],
+      "correctAnswer": "High-level API for stream processing built on DataFrame API",
+      "explanation": "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics."
+    },
+    {
+      "id": 18,
+      "question": "What is MLlib in Spark?",
+      "options": ["Machine learning library for distributed ML algorithms", "Memory management library", "Cluster management library", "Data visualization library"],
+      "correctAnswer": "Machine learning library for distributed ML algorithms",
+      "explanation": "MLlib is Spark's scalable machine learning library that provides distributed implementations of common ML algorithms including classification, regression, clustering, and collaborative filtering."
+    },
+    {
+      "id": 19,
+      "question": "What is GraphX in Spark?",
+      "options": ["Graph processing library for graph-parallel computation", "Data visualization library", "Graph database", "Network protocol"],
+      "correctAnswer": "Graph processing library for graph-parallel computation",
+      "explanation": "GraphX is Spark's API for graph-parallel computation that enables users to interactively build, transform, and reason about graph-structured data at scale."
+    },
+    {
+      "id": 20,
+      "question": "What is Spark Session?",
+      "options": ["Entry point to Spark functionality in Spark 2.0+", "User interface for Spark", "Cluster management interface", "Data storage system"],
+      "correctAnswer": "Entry point to Spark functionality in Spark 2.0+",
+      "explanation": "SparkSession is the entry point to all Spark functionality in Spark 2.0 and later, providing access to SparkContext, SQLContext, HiveContext, and streaming functionality."
+    },
+    {
+      "id": 21,
+      "question": "What command creates a SparkSession in PySpark?",
+      "options": ["SparkSession.builder.getOrCreate()", "SparkContext()", "SQLContext()", "HiveContext()"],
+      "correctAnswer": "SparkSession.builder.getOrCreate()",
+      "explanation": "In PySpark, you create or retrieve a SparkSession using SparkSession.builder.getOrCreate(), which provides a builder pattern for configuration."
+    },
+    {
+      "id": 22,
+      "question": "What is narrow dependency in Spark?",
+      "options": ["Each partition of parent RDD contributes to at most one partition of child RDD", "Each partition contributes to multiple child partitions", "Partition depends on all previous partitions", "No dependency between partitions"],
+      "correctAnswer": "Each partition of parent RDD contributes to at most one partition of child RDD",
+      "explanation": "Narrow dependency (or narrow transformation) is when each partition of the parent RDD contributes to at most one partition of the child RDD. These can be pipelined and don't require shuffling."
+    },
+    {
+      "id": 23,
+      "question": "What is wide dependency in Spark?",
+      "options": ["Each partition of parent RDD contributes to multiple partitions of child RDD", "Each partition contributes to one child partition", "Partition doesn't depend on parent", "All partitions merged into one"],
+      "correctAnswer": "Each partition of parent RDD contributes to multiple partitions of child RDD",
+      "explanation": "Wide dependency (or wide transformation) is when each partition of the parent RDD contributes to multiple partitions of the child RDD, requiring data shuffling across the network."
+    },
+    {
+      "id": 24,
+      "question": "Which transformation causes a shuffle in Spark?",
+      "options": ["groupByKey", "map", "filter", "flatMap"],
+      "correctAnswer": "groupByKey",
+      "explanation": "groupByKey() is a wide transformation that causes data to be shuffled across the network because keys from different partitions need to be grouped together."
+    },
+    {
+      "id": 25,
+      "question": "What is the purpose of persist() in Spark?",
+      "options": ["Store RDD/DataFrame in memory or disk to avoid recomputation", "Save to external storage", "Stop execution", "Partition data"],
+      "correctAnswer": "Store RDD/DataFrame in memory or disk to avoid recomputation",
+      "explanation": "persist() marks an RDD or DataFrame to be stored in memory or disk after first computation, avoiding the need to recompute it for subsequent actions."
+    },
+    {
+      "id": 26,
+      "question": "What are the storage levels in Spark?",
+      "options": ["MEMORY_ONLY, MEMORY_AND_DISK, DISK_ONLY, etc.", "FAST, MEDIUM, SLOW", "IN_MEMORY, ON_DISK", "CACHE, STORE, PERSIST"],
+      "correctAnswer": "MEMORY_ONLY, MEMORY_AND_DISK, DISK_ONLY, etc.",
+      "explanation": "Storage levels include MEMORY_ONLY (store in memory as deserialized Java objects), MEMORY_AND_DISK (spill to disk if memory full), DISK_ONLY, MEMORY_ONLY_SER (serialized), MEMORY_AND_DISK_SER, DISK_ONLY_2, etc."
+    },
+    {
+      "id": 27,
+      "question": "What is the difference between cache() and persist() in Spark?",
+      "options": ["cache() uses default storage level (MEMORY_ONLY), persist() allows specifying storage level", "cache() stores on disk, persist() in memory", "cache() is for DataFrames only", "persist() doesn't store data"],
+      "correctAnswer": "cache() uses default storage level (MEMORY_ONLY), persist() allows specifying storage level",
+      "explanation": "cache() is a shorthand for persist(StorageLevel.MEMORY_ONLY), while persist() allows you to specify which storage level to use."
+    },
+    {
+      "id": 28,
+      "question": "What is partitioning in Spark?",
+      "options": ["Dividing data into chunks that can be processed in parallel", "Splitting data by key", "Storing data in different formats", "Compressing data"],
+      "correctAnswer": "Dividing data into chunks that can be processed in parallel",
+      "explanation": "Partitioning divides data into logical chunks (partitions) that can be stored and processed in parallel across the cluster, with each partition typically processed by one task."
+    },
+    {
+      "id": 29,
+      "question": "What is the default number of partitions when creating an RDD from a local collection?",
+      "options": ["Number of cores in the cluster", "Number of cores on the driver", "Number of nodes in the cluster", "Always 1"],
+      "correctAnswer": "Number of cores on the driver",
+      "explanation": "When creating an RDD from a local collection using parallelize(), the default number of partitions equals the number of cores on the driver machine."
+    },
+    {
+      "id": 30,
+      "question": "What does repartition() do in Spark?",
+      "options": ["Increases or decreases the number of partitions", "Changes partition keys", "Rebalances data across existing partitions", "Creates a new RDD with different data"],
+      "correctAnswer": "Increases or decreases the number of partitions",
+      "explanation": "repartition() increases or decreases the number of partitions in an RDD or DataFrame, requiring a full shuffle of the data."
+    },
+    {
+      "id": 31,
+      "question": "What does coalesce() do in Spark?",
+      "options": ["Reduces the number of partitions without full shuffle", "Increases partitions", "Rebalances data", "Combines partitions by key"],
+      "correctAnswer": "Reduces the number of partitions without full shuffle",
+      "explanation": "coalesce() reduces the number of partitions in an RDD without requiring a full shuffle, only moving data from partitions being removed."
+    },
+    {
+      "id": 32,
+      "question": "What is a broadcast variable in Spark?",
+      "options": ["Read-only shared variable cached on each machine", "Variable shared across all executors", "Mutable variable for accumulators", "Partition variable"],
+      "correctAnswer": "Read-only shared variable cached on each machine",
+      "explanation": "A broadcast variable is a read-only shared variable that is cached on each machine, allowing efficient access to large, read-only datasets across all nodes without duplication."
+    },
+    {
+      "id": 33,
+      "question": "What is an accumulator in Spark?",
+      "options": ["Variable for aggregating values across tasks", "Variable for broadcasting data", "Variable for partitioning data", "Variable for caching data"],
+      "correctAnswer": "Variable for aggregating values across tasks",
+      "explanation": "An accumulator is a shared variable that can be used to aggregate values across tasks, with only the driver program allowed to read its value."
+    },
+    {
+      "id": 34,
+      "question": "What is the purpose of checkpointing in Spark?",
+      "options": ["Truncating RDD lineage to avoid long recovery times", "Saving RDD to disk", "Creating backup of SparkSession", "Restarting failed tasks"],
+      "correctAnswer": "Truncating RDD lineage to avoid long recovery times",
+      "explanation": "Checkpointing saves an RDD to reliable storage, truncating its lineage graph. This avoids the need to recompute long lineages during recovery, improving fault tolerance."
+    },
+    {
+      "id": 35,
+      "question": "What file formats does Spark support natively?",
+      "options": ["Text, JSON, Parquet, ORC, CSV", "Binary, XML, Avro", "YAML, TOML", "All of the above"],
+      "correctAnswer": "Text, JSON, Parquet, ORC, CSV",
+      "explanation": "Spark natively supports text, JSON, Parquet, ORC, and CSV file formats, with additional formats available through packages."
+    },
+    {
+      "id": 36,
+      "question": "What is the most efficient file format for Spark?",
+      "options": ["Parquet", "JSON", "CSV", "Text"],
+      "correctAnswer": "Parquet",
+      "explanation": "Parquet is a columnar storage format that provides the best performance for Spark due to its efficient compression, columnar encoding, and predicate pushdown capabilities."
+    },
+    {
+      "id": 37,
+      "question": "What is predicate pushdown in Spark?",
+      "options": ["Filtering data at the storage layer before reading", "Pushing predicates to executors", "Filtering after loading all data", "Processing predicates in parallel"],
+      "correctAnswer": "Filtering data at the storage layer before reading",
+      "explanation": "Predicate pushdown is an optimization that pushes filter conditions down to the storage layer, allowing files or partitions to be skipped entirely during reads, improving performance."
+    },
+    {
+      "id": 38,
+      "question": "What is column pruning in Spark SQL?",
+      "options": ["Reading only the columns needed for a query", "Pruning rows based on conditions", "Removing duplicate columns", "Compressing columns"],
+      "correctAnswer": "Reading only the columns needed for a query",
+      "explanation": "Column pruning is an optimization where Spark SQL only reads the columns that are actually needed for a query, rather than reading entire files, reducing I/O."
+    },
+    {
+      "id": 39,
+      "question": "What is partitioning in Spark SQL?",
+      "options": ["Organizing data based on column values for efficient querying", "Splitting data by file size", "Dividing data by number of cores", "Storing data in different directories"],
+      "correctAnswer": "Organizing data based on column values for efficient querying",
+      "explanation": "In Spark SQL, partitioning organizes data into directories based on column values, enabling partition pruning and improving query performance."
+    },
+    {
+      "id": 40,
+      "question": "What is bucketing in Spark SQL?",
+      "options": ["Hash partitioning within partitions for efficient joins", "Storing data in buckets", "Grouping data by size", "Dividing data by date"],
+      "correctAnswer": "Hash partitioning within partitions for efficient joins",
+      "explanation": "Bucketing is a data organization technique that uses hash partitioning within partitions, enabling efficient joins and aggregations by co-locating related data."
+    },
+    {
+      "id": 41,
+      "question": "What is the difference between partitionBy and repartitionByRange in Spark?",
+      "options": ["partitionBy uses hash partitioning, repartitionByRange uses range partitioning", "partitionBy uses range, repartitionByRange uses hash", "partitionBy stores on disk, repartitionByRange in memory", "Both use the same partitioning"],
+      "correctAnswer": "partitionBy uses hash partitioning, repartitionByRange uses range partitioning",
+      "explanation": "partitionBy() uses hash partitioning to distribute data across partitions, while repartitionByRange() uses range partitioning which is useful for ordered data."
+    },
+    {
+      "id": 42,
+      "question": "What is the purpose of sortByKey in Spark?",
+      "options": ["Sort RDD by key", "Sort RDD by value", "Partition by key", "Group by key"],
+      "correctAnswer": "Sort RDD by key",
+      "explanation": "sortByKey() sorts an RDD by its keys, which is a wide transformation that requires shuffling data across the network."
+    },
+    {
+      "id": 43,
+      "question": "What is reduceByKey in Spark?",
+      "options": ["Aggregate values for each key using a function", "Reduce RDD to single value", "Map values for each key", "Filter keys"],
+      "correctAnswer": "Aggregate values for each key using a function",
+      "explanation": "reduceByKey() aggregates the values of each key using a reduce function, providing a more efficient alternative to groupByKey() followed by reduce()."
+    },
+    {
+      "id": 44,
+      "question": "What is the difference between reduceByKey and groupByKey?",
+      "options": ["reduceByKey performs map-side aggregation, groupByKey does not", "reduceByKey is slower", "groupByKey is preferred for aggregations", "No difference"],
+      "correctAnswer": "reduceByKey performs map-side aggregation, groupByKey does not",
+      "explanation": "reduceByKey() performs map-side aggregation (combining values within each partition before shuffling), making it more efficient than groupByKey() which requires all values to be shuffled first."
+    },
+    {
+      "id": 45,
+      "question": "What is aggregateByKey in Spark?",
+      "options": ["Aggregate values with different functions for map-side and reduce-side", "Aggregate with single function", "Group values by key", "Sort values by key"],
+      "correctAnswer": "Aggregate values with different functions for map-side and reduce-side",
+      "explanation": "aggregateByKey() allows different aggregation functions for map-side (within partitions) and reduce-side (across partitions), providing more flexibility than reduceByKey()."
+    },
+    {
+      "id": 46,
+      "question": "What is combineByKey in Spark?",
+      "options": ["Custom aggregation with different functions for creating, merging, and combining values", "Combining RDDs by key", "Merging partitions", "Joining RDDs"],
+      "correctAnswer": "Custom aggregation with different functions for creating, merging, and combining values",
+      "explanation": "combineByKey() is a generic aggregation function that allows you to specify custom functions for creating the first value, merging values within a partition, and combining values across partitions."
+    },
+    {
+      "id": 47,
+      "question": "What is join in Spark?",
+      "options": ["Combine RDDs based on keys", "Combine RDDs by index", "Combine all elements", "Merge partitions"],
+      "correctAnswer": "Combine RDDs based on keys",
+      "explanation": "join() combines two RDDs based on matching keys, returning an RDD of (key, (value1, value2)) pairs for all keys present in both RDDs."
+    },
+    {
+      "id": 48,
+      "question": "What is the difference between inner join and left join in Spark?",
+      "options": ["Inner join returns only matching keys, left join returns all keys from left RDD", "Inner join returns all keys, left join returns matching keys", "Both return the same results", "Inner join is faster"],
+      "correctAnswer": "Inner join returns only matching keys, left join returns all keys from left RDD",
+      "explanation": "Inner join returns only pairs with keys present in both RDDs, while left join (leftOuterJoin) returns all keys from the left RDD with matching values from the right RDD or None if no match exists."
+    },
+    {
+      "id": 49,
+      "question": "What is cogroup in Spark?",
+      "options": ["Group data from both RDDs by key and return pairs of iterators", "Combine RDDs by key", "Join RDDs", "Filter by key"],
+      "correctAnswer": "Group data from both RDDs by key and return pairs of iterators",
+      "explanation": "cogroup() groups data from both RDDs by key, returning an RDD of (key, (Iterable[V], Iterable[W])) pairs, which can be more efficient than join for certain operations."
+    },
+    {
+      "id": 50,
+      "question": "What is the purpose of subtract in Spark?",
+      "options": ["Return elements in first RDD not present in second", "Subtract values", "Remove duplicates", "Filter elements"],
+      "correctAnswer": "Return elements in first RDD not present in second",
+      "explanation": "subtract() returns an RDD containing elements that are present in the first RDD but not in the second RDD."
+    },
+    {
+      "id": 51,
+      "question": "What does intersect do in Spark?",
+      "options": ["Return elements present in both RDDs", "Return common keys", "Merge RDDs", "Find differences"],
+      "correctAnswer": "Return elements present in both RDDs",
+      "explanation": "intersect() returns an RDD containing elements that are present in both RDDs."
+    },
+    {
+      "id": 52,
+      "question": "What does union do in Spark?",
+      "options": ["Return all elements from both RDDs", "Combine RDDs by key", "Merge RDDs and remove duplicates", "Find unique elements"],
+      "correctAnswer": "Return all elements from both RDDs",
+      "explanation": "union() returns an RDD containing all elements from both RDDs, including duplicates."
+    },
+    {
+      "id": 53,
+      "question": "What does cartesian do in Spark?",
+      "options": ["Return the Cartesian product of two RDDs", "Combine RDDs by key", "Filter by condition", "Aggregate values"],
+      "correctAnswer": "Return the Cartesian product of two RDDs",
+      "explanation": "cartesian() returns the Cartesian product of two RDDs, pairing each element of the first RDD with each element of the second RDD."
+    },
+    {
+      "id": 54,
+      "question": "What is the purpose of sample in Spark?",
+      "options": ["Return a random sample of elements", "Sample data by key", "Create sample RDD", "Randomly partition data"],
+      "correctAnswer": "Return a random sample of elements",
+      "explanation": "sample() returns a random sample of elements from an RDD, with or without replacement, based on specified probabilities."
+    },
+    {
+      "id": 55,
+      "question": "What does take do in Spark?",
+      "options": ["Return first N elements", "Take elements by key", "Remove elements", "Filter elements"],
+      "correctAnswer": "Return first N elements",
+      "explanation": "take(n) returns an array containing the first n elements of an RDD as an array to the driver program."
+    },
+    {
+      "id": 56,
+      "question": "What does first do in Spark?",
+      "options": ["Return first element", "Return first N elements", "Return first element by key", "Sort and return first"],
+      "correctAnswer": "Return first element",
+      "explanation": "first() returns the first element of an RDD as a single value to the driver program."
+    },
+    {
+      "id": 57,
+      "question": "What does top do in Spark?",
+      "options": ["Return top N elements based on natural ordering", "Return top N elements by key", "Sort and return first N", "Return largest elements"],
+      "correctAnswer": "Return top N elements based on natural ordering",
+      "explanation": "top(n) returns an array containing the top n elements of an RDD based on their natural ordering (ascending by default)."
+    },
+    {
+      "id": 58,
+      "question": "What does takeOrdered do in Spark?",
+      "options": ["Return first N elements in specified order", "Take elements by key", "Return sorted elements", "Filter and sort"],
+      "correctAnswer": "Return first N elements in specified order",
+      "explanation": "takeOrdered(n) returns an array containing the first n elements of an RDD sorted in ascending order based on a specified ordering."
+    },
+    {
+      "id": 59,
+      "question": "What does countByKey do in Spark?",
+      "options": ["Return count of each key", "Count all elements", "Count by value", "Group and count"],
+      "correctAnswer": "Return count of each key",
+      "explanation": "countByKey() returns a map containing the count of each key in an RDD of key-value pairs."
+    },
+    {
+      "id": 60,
+      "question": "What does countByValue do in Spark?",
+      "options": ["Return count of each value", "Count all elements", "Count by key", "Group and count"],
+      "correctAnswer": "Return count of each value",
+      "explanation": "countByValue() returns a map containing the count of each unique value in an RDD."
+    },
+    {
+      "id": 61,
+      "question": "What does lookup do in Spark?",
+      "options": ["Return all values for a specific key", "Lookup key in RDD", "Search for value", "Find matching keys"],
+      "correctAnswer": "Return all values for a specific key",
+      "explanation": "lookup(key) returns an array of all values associated with a specific key in an RDD of key-value pairs."
+    },
+    {
+      "id": 62,
+      "question": "What does keys do in Spark?",
+      "options": ["Return RDD of keys", "Return all keys as array", "Filter by key", "Extract keys"],
+      "correctAnswer": "Return RDD of keys",
+      "explanation": "keys() returns an RDD containing only the keys from an RDD of key-value pairs."
+    },
+    {
+      "id": 63,
+      "question": "What does values do in Spark?",
+      "options": ["Return RDD of values", "Return all values as array", "Extract values by key", "Filter values"],
+      "correctAnswer": "Return RDD of values",
+      "explanation": "values() returns an RDD containing only the values from an RDD of key-value pairs."
+    },
+    {
+      "id": 64,
+      "question": "What does saveAsTextFile do in Spark?",
+      "options": ["Save RDD as text file", "Save as binary file", "Save as JSON", "Save to database"],
+      "correctAnswer": "Save RDD as text file",
+      "explanation": "saveAsTextFile(path) writes the elements of an RDD as a text file (or multiple text files) to the specified directory, with each element on a separate line."
+    },
+    {
+      "id": 65,
+      "question": "What does saveAsSequenceFile do in Spark?",
+      "options": ["Save RDD as Hadoop SequenceFile", "Save as text file", "Save as JSON", "Save as Parquet"],
+      "correctAnswer": "Save RDD as Hadoop SequenceFile",
+      "explanation": "saveAsSequenceFile(path) writes the elements of an RDD as a Hadoop SequenceFile, which is a binary file format for key-value pairs."
+    },
+    {
+      "id": 66,
+      "question": "What does saveAsObjectFile do in Spark?",
+      "options": ["Save RDD as serialized Java objects", "Save as text", "Save as JSON", "Save as binary"],
+      "correctAnswer": "Save RDD as serialized Java objects",
+      "explanation": "saveAsObjectFile(path) writes the elements of an RDD as serialized Java objects to a directory, with each partition written as a separate file."
+    },
+    {
+      "id": 67,
+      "question": "What is the purpose of foreach in Spark?",
+      "options": ["Apply function to each element", "Iterate over RDD", "Filter elements", "Map elements"],
+      "correctAnswer": "Apply function to each element",
+      "explanation": "foreach(func) applies a function to each element of an RDD, typically used for side effects like writing to external systems."
+    },
+    {
+      "id": 68,
+      "question": "What is the purpose of foreachPartition in Spark?",
+      "options": ["Apply function to each partition (more efficient for connections)", "Apply to each element", "Filter partitions", "Process partitions in parallel"],
+      "correctAnswer": "Apply function to each partition (more efficient for connections)",
+      "explanation": "foreachPartition(func) applies a function to each partition of an RDD, which is more efficient than foreach when the function initializes expensive resources (like database connections) that can be reused for all elements in a partition."
+    },
+    {
+      "id": 69,
+      "question": "What does mapPartitions do in Spark?",
+      "options": ["Apply function to each partition and return new RDD", "Map elements in partition", "Filter partitions", "Aggregate partitions"],
+      "correctAnswer": "Apply function to each partition and return new RDD",
+      "explanation": "mapPartitions(func) applies a function to each partition of an RDD and returns a new RDD, allowing for more efficient processing when expensive resources can be reused across all elements in a partition."
+    },
+    {
+      "id": 70,
+      "question": "What does mapPartitionsWithIndex do in Spark?",
+      "options": ["Apply function with partition index to each partition", "Map elements with index", "Filter with index", "Process with partition number"],
+      "correctAnswer": "Apply function with partition index to each partition",
+      "explanation": "mapPartitionsWithIndex(func) is similar to mapPartitions but provides the partition index to the function, useful for partition-specific operations."
+    },
+    {
+      "id": 71,
+      "question": "What is the purpose of glom in Spark?",
+      "options": ["Convert each partition into an array of its elements", "Combine partitions", "Split partitions", "Filter partitions"],
+      "correctAnswer": "Convert each partition into an array of its elements",
+      "explanation": "glom() converts each partition of an RDD into an array containing all the elements of that partition, resulting in an RDD[Array[T]]."
+    },
+    {
+      "id": 72,
+      "question": "What does distinct do in Spark?",
+      "options": ["Return unique elements", "Remove duplicates", "Count unique elements", "Filter duplicates"],
+      "correctAnswer": "Return unique elements",
+      "explanation": "distinct() returns an RDD containing only the unique elements from the source RDD, removing duplicates."
+    },
+    {
+      "id": 73,
+      "question": "What does filter do in Spark?",
+      "options": ["Return elements that satisfy a predicate", "Remove elements", "Keep matching elements", "Select elements"],
+      "correctAnswer": "Return elements that satisfy a predicate",
+      "explanation": "filter(func) returns an RDD containing only the elements that satisfy a specified predicate function."
+    },
+    {
+      "id": 74,
+      "question": "What does flatMap do in Spark?",
+      "options": ["Map function that returns iterator and flattens results", "Flatten nested structures", "Map and flatten", "Process each element"],
+      "correctAnswer": "Map function that returns iterator and flattens results",
+      "explanation": "flatMap(func) is similar to map but the function returns an iterator, and the results are flattened into a single RDD."
+    },
+    {
+      "id": 75,
+      "question": "What does flatMapValues do in Spark?",
+      "options": ["Apply flatMap to values of key-value RDD", "Flatten key-value pairs", "Map and flatten values", "Process values"],
+      "correctAnswer": "Apply flatMap to values of key-value RDD",
+      "explanation": "flatMapValues(func) applies a flatMap function to each value of a key-value RDD, keeping the original keys and flattening the results."
+    },
+    {
+      "id": 76,
+      "question": "What does mapValues do in Spark?",
+      "options": ["Apply map function to values of key-value RDD", "Map all elements", "Map keys", "Transform values"],
+      "correctAnswer": "Apply map function to values of key-value RDD",
+      "explanation": "mapValues(func) applies a map function to each value of a key-value RDD, keeping the original keys."
+    },
+    {
+      "id": 77,
+      "question": "What does sort do in Spark?",
+      "options": ["Sort elements using natural or custom ordering", "Sort by key", "Sort by value", "Order elements"],
+      "correctAnswer": "Sort elements using natural or custom ordering",
+      "explanation": "sort() sorts the elements of an RDD using either their natural ordering or a custom comparator."
+    },
+    {
+      "id": 78,
+      "question": "What does sortBy do in Spark?",
+      "options": ["Sort by specified key function", "Sort by natural order", "Sort and group", "Custom sort"],
+      "correctAnswer": "Sort by specified key function",
+      "explanation": "sortBy(func) sorts elements by applying a key function to each element and using the returned keys for sorting."
+    },
+    {
+      "id": 79,
+      "question": "What is the default storage level when caching in Spark?",
+      "options": ["MEMORY_ONLY", "MEMORY_AND_DISK", "DISK_ONLY", "MEMORY_ONLY_SER"],
+      "correctAnswer": "MEMORY_ONLY",
+      "explanation": "The default storage level for caching (using cache() or persist()) is MEMORY_ONLY, which stores data in memory as deserialized Java objects."
+    },
+    {
+      "id": 80,
+      "question": "What is the difference between Spark and Hadoop MapReduce?",
+      "options": ["Spark processes data in memory for faster performance", "Spark uses disk-based processing", "MapReduce is faster", "MapReduce uses memory"],
+      "correctAnswer": "Spark processes data in memory for faster performance",
+      "explanation": "Spark's key advantage over Hadoop MapReduce is its ability to process data in memory, avoiding the need to read/write data to disk for each transformation, resulting in significantly faster performance."
+    },
+    {
+      "id": 81,
+      "question": "What is the driver program in Spark?",
+      "options": ["Process that runs the main function and manages Spark application", "Worker process", "Cluster manager", "Executor process"],
+      "correctAnswer": "Process that runs the main function and manages Spark application",
+      "explanation": "The driver program runs the main() function of the application and manages the execution of Spark jobs, creating the SparkContext and coordinating task execution."
+    },
+    {
+      "id": 82,
+      "question": "What are executors in Spark?",
+      "options": ["Processes that run tasks and store data", "Worker nodes", "Cluster managers", "Driver processes"],
+      "correctAnswer": "Processes that run tasks and store data",
+      "explanation": "Executors are worker processes that run on cluster nodes and are responsible for executing tasks and storing data (RDDs, cached data) for the Spark application."
+    },
+    {
+      "id": 83,
+      "question": "What is the cluster manager in Spark?",
+      "options": ["External service for allocating resources to Spark applications", "Process for managing Spark cluster", "Driver program", "Executor process"],
+      "correctAnswer": "External service for allocating resources to Spark applications",
+      "explanation": "The cluster manager is an external service (like YARN, Mesos, or Kubernetes) that allocates resources (CPU, memory) to Spark applications."
+    },
+    {
+      "id": 84,
+      "question": "What is the Spark standalone mode?",
+      "options": ["Built-in cluster manager for Spark", "External cluster manager", "Single machine mode", "Local mode"],
+      "correctAnswer": "Built-in cluster manager for Spark",
+      "explanation": "Spark standalone mode is a simple built-in cluster manager that comes with Spark, making it easy to set up a Spark cluster without external dependencies."
+    },
+    {
+      "id": 85,
+      "question": "What is Spark local mode?",
+      "options": ["Run Spark application on a single machine", "Run on local cluster", "Run on single core", "Run without network"],
+      "correctAnswer": "Run Spark application on a single machine",
+      "explanation": "In local mode, Spark runs the entire application on a single machine using multiple threads, useful for development and testing."
+    }
+  ]
+}
