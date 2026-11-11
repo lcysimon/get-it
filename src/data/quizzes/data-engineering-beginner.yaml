@@ -1,0 +1,204 @@
+id: 2
+title: Data Engineering - Beginner
+description: Fundamental concepts for data engineering beginners
+category: Data
+questions:
+  - id: 1
+    question: What does ETL stand for?
+    options:
+      - Extract, Transform, Load
+      - Edit, Transfer, Log
+      - Extract, Transfer, Load
+      - Edit, Transform, Load
+    correctAnswer: Extract, Transform, Load
+    explanation: ETL is the process of extracting data from sources, transforming it into a consistent format, and loading it into a target system like a data warehouse.
+
+  - id: 2
+    question: What does ELT stand for?
+    options:
+      - Extract, Load, Transform
+      - Edit, Load, Transform
+      - Extract, Load, Transfer
+      - Execute, Load, Transform
+    correctAnswer: Extract, Load, Transform
+    explanation: ELT loads raw data first, then transforms it within the target system. This approach leverages cloud platform processing power.
+
+  - id: 3
+    question: What is ETL vs ELT key difference?
+    options:
+      - ETL transforms before loading; ELT transforms after
+      - ETL uses cloud; ELT uses on-prem
+      - ETL is faster; ELT is reliable
+      - ETL is batch; ELT is real-time
+    correctAnswer: ETL transforms before loading; ELT transforms after
+    explanation: The key difference is when transformation happens. ETL transforms during extraction before loading; ELT loads raw data first, then transforms within the target.
+
+  - id: 4
+    question: Primary purpose of a data warehouse?
+    options:
+      - Store raw unstructured data
+      - Centralized repository for structured data optimized for querying
+      - Process real-time streaming data
+      - Backup database files
+    correctAnswer: Centralized repository for structured data optimized for querying
+    explanation: A data warehouse is a centralized repository that stores integrated data from multiple sources, optimized for analytical querying and reporting.
+
+  - id: 5
+    question: What is a data lake?
+    options:
+      - Database storing data in tables
+      - Storage holding raw data in native format
+      - Real-time processing engine
+      - Visualization tool
+    correctAnswer: Storage holding raw data in native format
+    explanation: A data lake stores raw data in its native format without requiring a predefined schema, supporting structured, semi-structured, and unstructured data.
+
+  - id: 6
+    question: What is a data lakehouse?
+    options:
+      - Combination of data lake and warehouse features
+      - Data lake that serves as house
+      - Data warehouse storing raw data
+      - Cloud-only storage
+    correctAnswer: Combination of data lake and warehouse features
+    explanation: A data lakehouse combines the flexibility and low-cost storage of data lakes with the reliability, performance, and ACID transactions of data warehouses.
+
+  - id: 7
+    question: Which is NOT a data warehouse?
+    options:
+      - Snowflake
+      - BigQuery
+      - Kafka
+      - Redshift
+    correctAnswer: Kafka
+    explanation: Kafka is a distributed event streaming platform, not a data warehouse. Snowflake, BigQuery, and Redshift are data warehouse solutions.
+
+  - id: 8
+    question: Which file format is optimized for columnar storage?
+    options:
+      - JSON
+      - CSV
+      - Parquet
+      - XML
+    correctAnswer: Parquet
+    explanation: Parquet is a columnar storage file format optimized for use with big data processing frameworks, providing efficient compression and encoding.
+
+  - id: 9
+    question: Who developed Parquet file format?
+    options:
+      - Twitter and Cloudera
+      - Microsoft and Cloudera
+      - Facebook and Twitter
+      - Google and Microsoft
+    correctAnswer: Twitter and Cloudera
+    explanation: Parquet was initially created by Twitter and Cloudera as an efficient columnar storage format for Hadoop.
+
+  - id: 10
+    question: What is ORC file format?
+    options:
+      - Microsoft and Cloudera alternative to Parquet
+      - Facebook for Hadoop
+      - Google for BigQuery
+      - Apache for Spark
+    correctAnswer: Microsoft and Cloudera alternative to Parquet
+    explanation: ORC (Optimized Row Columnar) is a columnar file format created by Microsoft and Cloudera as an alternative to Parquet.
+
+  - id: 11
+    question: What does CSV stand for?
+    options:
+      - Comma-Separated Values
+      - Column-Separated Values
+      - Compressed Structured Values
+      - Code-Specific Variables
+    correctAnswer: Comma-Separated Values
+    explanation: CSV is a simple file format that stores tabular data in plain text, with values separated by commas.
+
+  - id: 12
+    question: Best format for human-readable nested structures?
+    options:
+      - CSV
+      - Parquet
+      - JSON
+      - Avro
+    correctAnswer: JSON
+    explanation: JSON (JavaScript Object Notation) is human-readable and can represent complex nested structures, though not as space-efficient as binary formats.
+
+  - id: 13
+    question: Purpose of a data pipeline?
+    options:
+      - Move data only
+      - Extract, transform, process, and load data
+      - Store data only
+      - Create schemas
+    correctAnswer: Extract, transform, process, and load data
+    explanation: A data pipeline moves data from source to target while performing transformations, cleaning, aggregation, and other processing steps.
+
+  - id: 14
+    question: Which is a batch processing framework?
+    options:
+      - Apache Spark
+      - Apache Kafka
+      - Apache Flink
+      - Node.js
+    correctAnswer: Apache Spark
+    explanation: Apache Spark is a unified analytics engine for large-scale data processing, with batch processing as its primary use case.
+
+  - id: 15
+    question: What does SQL stand for?
+    options:
+      - Structured Query Language
+      - Simple Query Language
+      - System Query Language
+      - Structured Question Logic
+    correctAnswer: Structured Query Language
+    explanation: SQL is the standard language for defining, manipulating, and querying relational databases.
+
+  - id: 16
+    question: Which SQL clause filters rows BEFORE aggregation?
+    options:
+      - WHERE
+      - HAVING
+      - GROUP BY
+      - ORDER BY
+    correctAnswer: WHERE
+    explanation: The WHERE clause filters individual rows from the result set before any grouping or aggregation is performed.
+
+  - id: 17
+    question: Which SQL clause filters AFTER aggregation?
+    options:
+      - WHERE
+      - HAVING
+      - GROUP BY
+      - FILTER
+    correctAnswer: HAVING
+    explanation: The HAVING clause filters groups created by GROUP BY after aggregation has been performed.
+
+  - id: 18
+    question: What does LEFT JOIN return?
+    options:
+      - All rows from left table and matched right
+      - Only matching rows
+      - All rows from both
+      - All rows from right
+    correctAnswer: All rows from left table and matched right
+    explanation: A LEFT JOIN returns all rows from the left table, with matched rows from the right table, or NULLs if no match.
+
+  - id: 19
+    question: What does INNER JOIN return?
+    options:
+      - All rows from both
+      - Only rows with matches in both
+      - All rows from left
+      - All rows from right
+    correctAnswer: Only rows with matches in both
+    explanation: An INNER JOIN returns only rows from both tables where the join condition is met.
+
+  - id: 20
+    question: What is data modeling?
+    options:
+      - Creating visual charts
+      - Defining structure and relationships of data
+      - Writing SQL queries
+      - Building ML models
+    correctAnswer: Defining structure and relationships of data
+    explanation: Data modeling involves defining the structure, relationships, and business rules for data, creating schemas that represent the data domain.
