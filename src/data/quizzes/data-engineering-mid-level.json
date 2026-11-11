@@ -143,6 +143,461 @@
       "options": ["Scalable, agile data warehouse architecture", "Simple star schema", "Replace dimensional modeling", "Store only recent data"],
       "correctAnswer": "Scalable, agile data warehouse architecture",
       "explanation": "Data Vault is a database modeling approach for highly scalable, agile data warehouses with hubs, links, and satellites."
+    },
+    {
+      "id": 21,
+      "question": "What is a hub in Data Vault?",
+      "options": ["Core table containing business keys", "Link table", "Satellite table", "Connection table"],
+      "correctAnswer": "Core table containing business keys",
+      "explanation": "A hub in Data Vault is a core table that contains the business keys (primary keys from source systems) for a business entity."
+    },
+    {
+      "id": 22,
+      "question": "What is a link in Data Vault?",
+      "options": ["Table representing relationships between hubs", "Hub table", "Satellite table", "Connection between satellites"],
+      "correctAnswer": "Table representing relationships between hubs",
+      "explanation": "A link in Data Vault is a table that represents relationships (transactions or associations) between hubs."
+    },
+    {
+      "id": 23,
+      "question": "What is a satellite in Data Vault?",
+      "options": ["Table containing descriptive attributes for a hub or link", "Hub table", "Link table", "Attribute table"],
+      "correctAnswer": "Table containing descriptive attributes for a hub or link",
+      "explanation": "A satellite in Data Vault contains descriptive attributes (context) for a hub or link, with a foreign key to the hub or link."
+    },
+    {
+      "id": 24,
+      "question": "What is a hub-satellite relationship in Data Vault?",
+      "options": ["One-to-many: one hub, many satellites", "One-to-one: one hub, one satellite", "Many-to-many: many hubs, many satellites", "One-to-many: one satellite, many hubs"],
+      "correctAnswer": "One-to-many: one hub, many satellites",
+      "explanation": "In Data Vault, the relationship between hubs and satellites is one-to-many: one hub can have many satellites with different attributes."
+    },
+    {
+      "id": 25,
+      "question": "What is the purpose of hashes in Data Vault?",
+      "options": ["Provide consistent, stable keys for joins", "Encrypt data", "Compress data", "Index data"],
+      "correctAnswer": "Provide consistent, stable keys for joins",
+      "explanation": "Data Vault uses hash keys (MD5 or SHA-256 hashes of business keys) to provide consistent, stable keys for joins and relationships."
+    },
+    {
+      "id": 26,
+      "question": "What is a same-as link in Data Vault?",
+      "options": ["Link indicating same business entity with different keys", "Link to same table", "Link with same attributes", "Link with same hubs"],
+      "correctAnswer": "Link indicating same business entity with different keys",
+      "explanation": "A same-as link in Data Vault indicates that different business keys refer to the same business entity."
+    },
+    {
+      "id": 27,
+      "question": "What is a reference table in Data Vault?",
+      "options": ["Predefined, static data like codes and descriptions", "Dynamic data", "Temporary data", "User data"],
+      "correctAnswer": "Predefined, static data like codes and descriptions",
+      "explanation": "A reference table in Data Vault contains predefined, static data like codes, descriptions, or lookup values."
+    },
+    {
+      "id": 28,
+      "question": "What is the difference between Data Vault and dimensional modeling?",
+      "options": ["Data Vault is agile and adaptable, dimensional is rigid", "Data Vault is rigid, dimensional is agile", "Data Vault is for OLTP, dimensional for OLAP", "Both are the same"],
+      "correctAnswer": "Data Vault is agile and adaptable, dimensional is rigid",
+      "explanation": "Data Vault is designed to be agile and adaptable to changes in source systems, while traditional dimensional modeling can be rigid and require significant rework for changes."
+    },
+    {
+      "id": 29,
+      "question": "What is a PIT table in Data Vault?",
+      "options": ["Point-In-Time table for querying satellite data as of a point in time", "Point-In-Time satellite", "Point-In-Time link", "Point-In-Time hub"],
+      "correctAnswer": "Point-In-Time table for querying satellite data as of a point in time",
+      "explanation": "A PIT (Point-In-Time) table in Data Vault enables querying satellite data as it was at a specific point in time, using effective dates."
+    },
+    {
+      "id": 30,
+      "question": "What is a bridge table in Data Vault?",
+      "options": ["Used for multi-valued attributes", "Connects hubs", "Connects satellites", "Resolves many-to-many relationships"],
+      "correctAnswer": "Used for multi-valued attributes",
+      "explanation": "A bridge table in Data Vault (similar to traditional modeling) is used for handling multi-valued attributes that cannot be stored directly in satellites."
+    },
+    {
+      "id": 31,
+      "question": "What is data warehousing automation?",
+      "options": ["Automating design, development, and maintenance of data warehouses", "Automating data ingestion", "Automating data processing", "Automating data storage"],
+      "correctAnswer": "Automating design, development, and maintenance of data warehouses",
+      "explanation": "Data warehousing automation involves using tools and frameworks to automate the design, development, testing, deployment, and maintenance of data warehouses."
+    },
+    {
+      "id": 32,
+      "question": "What is WhereScape?",
+      "options": ["Data warehousing automation tool", "ETL tool", "Data modeling tool", "Data visualization tool"],
+      "correctAnswer": "Data warehousing automation tool",
+      "explanation": "WhereScape is a data warehousing automation tool that automates the design, development, and maintenance of data warehouses."
+    },
+    {
+      "id": 33,
+      "question": "What is the Kimball methodology?",
+      "options": ["Bottom-up approach to data warehousing", "Top-down approach", "Hybrid approach", "Agile approach"],
+      "correctAnswer": "Bottom-up approach to data warehousing",
+      "explanation": "The Kimball methodology is a bottom-up approach to data warehousing that focuses on dimensional modeling and building data marts first, then integrating them into a bus architecture."
+    },
+    {
+      "id": 34,
+      "question": "What is the Inmon methodology?",
+      "options": ["Top-down approach to data warehousing", "Bottom-up approach", "Hybrid approach", "Agile approach"],
+      "correctAnswer": "Top-down approach to data warehousing",
+      "explanation": "The Inmon methodology is a top-down approach to data warehousing that starts with an enterprise data model and builds a centralized data warehouse."
+    },
+    {
+      "id": 35,
+      "question": "What is the difference between Kimball and Inmon methodologies?",
+      "options": ["Kimball-bottom-up with data marts, Inmon-top-down with EDW", "Kimball-top-down, Inmon-bottom-up", "Kimball for OLAP, Inmon for OLTP", "Both are the same"],
+      "correctAnswer": "Kimball-bottom-up with data marts, Inmon-top-down with EDW",
+      "explanation": "Kimball uses a bottom-up approach building data marts and integrating them, while Inmon uses a top-down approach building an enterprise data warehouse (EDW) first."
+    },
+    {
+      "id": 36,
+      "question": "What is a 3NF model?",
+      "options": ["Third normal form for relational databases", "Normal form for data warehouses", "Model for dimensional data", "Model for star schemas"],
+      "correctAnswer": "Third normal form for relational databases",
+      "explanation": "3NF (Third Normal Form) is a normalization level in relational database design where tables are free from transitive dependencies."
+    },
+    {
+      "id": 37,
+      "question": "What is a dimensional model bus schema?",
+      "options": ["Enterprise-wide dimensional model with conformed dimensions", "Star schema", "Snowflake schema", "Galaxy schema"],
+      "correctAnswer": "Enterprise-wide dimensional model with conformed dimensions",
+      "explanation": "A bus schema in dimensional modeling is an enterprise-wide model that uses conformed dimensions to integrate data across business processes."
+    },
+    {
+      "id": 38,
+      "question": "What is a drill-down in OLAP?",
+      "options": ["Navigate from summary to detailed data", "Navigate from detailed to summary data", "Filter data", "Sort data"],
+      "correctAnswer": "Navigate from summary to detailed data",
+      "explanation": "Drill-down in OLAP allows users to navigate from summary (aggregated) data to more detailed data (e.g., from yearly to monthly to daily)."
+    },
+    {
+      "id": 39,
+      "question": "What is a roll-up in OLAP?",
+      "options": ["Navigate from detailed to summary data", "Navigate from summary to detailed data", "Filter data", "Sort data"],
+      "correctAnswer": "Navigate from detailed to summary data",
+      "explanation": "Roll-up in OLAP allows users to navigate from detailed data to summary (aggregated) data (e.g., from daily to monthly to yearly)."
+    },
+    {
+      "id": 40,
+      "question": "What is slicing in OLAP?",
+      "options": ["Selecting a subset of data by fixing one dimension", "Selecting all data", "Selecting by multiple dimensions", "Selecting by time"],
+      "correctAnswer": "Selecting a subset of data by fixing one dimension",
+      "explanation": "Slicing in OLAP is selecting a subset of data by fixing one dimension to a specific value (e.g., selecting data for a specific region)."
+    },
+    {
+      "id": 41,
+      "question": "What is dicing in OLAP?",
+      "options": ["Selecting a subset of data by fixing multiple dimensions", "Selecting all data", "Selecting by one dimension", "Selecting by time"],
+      "correctAnswer": "Selecting a subset of data by fixing multiple dimensions",
+      "explanation": "Dicing in OLAP is selecting a subset of data by fixing multiple dimensions to specific values (e.g., selecting data for a specific region and product)."
+    },
+    {
+      "id": 42,
+      "question": "What is pivoting in OLAP?",
+      "options": ["Rotating axes to view data from different perspectives", "Filtering data", "Sorting data", "Grouping data"],
+      "correctAnswer": "Rotating axes to view data from different perspectives",
+      "explanation": "Pivoting in OLAP involves rotating the axes (rows and columns) to view data from different perspectives, like swapping rows and columns in a crosstab report."
+    },
+    {
+      "id": 43,
+      "question": "What is a ROLAP system?",
+      "options": ["Relational OLAP using relational databases", "OLAP using multidimensional databases", "OLAP using in-memory databases", "OLAP using file systems"],
+      "correctAnswer": "Relational OLAP using relational databases",
+      "explanation": "ROLAP (Relational OLAP) is an OLAP implementation that uses relational databases to store and query multidimensional data."
+    },
+    {
+      "id": 44,
+      "question": "What is a MOLAP system?",
+      "options": ["Multidimensional OLAP using specialized databases", "OLAP using relational databases", "OLAP using in-memory databases", "OLAP using file systems"],
+      "correctAnswer": "Multidimensional OLAP using specialized databases",
+      "explanation": "MOLAP (Multidimensional OLAP) is an OLAP implementation that uses specialized multidimensional databases optimized for OLAP queries."
+    },
+    {
+      "id": 45,
+      "question": "What is a HOLAP system?",
+      "options": ["Hybrid OLAP combining ROLAP and MOLAP", "OLAP using hybrid databases", "OLAP using both relational and multidimensional", "Both A and C"],
+      "correctAnswer": "Both A and C",
+      "explanation": "HOLAP (Hybrid OLAP) combines aspects of ROLAP and MOLAP, using both relational and multidimensional databases for different data."
+    },
+    {
+      "id": 46,
+      "question": "What is a cube in OLAP?",
+      "options": ["Multidimensional dataset for analysis", "Database table", "Data warehouse", "ETL process"],
+      "correctAnswer": "Multidimensional dataset for analysis",
+      "explanation": "A cube in OLAP is a multidimensional dataset that allows for fast analysis of data from multiple perspectives (dimensions)."
+    },
+    {
+      "id": 47,
+      "question": "What is a level in dimensional hierarchy?",
+      "options": ["Position in a hierarchy like year, quarter, month, day", "Size of data", "Type of data", "Volume of data"],
+      "correctAnswer": "Position in a hierarchy like year, quarter, month, day",
+      "explanation": "A level in a dimensional hierarchy represents a position in the hierarchy (e.g., year > quarter > month > day in a time dimension)."
+    },
+    {
+      "id": 48,
+      "question": "What is a member in dimensional hierarchy?",
+      "options": ["Specific value at a level like January, February", "Type of level", "Name of hierarchy", "Name of dimension"],
+      "correctAnswer": "Specific value at a level like January, February",
+      "explanation": "A member in a dimensional hierarchy is a specific value at a particular level (e.g., January, February at the month level)."
+    },
+    {
+      "id": 49,
+      "question": "What is a parent-child hierarchy?",
+      "options": ["Hierarchy where each member can have multiple parents and children", "Hierarchy with fixed levels", "Hierarchy with single parent", "Hierarchy with no children"],
+      "correctAnswer": "Hierarchy where each member can have multiple parents and children",
+      "explanation": "A parent-child hierarchy is a flexible hierarchy where each member can have multiple parents and children, allowing for complex relationships."
+    },
+    {
+      "id": 50,
+      "question": "What is a ragged hierarchy?",
+      "options": ["Hierarchy with inconsistent levels like geography", "Hierarchy with fixed levels", "Hierarchy with single level", "Hierarchy with no levels"],
+      "correctAnswer": "Hierarchy with inconsistent levels like geography",
+      "explanation": "A ragged hierarchy is one where the levels are inconsistent (e.g., geography: Country > State > City, but some countries don't have states)."
+    },
+    {
+      "id": 51,
+      "question": "What is a balanced hierarchy?",
+      "options": ["Hierarchy with consistent levels across all branches", "Hierarchy with inconsistent levels", "Hierarchy with single level", "Hierarchy with no levels"],
+      "correctAnswer": "Hierarchy with consistent levels across all branches",
+      "explanation": "A balanced hierarchy has consistent levels across all branches (e.g., year > quarter > month > day for all dates)."
+    },
+    {
+      "id": 52,
+      "question": "What is a skip-level hierarchy?",
+      "options": ["Hierarchy where levels can be skipped", "Hierarchy with all levels", "Hierarchy with single level", "Hierarchy with no levels"],
+      "correctAnswer": "Hierarchy where levels can be skipped",
+      "explanation": "A skip-level hierarchy allows querying at non-consecutive levels (e.g., going from year directly to day, skipping quarter and month)."
+    },
+    {
+      "id": 53,
+      "question": "What is a multiple hierarchy?",
+      "options": ["Dimension with multiple hierarchies like geography and sales", "Dimension with single hierarchy", "Dimension with no hierarchy", "Dimension with fixed hierarchy"],
+      "correctAnswer": "Dimension with multiple hierarchies like geography and sales",
+      "explanation": "A multiple hierarchy is a dimension that has more than one hierarchy (e.g., geography hierarchy and sales hierarchy in a customer dimension)."
+    },
+    {
+      "id": 54,
+      "question": "What is a recursive hierarchy?",
+      "options": ["Hierarchy where members can be parents of themselves", "Hierarchy with fixed levels", "Hierarchy with single level", "Hierarchy with no levels"],
+      "correctAnswer": "Hierarchy where members can be parents of themselves",
+      "explanation": "A recursive hierarchy is one where members can be parents of themselves (directly or indirectly), creating cycles in the hierarchy."
+    },
+    {
+      "id": 55,
+      "question": "What is data warehouse performance tuning?",
+      "options": ["Optimizing queries, indexes, and data structures", "Increasing data volume", "Adding more tables", "Changing database vendor"],
+      "correctAnswer": "Optimizing queries, indexes, and data structures",
+      "explanation": "Data warehouse performance tuning involves optimizing queries, creating appropriate indexes, partitioning data, and designing efficient data structures."
+    },
+    {
+      "id": 56,
+      "question": "What is query optimization in data warehouses?",
+      "options": ["Improving query execution plans", "Writing faster queries", "Using better hardware", "Changing database schema"],
+      "correctAnswer": "Improving query execution plans",
+      "explanation": "Query optimization involves analyzing and improving query execution plans, using appropriate join strategies, and leveraging database optimizer features."
+    },
+    {
+      "id": 57,
+      "question": "What is indexing strategy in data warehouses?",
+      "options": ["Choosing appropriate indexes for query performance", "Creating indexes on all columns", "Avoiding indexes", "Using only primary keys"],
+      "correctAnswer": "Choosing appropriate indexes for query performance",
+      "explanation": "Indexing strategy involves carefully choosing which columns to index, the type of indexes (B-tree, bitmap, hash), and balancing the overhead of index maintenance with query performance."
+    },
+    {
+      "id": 58,
+      "question": "What is bitmap indexing?",
+      "options": ["Index using bit arrays for low-cardinality columns", "Index using B-trees", "Index using hash values", "Index using sorted lists"],
+      "correctAnswer": "Index using bit arrays for low-cardinality columns",
+      "explanation": "Bitmap indexing uses bit arrays to represent the presence or absence of values in columns, which is efficient for low-cardinality columns with many repeated values."
+    },
+    {
+      "id": 59,
+      "question": "What is B-tree indexing?",
+      "options": ["Balanced tree structure for efficient range queries", "Binary tree", "Bitmap tree", "Hash tree"],
+      "correctAnswer": "Balanced tree structure for efficient range queries",
+      "explanation": "B-tree indexing uses a balanced tree structure that is efficient for range queries, equality queries, and sorting."
+    },
+    {
+      "id": 60,
+      "question": "What is hash indexing?",
+      "options": ["Index using hash values for fast equality queries", "Index using B-trees", "Index using bitmaps", "Index using sorted lists"],
+      "correctAnswer": "Index using hash values for fast equality queries",
+      "explanation": "Hash indexing uses hash values to map keys to storage locations, providing fast equality queries but not efficient for range queries."
+    },
+    {
+      "id": 61,
+      "question": "What is a covering index?",
+      "options": ["Index that contains all columns needed for a query", "Index that covers all rows", "Index that covers all tables", "Index that covers all databases"],
+      "correctAnswer": "Index that contains all columns needed for a query",
+      "explanation": "A covering index contains all the columns needed for a query, allowing the query to be satisfied entirely from the index without accessing the underlying table."
+    },
+    {
+      "id": 62,
+      "question": "What is index-only scan?",
+      "options": ["Query satisfied entirely from index", "Query using only indexes", "Query scanning only indexes", "Query without table access"],
+      "correctAnswer": "Query satisfied entirely from index",
+      "explanation": "An index-only scan (or index-only query) is when a query can be satisfied entirely from the index without accessing the underlying table data."
+    },
+    {
+      "id": 63,
+      "question": "What is a composite index?",
+      "options": ["Index on multiple columns", "Index on single column", "Index on all columns", "Index on computed column"],
+      "correctAnswer": "Index on multiple columns",
+      "explanation": "A composite index (or multi-column index) is an index on multiple columns, useful for queries that filter or sort on multiple columns."
+    },
+    {
+      "id": 64,
+      "question": "What is the purpose of data partitioning in data warehouses?",
+      "options": ["Divide large tables into smaller, manageable pieces", "Increase table size", "Combine tables", "Encrypt tables"],
+      "correctAnswer": "Divide large tables into smaller, manageable pieces",
+      "explanation": "Data partitioning divides large tables into smaller, more manageable pieces based on criteria like date ranges, improving query performance and maintenance."
+    },
+    {
+      "id": 65,
+      "question": "What is range partitioning?",
+      "options": ["Partition based on value ranges", "Partition based on hash values", "Partition based on list of values", "Partition based on round-robin"],
+      "correctAnswer": "Partition based on value ranges",
+      "explanation": "Range partitioning divides data into partitions based on value ranges (e.g., date ranges, numeric ranges)."
+    },
+    {
+      "id": 66,
+      "question": "What is hash partitioning?",
+      "options": ["Partition based on hash values of keys", "Partition based on value ranges", "Partition based on list of values", "Partition based on round-robin"],
+      "correctAnswer": "Partition based on hash values of keys",
+      "explanation": "Hash partitioning divides data into partitions based on hash values of partition keys, distributing data evenly across partitions."
+    },
+    {
+      "id": 67,
+      "question": "What is list partitioning?",
+      "options": ["Partition based on discrete list of values", "Partition based on value ranges", "Partition based on hash values", "Partition based on round-robin"],
+      "correctAnswer": "Partition based on discrete list of values",
+      "explanation": "List partitioning divides data into partitions based on a discrete list of values (e.g., partitioning by region: North, South, East, West)."
+    },
+    {
+      "id": 68,
+      "question": "What is round-robin partitioning?",
+      "options": ["Distribute data evenly across partitions", "Partition based on value ranges", "Partition based on hash values", "Partition based on list of values"],
+      "correctAnswer": "Distribute data evenly across partitions",
+      "explanation": "Round-robin partitioning distributes data evenly across partitions in a circular, round-robin fashion."
+    },
+    {
+      "id": 69,
+      "question": "What is composite partitioning?",
+      "options": ["Combination of multiple partitioning strategies", "Partition on multiple columns", "Partition with multiple methods", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "Composite partitioning combines multiple partitioning strategies (e.g., range-hash partitioning, list-hash partitioning) to achieve better distribution and performance."
+    },
+    {
+      "id": 70,
+      "question": "What is data clustering in data warehouses?",
+      "options": ["Physically co-locating related data", "Grouping data logically", "Partitioning data", "Indexing data"],
+      "correctAnswer": "Physically co-locating related data",
+      "explanation": "Data clustering physically co-locates related data (e.g., data with the same partitioning key) to improve query performance by reducing I/O."
+    },
+    {
+      "id": 71,
+      "question": "What is query caching in data warehouses?",
+      "options": ["Caching query results to avoid recomputation", "Caching data", "Caching indexes", "Caching metadata"],
+      "correctAnswer": "Caching query results to avoid recomputation",
+      "explanation": "Query caching stores the results of frequently executed queries, allowing subsequent identical queries to retrieve results from cache instead of recomputing."
+    },
+    {
+      "id": 72,
+      "question": "What is materialized view refresh?",
+      "options": ["Updating materialized view with latest data", "Creating materialized view", "Deleting materialized view", "Querying materialized view"],
+      "correctAnswer": "Updating materialized view with latest data",
+      "explanation": "Materialized view refresh is the process of updating a materialized view with the latest data from the underlying tables, which can be done on a schedule or on demand."
+    },
+    {
+      "id": 73,
+      "question": "What is incremental refresh?",
+      "options": ["Refresh only changed data since last refresh", "Refresh all data", "Refresh on schedule", "Refresh on demand"],
+      "correctAnswer": "Refresh only changed data since last refresh",
+      "explanation": "Incremental refresh updates a materialized view or data warehouse with only the data that has changed since the last refresh, improving efficiency."
+    },
+    {
+      "id": 74,
+      "question": "What is full refresh?",
+      "options": ["Refresh all data in materialized view", "Refresh only changed data", "Refresh on schedule", "Refresh on demand"],
+      "correctAnswer": "Refresh all data in materialized view",
+      "explanation": "Full refresh rebuilds a materialized view from scratch, refreshing all data to ensure consistency with the underlying tables."
+    },
+    {
+      "id": 75,
+      "question": "What is fast refresh in materialized views?",
+      "options": ["Refresh materialized view incrementally using change logs", "Refresh quickly", "Refresh all data", "Refresh on demand"],
+      "correctAnswer": "Refresh materialized view incrementally using change logs",
+      "explanation": "Fast refresh (or fast incremental refresh) updates a materialized view incrementally using change logs or triggers, providing near real-time updates."
+    },
+    {
+      "id": 76,
+      "question": "What is complete refresh in materialized views?",
+      "options": ["Full rebuild of materialized view", "Partial rebuild", "Incremental update", "On-demand refresh"],
+      "correctAnswer": "Full rebuild of materialized view",
+      "explanation": "Complete refresh (or full rebuild) recreates the materialized view from scratch, reading all data from the underlying tables."
+    },
+    {
+      "id": 77,
+      "question": "What is data warehouse metadata?",
+      "options": ["Data about data in the warehouse", "Data storage information", "Data processing information", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "Data warehouse metadata includes information about data (schemas, definitions, lineage), storage (locations, formats), and processing (ETL jobs, schedules, dependencies)."
+    },
+    {
+      "id": 78,
+      "question": "What is the purpose of a data dictionary?",
+      "options": ["Document data elements and their meanings", "Store data", "Process data", "Analyze data"],
+      "correctAnswer": "Document data elements and their meanings",
+      "explanation": "A data dictionary documents data elements (tables, columns, fields) and their meanings, definitions, formats, and business rules."
+    },
+    {
+      "id": 79,
+      "question": "What is data profiling?",
+      "options": ["Analyzing data to understand its structure, content, and quality", "Processing data", "Storing data", "Querying data"],
+      "correctAnswer": "Analyzing data to understand its structure, content, and quality",
+      "explanation": "Data profiling involves analyzing data to understand its structure, content, relationships, and quality characteristics (completeness, uniqueness, patterns, etc.)."
+    },
+    {
+      "id": 80,
+      "question": "What is data cleansing?",
+      "options": ["Identifying and correcting errors in data", "Processing data", "Storing data", "Querying data"],
+      "correctAnswer": "Identifying and correcting errors in data",
+      "explanation": "Data cleansing (or data cleaning) involves identifying and correcting errors, inconsistencies, and inaccuracies in data to improve quality."
+    },
+    {
+      "id": 81,
+      "question": "What is data enrichment?",
+      "options": ["Adding value to data by augmenting it with additional information", "Processing data", "Storing data", "Querying data"],
+      "correctAnswer": "Adding value to data by augmenting it with additional information",
+      "explanation": "Data enrichment adds value to data by augmenting it with additional information from external sources (e.g., adding geographic data to customer addresses)."
+    },
+    {
+      "id": 82,
+      "question": "What is data integration?",
+      "options": ["Combining data from multiple sources", "Processing data", "Storing data", "Querying data"],
+      "correctAnswer": "Combining data from multiple sources",
+      "explanation": "Data integration involves combining data from multiple sources into a unified, consistent format for analysis and reporting."
+    },
+    {
+      "id": 83,
+      "question": "What is data consolidation?",
+      "options": ["Combining data from multiple sources into a single system", "Processing data", "Storing data", "Querying data"],
+      "correctAnswer": "Combining data from multiple sources into a single system",
+      "explanation": "Data consolidation combines data from multiple sources into a single, centralized system (like a data warehouse or data lake)."
+    },
+    {
+      "id": 84,
+      "question": "What is data federation?",
+      "options": ["Querying data from multiple sources without consolidating", "Consolidating data", "Processing data", "Storing data"],
+      "correctAnswer": "Querying data from multiple sources without consolidating",
+      "explanation": "Data federation (or virtual integration) allows querying data from multiple sources as if it were in a single location, without physically consolidating the data."
+    },
+    {
+      "id": 85,
+      "question": "What is data virtualization?",
+      "options": ["Creating virtual views of data from multiple sources", "Storing data virtually", "Processing data virtually", "Querying data virtually"],
+      "correctAnswer": "Creating virtual views of data from multiple sources",
+      "explanation": "Data virtualization creates virtual views of data from multiple sources, allowing users to access and query data without knowing its physical location or format."
     }
   ]
 }

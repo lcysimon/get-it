@@ -1,7 +1,7 @@
 {
   "id": 1,
   "title": "Kubernetes",
-  "description": "Test your knowledge of Kubernetes fundamentals and best practices",
+  "description": "Comprehensive knowledge of Kubernetes fundamentals, architecture, and best practices",
   "category": "Ops",
   "questions": [
     {
@@ -143,6 +143,461 @@
       "options": ["Controls network traffic to/from Pods", "Controls which nodes Pods can run on", "Controls resource limits", "Controls user access"],
       "correctAnswer": "Controls network traffic to/from Pods",
       "explanation": "NetworkPolicy defines rules for ingress and/or egress traffic from and to the Pods selected by the policy."
+    },
+    {
+      "id": 21,
+      "question": "What is the Control Plane in Kubernetes?",
+      "options": ["Manages cluster state and coordinates workloads", "Runs application workloads", "Stores data", "Handles networking"],
+      "correctAnswer": "Manages cluster state and coordinates workloads",
+      "explanation": "The Control Plane (formerly Master) manages the cluster state, coordinates workloads, and makes global decisions about the cluster."
+    },
+    {
+      "id": 22,
+      "question": "What are the components of the Control Plane?",
+      "options": ["API Server, etcd, Controller Manager, Scheduler", "Kubelet, Kube-proxy", "API Server, Kubelet, Scheduler", "etcd, Controller Manager, Kube-proxy"],
+      "correctAnswer": "API Server, etcd, Controller Manager, Scheduler",
+      "explanation": "The Control Plane consists of: API Server (entry point), etcd (key-value store), Controller Manager (runs controllers), and Scheduler (assigns Pods to Nodes)."
+    },
+    {
+      "id": 23,
+      "question": "What is etcd in Kubernetes?",
+      "options": ["Distributed key-value store for cluster state", "Database for Pods", "Configuration store", "Network manager"],
+      "correctAnswer": "Distributed key-value store for cluster state",
+      "explanation": "etcd is a distributed, consistent key-value store that stores the cluster state and configuration."
+    },
+    {
+      "id": 24,
+      "question": "What is the API Server in Kubernetes?",
+      "options": ["Front-end for the Control Plane", "Back-end for Nodes", "Network gateway", "Storage manager"],
+      "correctAnswer": "Front-end for the Control Plane",
+      "explanation": "The API Server is the front-end for the Kubernetes Control Plane, exposing the Kubernetes API via REST."
+    },
+    {
+      "id": 25,
+      "question": "What is the Controller Manager?",
+      "options": ["Runs controller loops that watch cluster state", "Manages controllers", "Schedules controllers", "Monitors controllers"],
+      "correctAnswer": "Runs controller loops that watch cluster state",
+      "explanation": "The Controller Manager runs controller loops that watch the shared state of the cluster and make changes to drive the current state towards the desired state."
+    },
+    {
+      "id": 26,
+      "question": "What is the Scheduler in Kubernetes?",
+      "options": ["Assigns Pods to Nodes based on resource availability", "Schedules Jobs", "Schedules Deployments", "Manages resources"],
+      "correctAnswer": "Assigns Pods to Nodes based on resource availability",
+      "explanation": "The Scheduler watches for newly created Pods and assigns them to Nodes based on resource availability, constraints, and other factors."
+    },
+    {
+      "id": 27,
+      "question": "What are Worker Nodes in Kubernetes?",
+      "options": ["Machines that run application workloads", "Machines that run Control Plane", "Machines that store data", "Machines that handle networking"],
+      "correctAnswer": "Machines that run application workloads",
+      "explanation": "Worker Nodes (formerly Minions) are the machines that run the application workloads (containers in Pods)."
+    },
+    {
+      "id": 28,
+      "question": "What is the Kubelet?",
+      "options": ["Agent that runs on each Node and communicates with Control Plane", "Controller on Master", "Network proxy", "Storage manager"],
+      "correctAnswer": "Agent that runs on each Node and communicates with Control Plane",
+      "explanation": "The Kubelet is an agent that runs on each Node and ensures containers are running in a Pod, communicating with the Control Plane."
+    },
+    {
+      "id": 29,
+      "question": "What is the Kube-proxy?",
+      "options": ["Network proxy that runs on each Node", "API proxy", "Controller proxy", "Storage proxy"],
+      "correctAnswer": "Network proxy that runs on each Node",
+      "explanation": "Kube-proxy is a network proxy that runs on each Node and implements the Kubernetes Service concept, providing load balancing and routing."
+    },
+    {
+      "id": 30,
+      "question": "What is a Container Runtime?",
+      "options": ["Software responsible for running containers", "Software for building containers", "Software for storing containers", "Software for networking containers"],
+      "correctAnswer": "Software responsible for running containers",
+      "explanation": "The Container Runtime is the software responsible for running containers (e.g., Docker, containerd, CRI-O)."
+    },
+    {
+      "id": 31,
+      "question": "What is CRI?",
+      "options": ["Container Runtime Interface", "Container Runtime Interface for Kubernetes", "Container Registry Interface", "Container Runtime Integration"],
+      "correctAnswer": "Container Runtime Interface",
+      "explanation": "CRI (Container Runtime Interface) is the API that the Kubelet uses to communicate with container runtimes."
+    },
+    {
+      "id": 32,
+      "question": "What is CNI?",
+      "options": ["Container Network Interface", "Cluster Network Interface", "Container Node Interface", "Cluster Node Interface"],
+      "correctAnswer": "Container Network Interface",
+      "explanation": "CNI (Container Network Interface) is a standard for configuring networking in containerized environments."
+    },
+    {
+      "id": 33,
+      "question": "What is CSI?",
+      "options": ["Container Storage Interface", "Cluster Storage Interface", "Container System Interface", "Cluster System Interface"],
+      "correctAnswer": "Container Storage Interface",
+      "explanation": "CSI (Container Storage Interface) is a standard for exposing storage systems to containerized workloads."
+    },
+    {
+      "id": 34,
+      "question": "What is a Pod in Kubernetes?",
+      "options": ["Smallest deployable unit, one or more containers with shared resources", "Single container", "Group of containers on different nodes", "Virtual machine"],
+      "correctAnswer": "Smallest deployable unit, one or more containers with shared resources",
+      "explanation": "A Pod is the smallest deployable unit in Kubernetes, containing one or more containers that share the same network namespace, storage, and specifications."
+    },
+    {
+      "id": 35,
+      "question": "What is a multi-container Pod?",
+      "options": ["Pod with multiple containers that work together", "Multiple Pods with one container each", "Pod with containers on different nodes", "Pod with backup containers"],
+      "correctAnswer": "Pod with multiple containers that work together",
+      "explanation": "A multi-container Pod contains multiple containers that work together, typically with one main container and sidecar containers that provide supporting functionality."
+    },
+    {
+      "id": 36,
+      "question": "What is a sidecar container?",
+      "options": ["Helper container that runs alongside main container", "Primary container", "Backup container", "Monitoring container"],
+      "correctAnswer": "Helper container that runs alongside main container",
+      "explanation": "A sidecar container is a helper container that runs alongside the main container in a Pod, providing supporting functionality like logging, monitoring, or networking."
+    },
+    {
+      "id": 37,
+      "question": "What is an init container?",
+      "options": ["Container that runs before app containers to set up Pod", "Container that initializes cluster", "Container that runs first in cluster", "Container that configures cluster"],
+      "correctAnswer": "Container that runs before app containers to set up Pod",
+      "explanation": "Init containers are specialized containers that run before app containers in a Pod to perform setup tasks like configuration, data loading, or dependency checks."
+    },
+    {
+      "id": 38,
+      "question": "What is a Liveness Probe?",
+      "options": ["Checks if container is running and healthy", "Checks if application is ready", "Checks if container is starting", "Checks if application is responding"],
+      "correctAnswer": "Checks if container is running and healthy",
+      "explanation": "A Liveness Probe indicates whether a container is running and healthy. If the probe fails, the container is restarted."
+    },
+    {
+      "id": 39,
+      "question": "What is a Readiness Probe?",
+      "options": ["Checks if container is ready to serve traffic", "Checks if container is running", "Checks if container is healthy", "Checks if container is starting"],
+      "correctAnswer": "Checks if container is ready to serve traffic",
+      "explanation": "A Readiness Probe indicates whether the container is ready to respond to requests. If the probe fails, the container is removed from Service endpoints."
+    },
+    {
+      "id": 40,
+      "question": "What is a Startup Probe?",
+      "options": ["Checks if application has started successfully", "Checks if container is running", "Checks if container is ready", "Checks if application is healthy"],
+      "correctAnswer": "Checks if application has started successfully",
+      "explanation": "A Startup Probe indicates whether the application within the container has started. If it fails, the container is restarted."
+    },
+    {
+      "id": 41,
+      "question": "What are the types of probes in Kubernetes?",
+      "options": ["Liveness, Readiness, Startup", "Health, Ready, Start", "Live, Read, Start", "Liveness, Readiness, Health"],
+      "correctAnswer": "Liveness, Readiness, Startup",
+      "explanation": "Kubernetes supports three types of probes: Liveness Probe (checks if container is running), Readiness Probe (checks if container is ready), and Startup Probe (checks if application has started)."
+    },
+    {
+      "id": 42,
+      "question": "What is a ReplicaSet?",
+      "options": ["Ensures specified number of Pod replicas are running", "Manages deployments", "Creates ReplicaSets", "Manages Replicas"],
+      "correctAnswer": "Ensures specified number of Pod replicas are running",
+      "explanation": "A ReplicaSet ensures that a specified number of Pod replicas are running at any given time, replacing any Pods that fail."
+    },
+    {
+      "id": 43,
+      "question": "What is the difference between Deployment and ReplicaSet?",
+      "options": ["Deployment provides declarative updates and rollback", "Deployment manages ReplicaSets", "Both A and B", "Deployment is a type of ReplicaSet"],
+      "correctAnswer": "Both A and B",
+      "explanation": "A Deployment provides declarative updates to Pods and ReplicaSets, enables rolling updates and rollbacks, and manages ReplicaSets. ReplicaSet only ensures the specified number of replicas are running."
+    },
+    {
+      "id": 44,
+      "question": "What is a Rolling Update in Kubernetes?",
+      "options": ["Update Pods incrementally without downtime", "Update all Pods at once", "Update Pods randomly", "Update Pods sequentially"],
+      "correctAnswer": "Update Pods incrementally without downtime",
+      "explanation": "A Rolling Update updates Pods incrementally (one by one or in batches) without downtime, replacing old Pods with new ones as they become ready."
+    },
+    {
+      "id": 45,
+      "question": "What is a Rollback in Kubernetes?",
+      "options": ["Revert to previous Deployment revision", "Revert to previous Pod", "Revert to previous ReplicaSet", "Revert to previous version"],
+      "correctAnswer": "Revert to previous Deployment revision",
+      "explanation": "A Rollback reverts a Deployment to a previous revision, restoring the previous Pod template and configuration."
+    },
+    {
+      "id": 46,
+      "question": "What is kubectl rollout status?",
+      "options": ["Watch rolling update status", "Watch rollout history", "Watch Deployment status", "Watch Pod status"],
+      "correctAnswer": "Watch rolling update status",
+      "explanation": "kubectl rollout status monitors the progress of a rolling update, waiting for it to complete or reporting any errors."
+    },
+    {
+      "id": 47,
+      "question": "What is kubectl rollout history?",
+      "options": ["View history of rollouts for a resource", "View rollout status", "View Deployment history", "View Pod history"],
+      "correctAnswer": "View history of rollouts for a resource",
+      "explanation": "kubectl rollout history displays the rollout history for a Deployment or other resource, showing previous revisions."
+    },
+    {
+      "id": 48,
+      "question": "What is kubectl rollout undo?",
+      "options": ["Rollback to previous revision", "Undo rollout", "Cancel rollout", "Reset rollout"],
+      "correctAnswer": "Rollback to previous revision",
+      "explanation": "kubectl rollout undo rolls back a Deployment to the previous revision."
+    },
+    {
+      "id": 49,
+      "question": "What is a Service in Kubernetes?",
+      "options": ["Exposes Pods as network service with stable IP and DNS", "Network service for containers", "Service mesh", "API service"],
+      "correctAnswer": "Exposes Pods as network service with stable IP and DNS",
+      "explanation": "A Service exposes a set of Pods as a network service with a stable cluster IP address and DNS name, abstracting away individual Pod IPs."
+    },
+    {
+      "id": 50,
+      "question": "What are the types of Services in Kubernetes?",
+      "options": ["ClusterIP, NodePort, LoadBalancer, ExternalName", "Internal, External, Public, Private", "IP, Node, Load, External", "Cluster, Node, Load, External"],
+      "correctAnswer": "ClusterIP, NodePort, LoadBalancer, ExternalName",
+      "explanation": "The four types of Services are: ClusterIP (internal cluster IP), NodePort (exposes service on each Node's IP), LoadBalancer (creates external load balancer), and ExternalName (maps to external DNS)."
+    },
+    {
+      "id": 51,
+      "question": "What is ClusterIP Service?",
+      "options": ["Internal Service with cluster-internal IP", "External Service", "Node-level Service", "Load balanced Service"],
+      "correctAnswer": "Internal Service with cluster-internal IP",
+      "explanation": "ClusterIP Service exposes the Service on an internal IP in the cluster, making it accessible only from within the cluster."
+    },
+    {
+      "id": 52,
+      "question": "What is NodePort Service?",
+      "options": ["Exposes Service on static port on each Node's IP", "Exposes Service on cluster IP", "Exposes Service on external IP", "Exposes Service on DNS"],
+      "correctAnswer": "Exposes Service on static port on each Node's IP",
+      "explanation": "NodePort Service exposes the Service on each Node's IP at a static port (the NodePort), making it accessible from outside the cluster."
+    },
+    {
+      "id": 53,
+      "question": "What is LoadBalancer Service?",
+      "options": ["Creates external load balancer in cloud provider", "Creates internal load balancer", "Creates node-level load balancer", "Creates DNS load balancer"],
+      "correctAnswer": "Creates external load balancer in cloud provider",
+      "explanation": "LoadBalancer Service creates an external load balancer in the cloud provider (e.g., AWS ELB, GCP Load Balancer) to expose the Service externally."
+    },
+    {
+      "id": 54,
+      "question": "What is ExternalName Service?",
+      "options": ["Maps Service to external DNS name", "Maps to external IP", "Maps to external load balancer", "Maps to external NodePort"],
+      "correctAnswer": "Maps Service to external DNS name",
+      "explanation": "ExternalName Service maps the Service to an external DNS name (CNAME record), redirecting requests to that external service."
+    },
+    {
+      "id": 55,
+      "question": "What is Headless Service?",
+      "options": ["Service without cluster IP for direct Pod access", "Service without Pods", "Service without Selector", "Service without DNS"],
+      "correctAnswer": "Service without cluster IP for direct Pod access",
+      "explanation": "A Headless Service is a Service with ClusterIP set to None, allowing direct access to Pods via DNS without load balancing or proxying."
+    },
+    {
+      "id": 56,
+      "question": "What is kube-proxy mode ipvs?",
+      "options": ["Uses Linux IPVS for load balancing", "Uses iptables", "Uses userspace", "Uses kernel space"],
+      "correctAnswer": "Uses Linux IPVS for load balancing",
+      "explanation": "The ipvs mode of kube-proxy uses Linux IPVS (IP Virtual Server) for load balancing, providing better performance and scalability than iptables mode."
+    },
+    {
+      "id": 57,
+      "question": "What is kube-proxy mode iptables?",
+      "options": ["Uses iptables rules for load balancing", "Uses IPVS", "Uses userspace", "Uses kernel space"],
+      "correctAnswer": "Uses iptables rules for load balancing",
+      "explanation": "The iptables mode of kube-proxy uses iptables rules to implement Service load balancing, which was the default mode before ipvs."
+    },
+    {
+      "id": 58,
+      "question": "What is an Ingress Controller?",
+      "options": ["Manages Ingress resources and provides external access", "Manages Services", "Manages Deployments", "Manages Routes"],
+      "correctAnswer": "Manages Ingress resources and provides external access",
+      "explanation": "An Ingress Controller is a specialized load balancer that manages Ingress resources and provides external HTTP(S) access to Services in the cluster."
+    },
+    {
+      "id": 59,
+      "question": "What is a Secret?",
+      "options": ["Stores sensitive data like passwords, tokens, keys", "Stores configuration data", "Stores application data", "Stores network data"],
+      "correctAnswer": "Stores sensitive data like passwords, tokens, keys",
+      "explanation": "A Secret is an object that stores sensitive data like passwords, OAuth tokens, SSH keys, and other credentials."
+    },
+    {
+      "id": 60,
+      "question": "What is the difference between ConfigMap and Secret?",
+      "options": ["ConfigMap for non-sensitive, Secret for sensitive data", "ConfigMap for sensitive, Secret for non-sensitive", "Both for sensitive data", "Both for non-sensitive data"],
+      "correctAnswer": "ConfigMap for non-sensitive, Secret for sensitive data",
+      "explanation": "ConfigMaps are intended for storing non-sensitive configuration data, while Secrets are designed for storing sensitive data that should be protected."
+    },
+    {
+      "id": 61,
+      "question": "What is the difference between Secret and ConfigMap?",
+      "options": ["Secrets are base64 encoded by default", "Secrets are encrypted by default", "ConfigMaps are encrypted by default", "Both are the same"],
+      "correctAnswer": "Secrets are base64 encoded by default",
+      "explanation": "Secrets store data as base64 encoded strings by default (not encrypted), while ConfigMaps store data as plain text. Both need additional encryption for security."
+    },
+    {
+      "id": 62,
+      "question": "What is Volume in Kubernetes?",
+      "options": ["Persistent storage mounted into Pod", "Temporary storage", "Network storage", "Memory storage"],
+      "correctAnswer": "Persistent storage mounted into Pod",
+      "explanation": "A Volume is a directory containing data that is accessible to the containers in a Pod, with different types supporting various storage backends."
+    },
+    {
+      "id": 63,
+      "question": "What is emptyDir Volume?",
+      "options": ["Temporary storage that exists as long as Pod exists", "Persistent storage", "Network storage", "Shared storage"],
+      "correctAnswer": "Temporary storage that exists as long as Pod exists",
+      "explanation": "emptyDir is a Volume type that creates an empty directory for the Pod and exists as long as the Pod exists, deleted when the Pod is removed."
+    },
+    {
+      "id": 64,
+      "question": "What is hostPath Volume?",
+      "options": ["Mounts file or directory from host node into Pod", "Mounts network storage", "Mounts temporary storage", "Mounts cloud storage"],
+      "correctAnswer": "Mounts file or directory from host node into Pod",
+      "explanation": "hostPath Volume mounts a file or directory from the host Node's filesystem into the Pod, useful for accessing Node-specific files."
+    },
+    {
+      "id": 65,
+      "question": "What is StorageClass in Kubernetes?",
+      "options": ["Defines different types of storage like SSD, HDD", "Defines storage size", "Defines storage location", "Defines storage type"],
+      "correctAnswer": "Defines different types of storage like SSD, HDD",
+      "explanation": "StorageClass defines different types of storage (e.g., fast SSD, slow HDD) that can be dynamically provisioned, with different performance characteristics."
+    },
+    {
+      "id": 66,
+      "question": "What is dynamic provisioning?",
+      "options": ["Automatically creates PersistentVolumes when PVC is created", "Manually creates PersistentVolumes", "Dynamically allocates storage", "Automatically creates PVCs"],
+      "correctAnswer": "Automatically creates PersistentVolumes when PVC is created",
+      "explanation": "Dynamic provisioning automatically creates PersistentVolumes when a PersistentVolumeClaim is created, using StorageClass to determine the storage type."
+    },
+    {
+      "id": 67,
+      "question": "What is static provisioning?",
+      "options": ["Manually creates PersistentVolumes by administrator", "Automatically creates PersistentVolumes", "Dynamically creates PersistentVolumes", "Creates PersistentVolumes from StorageClass"],
+      "correctAnswer": "Manually creates PersistentVolumes by administrator",
+      "explanation": "Static provisioning involves manually creating PersistentVolumes by an administrator, which are then bound to PersistentVolumeClaims."
+    },
+    {
+      "id": 68,
+      "question": "What is Access Mode in PersistentVolume?",
+      "options": ["Defines how PV can be mounted: ReadWriteOnce, ReadOnlyMany, ReadWriteMany", "Defines who can access", "Defines access permissions", "Defines access control"],
+      "correctAnswer": "Defines how PV can be mounted: ReadWriteOnce, ReadOnlyMany, ReadWriteMany",
+      "explanation": "Access Mode defines how a PersistentVolume can be mounted: ReadWriteOnce (single node read-write), ReadOnlyMany (multiple nodes read-only), or ReadWriteMany (multiple nodes read-write)."
+    },
+    {
+      "id": 69,
+      "question": "What is Reclaim Policy in PersistentVolume?",
+      "options": ["Defines what happens to PV when PVC is deleted: Retain, Delete, Recycle", "Defines reclaim strategy", "Defines cleanup policy", "Defines deletion policy"],
+      "correctAnswer": "Defines what happens to PV when PVC is deleted: Retain, Delete, Recycle",
+      "explanation": "Reclaim Policy defines what happens to a PersistentVolume when its PersistentVolumeClaim is deleted: Retain (keep PV), Delete (delete PV), or Recycle (scrub and make available)."
+    },
+    {
+      "id": 70,
+      "question": "What is a Namespace in Kubernetes?",
+      "options": ["Provides scope for names, virtual clusters", "Physical cluster", "Network partition", "Storage partition"],
+      "correctAnswer": "Provides scope for names, virtual clusters",
+      "explanation": "A Namespace provides a scope for names (resource names must be unique within a Namespace) and acts as a virtual cluster for organizing resources."
+    },
+    {
+      "id": 71,
+      "question": "What is default Namespace?",
+      "options": ["Namespace where resources are created if not specified", "Namespace for system resources", "Namespace for all resources", "Namespace for kube-system"],
+      "correctAnswer": "Namespace where resources are created if not specified",
+      "explanation": "The default Namespace is where resources are created if no Namespace is specified. Resources created without a Namespace go into the default Namespace."
+    },
+    {
+      "id": 72,
+      "question": "What is kube-system Namespace?",
+      "options": ["Namespace for Kubernetes system components", "Namespace for user applications", "Namespace for system applications", "Namespace for cluster resources"],
+      "correctAnswer": "Namespace for Kubernetes system components",
+      "explanation": "The kube-system Namespace is reserved for Kubernetes system components like the API Server, etcd, DNS, Dashboard, and other cluster services."
+    },
+    {
+      "id": 73,
+      "question": "What is kube-public Namespace?",
+      "options": ["Namespace for public resources, readable by all users", "Namespace for public applications", "Namespace for system resources", "Namespace for cluster resources"],
+      "correctAnswer": "Namespace for public resources, readable by all users",
+      "explanation": "The kube-public Namespace is for public resources that should be readable by all users, even unauthenticated users."
+    },
+    {
+      "id": 74,
+      "question": "What is a Context in kubectl?",
+      "options": ["Combination of cluster, Namespace, and user", "Configuration for kubectl", "Connection to cluster", "Authentication for cluster"],
+      "correctAnswer": "Combination of cluster, Namespace, and user",
+      "explanation": "A Context in kubectl is a combination of a cluster, a Namespace, and a user, allowing quick switching between different configurations."
+    },
+    {
+      "id": 75,
+      "question": "What is RBAC in Kubernetes?",
+      "options": ["Role-Based Access Control for authorization", "Role-Based Authentication Control", "Resource-Based Access Control", "Rule-Based Access Control"],
+      "correctAnswer": "Role-Based Access Control for authorization",
+      "explanation": "RBAC (Role-Based Access Control) is an authorization mechanism that uses Roles and RoleBindings to control access to Kubernetes resources."
+    },
+    {
+      "id": 76,
+      "question": "What is a Role in RBAC?",
+      "options": ["Set of permissions within a Namespace", "Set of permissions across all Namespaces", "Set of users", "Set of resources"],
+      "correctAnswer": "Set of permissions within a Namespace",
+      "explanation": "A Role in RBAC defines a set of permissions (rules) within a single Namespace, specifying what operations are allowed on which resources."
+    },
+    {
+      "id": 77,
+      "question": "What is a ClusterRole in RBAC?",
+      "options": ["Set of permissions across all Namespaces", "Set of permissions within a Namespace", "Set of users", "Set of resources"],
+      "correctAnswer": "Set of permissions across all Namespaces",
+      "explanation": "A ClusterRole in RBAC defines a set of permissions across all Namespaces in the cluster, specifying what operations are allowed on which resources."
+    },
+    {
+      "id": 78,
+      "question": "What is a RoleBinding in RBAC?",
+      "options": ["Grants Role permissions to users within a Namespace", "Binds users to Roles", "Grants ClusterRole permissions", "Binds ClusterRoles to users"],
+      "correctAnswer": "Grants Role permissions to users within a Namespace",
+      "explanation": "A RoleBinding grants the permissions defined in a Role to a user or group of users within a specific Namespace."
+    },
+    {
+      "id": 79,
+      "question": "What is a ClusterRoleBinding in RBAC?",
+      "options": ["Grants ClusterRole permissions across all Namespaces", "Binds users to Roles", "Grants Role permissions", "Binds Roles to users"],
+      "correctAnswer": "Grants ClusterRole permissions across all Namespaces",
+      "explanation": "A ClusterRoleBinding grants the permissions defined in a ClusterRole to a user or group of users across all Namespaces in the cluster."
+    },
+    {
+      "id": 80,
+      "question": "What is a ServiceAccount?",
+      "options": ["Provides identity for processes in Pods", "Provides authentication for users", "Provides authorization for services", "Provides identity for clusters"],
+      "correctAnswer": "Provides identity for processes in Pods",
+      "explanation": "A ServiceAccount provides an identity for processes that run in Pods, allowing them to authenticate with the API Server and access resources based on RBAC permissions."
+    },
+    {
+      "id": 81,
+      "question": "What is default ServiceAccount?",
+      "options": ["ServiceAccount created automatically in each Namespace", "ServiceAccount for system", "ServiceAccount for users", "ServiceAccount for clusters"],
+      "correctAnswer": "ServiceAccount created automatically in each Namespace",
+      "explanation": "The default ServiceAccount is created automatically in each Namespace and is used by Pods that don't specify a ServiceAccount."
+    },
+    {
+      "id": 82,
+      "question": "What is kubectl config?",
+      "options": ["Manages kubectl configuration", "Configures kubectl", "Manages contexts", "Manages clusters"],
+      "correctAnswer": "Manages kubectl configuration",
+      "explanation": "kubectl config is a command group for managing kubectl configuration, including contexts, clusters, and users."
+    },
+    {
+      "id": 83,
+      "question": "What is kubectl get?",
+      "options": ["Lists resources", "Gets resource details", "Retrieves resources", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "kubectl get is a versatile command that lists resources, retrieves resource details, and can display information in various formats."
+    },
+    {
+      "id": 84,
+      "question": "What is kubectl describe?",
+      "options": ["Shows detailed information about a resource", "Lists resources", "Gets resource details", "Describes resource"],
+      "correctAnswer": "Shows detailed information about a resource",
+      "explanation": "kubectl describe provides detailed information about a specific resource, including its configuration, status, and events."
+    },
+    {
+      "id": 85,
+      "question": "What is kubectl logs?",
+      "options": ["Prints logs from Pod containers", "Prints logs from cluster", "Prints logs from Nodes", "Prints logs from Services"],
+      "correctAnswer": "Prints logs from Pod containers",
+      "explanation": "kubectl logs prints the logs from the containers in a Pod, useful for debugging and monitoring."
     }
   ]
 }

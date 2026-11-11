@@ -143,6 +143,440 @@
       "options": ["Creating visual charts", "Defining structure and relationships of data", "Writing SQL queries", "Building ML models"],
       "correctAnswer": "Defining structure and relationships of data",
       "explanation": "Data modeling involves defining the structure, relationships, and business rules for data, creating schemas that represent the data domain."
+    },
+    {
+      "id": 21,
+      "question": "What is a fact table in dimensional modeling?",
+      "options": ["Stores quantitative data and foreign keys to dimensions", "Stores descriptive attributes", "Stores metadata", "Stores configuration"],
+      "correctAnswer": "Stores quantitative data and foreign keys to dimensions",
+      "explanation": "A fact table stores quantitative data (measures/facts) and foreign keys that reference dimension tables."
+    },
+    {
+      "id": 22,
+      "question": "What is a dimension table in dimensional modeling?",
+      "options": ["Stores descriptive attributes about entities", "Stores quantitative data", "Stores transaction data", "Stores metadata"],
+      "correctAnswer": "Stores descriptive attributes about entities",
+      "explanation": "A dimension table stores descriptive attributes (dimensions) about entities like customers, products, dates, etc."
+    },
+    {
+      "id": 23,
+      "question": "What is a star schema?",
+      "options": ["Fact table in center with dimension tables radiating out", "Multiple fact tables", "Snowflake schema", "Galaxy schema"],
+      "correctAnswer": "Fact table in center with dimension tables radiating out",
+      "explanation": "A star schema has a central fact table connected directly to multiple dimension tables, forming a star-like structure."
+    },
+    {
+      "id": 24,
+      "question": "What is a snowflake schema?",
+      "options": ["Star schema with normalized dimensions", "Denormalized star schema", "Multiple fact tables", "Simple star schema"],
+      "correctAnswer": "Star schema with normalized dimensions",
+      "explanation": "A snowflake schema is a star schema where dimension tables are normalized into multiple related tables, forming a snowflake pattern."
+    },
+    {
+      "id": 25,
+      "question": "What is a galaxy schema?",
+      "options": ["Multiple fact tables sharing dimension tables", "Single fact table", "Star schema", "Snowflake schema"],
+      "correctAnswer": "Multiple fact tables sharing dimension tables",
+      "explanation": "A galaxy schema (or fact constellation) has multiple fact tables that share some dimension tables, forming a galaxy-like structure."
+    },
+    {
+      "id": 26,
+      "question": "What is a surrogate key in dimensional modeling?",
+      "options": ["Artificial primary key for dimension tables", "Natural key", "Composite key", "Foreign key"],
+      "correctAnswer": "Artificial primary key for dimension tables",
+      "explanation": "A surrogate key is an artificial, system-generated primary key used in dimension tables, typically an integer."
+    },
+    {
+      "id": 27,
+      "question": "What is a natural key in dimensional modeling?",
+      "options": ["Business meaningful identifier", "Artificial key", "Composite key", "Foreign key"],
+      "correctAnswer": "Business meaningful identifier",
+      "explanation": "A natural key is a business meaningful identifier (like customer SSN, product SKU) that exists in the source system."
+    },
+    {
+      "id": 28,
+      "question": "What is a grain in dimensional modeling?",
+      "options": ["Level of detail in a fact table", "Size of table", "Number of rows", "Number of columns"],
+      "correctAnswer": "Level of detail in a fact table",
+      "explanation": "The grain (or granularity) defines the level of detail in a fact table (e.g., transaction-level, daily-level, monthly-level)."
+    },
+    {
+      "id": 29,
+      "question": "What is a conformed dimension?",
+      "options": ["Dimension used consistently across multiple fact tables", "Dimension with same name", "Dimension with same columns", "Dimension with same data"],
+      "correctAnswer": "Dimension used consistently across multiple fact tables",
+      "explanation": "A conformed dimension is used consistently across multiple fact tables, ensuring the same meaning and content."
+    },
+    {
+      "id": 30,
+      "question": "What is a junk dimension?",
+      "options": ["Group of random or miscellaneous attributes", "Unused dimension", "Null dimension", "Temporary dimension"],
+      "correctAnswer": "Group of random or miscellaneous attributes",
+      "explanation": "A junk dimension groups together random or miscellaneous attributes (like flags, indicators) that don't logically belong in other dimensions."
+    },
+    {
+      "id": 31,
+      "question": "What is a degenerate dimension?",
+      "options": ["Dimension stored in fact table as attribute", "Empty dimension", "Small dimension", "Normalized dimension"],
+      "correctAnswer": "Dimension stored in fact table as attribute",
+      "explanation": "A degenerate dimension is a dimension that is stored in the fact table as an attribute rather than in a separate dimension table."
+    },
+    {
+      "id": 32,
+      "question": "What is a bridge table?",
+      "options": ["Resolves multi-valued attributes in dimensions", "Connects fact tables", "Connects dimensions", "Resolves many-to-many relationships"],
+      "correctAnswer": "Resolves multi-valued attributes in dimensions",
+      "explanation": "A bridge table resolves multi-valued attributes in a dimension (e.g., a customer with multiple bank accounts) by creating a separate table."
+    },
+    {
+      "id": 33,
+      "question": "What is a role-playing dimension?",
+      "options": ["Same dimension used multiple times with different roles", "Dimension with multiple purposes", "Dimension with multiple tables", "Dimension with multiple columns"],
+      "correctAnswer": "Same dimension used multiple times with different roles",
+      "explanation": "A role-playing dimension is when the same dimension is used multiple times in a fact table with different roles (e.g., date as order date, ship date, delivery date)."
+    },
+    {
+      "id": 34,
+      "question": "What is a slowly changing dimension (SCD)?",
+      "options": ["Dimension that changes infrequently over time", "Dimension that changes frequently", "Dimension that never changes", "Dimension with only numbers"],
+      "correctAnswer": "Dimension that changes infrequently over time",
+      "explanation": "A slowly changing dimension (SCD) stores and manages both current and historical data over time as dimension attributes change."
+    },
+    {
+      "id": 35,
+      "question": "What is Type 1 SCD?",
+      "options": ["Overwrite old value with new value", "Track full history", "Track current and previous", "Store history separately"],
+      "correctAnswer": "Overwrite old value with new value",
+      "explanation": "Type 1 SCD overwrites the old value with the new value, maintaining only the current state without history."
+    },
+    {
+      "id": 36,
+      "question": "What is Type 2 SCD?",
+      "options": ["Create new row with new value, keep old row", "Overwrite old value", "Update existing row", "Delete old row"],
+      "correctAnswer": "Create new row with new value, keep old row",
+      "explanation": "Type 2 SCD creates a new row with the new value while keeping the old row, maintaining full history with effective dates."
+    },
+    {
+      "id": 37,
+      "question": "What is Type 3 SCD?",
+      "options": ["Store current and one previous value in same row", "Store full history", "Store only current value", "Store multiple previous values"],
+      "correctAnswer": "Store current and one previous value in same row",
+      "explanation": "Type 3 SCD stores both the current and one previous value in the same row, typically with columns like current_value and previous_value."
+    },
+    {
+      "id": 38,
+      "question": "What is Type 4 SCD?",
+      "options": ["Store history in separate table", "Store full history in same table", "Overwrite old values", "Track changes in dimension"],
+      "correctAnswer": "Store history in separate table",
+      "explanation": "Type 4 SCD stores the current values in the main dimension table and history in a separate history table."
+    },
+    {
+      "id": 39,
+      "question": "What is a measure in a fact table?",
+      "options": ["Numeric value that can be aggregated", "Descriptive attribute", "Foreign key", "Primary key"],
+      "correctAnswer": "Numeric value that can be aggregated",
+      "explanation": "A measure (or fact) in a fact table is a numeric value that can be aggregated, such as sales amount, quantity, or profit."
+    },
+    {
+      "id": 40,
+      "question": "What is an additively additive measure?",
+      "options": ["Can be summed across all dimensions", "Cannot be summed across any dimension", "Can be summed across some dimensions", "Can be averaged"],
+      "correctAnswer": "Can be summed across all dimensions",
+      "explanation": "An additively additive measure (like sales amount) can be summed across all dimensions (time, geography, product)."
+    },
+    {
+      "id": 41,
+      "question": "What is a non-additive measure?",
+      "options": ["Cannot be summed across dimensions", "Can be summed across all dimensions", "Can be summed across some dimensions", "Can be averaged"],
+      "correctAnswer": "Cannot be summed across dimensions",
+      "explanation": "A non-additive measure (like average temperature, ratio) cannot be meaningfully summed across dimensions."
+    },
+    {
+      "id": 42,
+      "question": "What is a semi-additive measure?",
+      "options": ["Can be summed across some but not all dimensions", "Can be summed across all dimensions", "Cannot be summed across any dimension", "Can be averaged"],
+      "correctAnswer": "Can be summed across some but not all dimensions",
+      "explanation": "A semi-additive measure (like inventory balance) can be summed across some dimensions (product) but not others (time)."
+    },
+    {
+      "id": 43,
+      "question": "What is a derived measure?",
+      "options": ["Calculated from other measures", "Stored directly", "Copied from source", "Imported from external system"],
+      "correctAnswer": "Calculated from other measures",
+      "explanation": "A derived measure is calculated from other measures (e.g., profit = revenue - cost, margin = profit / revenue)."
+    },
+    {
+      "id": 44,
+      "question": "What is a factless fact table?",
+      "options": ["Fact table without measures, only foreign keys", "Fact table with no data", "Fact table with only measures", "Dimension table with facts"],
+      "correctAnswer": "Fact table without measures, only foreign keys",
+      "explanation": "A factless fact table contains only foreign keys to dimensions and no measures, used to track events or coverage (e.g., student attendance)."
+    },
+    {
+      "id": 45,
+      "question": "What is a periodic snapshot fact table?",
+      "options": ["Stores state of dimension at regular intervals", "Stores transactions", "Stores events", "Stores changes"],
+      "correctAnswer": "Stores state of dimension at regular intervals",
+      "explanation": "A periodic snapshot fact table stores the state of a dimension (like inventory, account balance) at regular intervals (daily, monthly)."
+    },
+    {
+      "id": 46,
+      "question": "What is an accumulating snapshot fact table?",
+      "options": ["Tracks progress through a process over time", "Tracks periodic snapshots", "Tracks transactions", "Tracks events"],
+      "correctAnswer": "Tracks progress through a process over time",
+      "explanation": "An accumulating snapshot fact table tracks the progress of entities through a well-defined process (like order fulfillment) over time."
+    },
+    {
+      "id": 47,
+      "question": "What is a consolidated fact table?",
+      "options": ["Combines data from multiple sources at different grains", "Consolidates dimensions", "Consolidates measures", "Combines fact tables"],
+      "correctAnswer": "Combines data from multiple sources at different grains",
+      "explanation": "A consolidated fact table combines data from multiple sources or processes at different grains into a single table."
+    },
+    {
+      "id": 48,
+      "question": "What is Avro format?",
+      "options": ["Row-based binary format with schema evolution", "Columnar format", "JSON format", "Text format"],
+      "correctAnswer": "Row-based binary format with schema evolution",
+      "explanation": "Avro is a row-based binary serialization format that supports schema evolution, making it suitable for data that changes over time."
+    },
+    {
+      "id": 49,
+      "question": "What is Protocol Buffers (protobuf)?",
+      "options": ["Binary serialization format by Google", "JSON format", "XML format", "CSV format"],
+      "correctAnswer": "Binary serialization format by Google",
+      "explanation": "Protocol Buffers is a language-neutral, platform-neutral binary serialization format developed by Google for efficient data interchange."
+    },
+    {
+      "id": 50,
+      "question": "What is a database index?",
+      "options": ["Data structure that improves query performance", "Primary key", "Foreign key", "Constraint"],
+      "correctAnswer": "Data structure that improves query performance",
+      "explanation": "A database index is a data structure that improves the speed of data retrieval operations on a database table."
+    },
+    {
+      "id": 51,
+      "question": "What is a primary key?",
+      "options": ["Unique identifier for each row in a table", "Index on a table", "Foreign key to another table", "Constraint on a column"],
+      "correctAnswer": "Unique identifier for each row in a table",
+      "explanation": "A primary key is a column (or set of columns) that uniquely identifies each row in a table and cannot contain null values."
+    },
+    {
+      "id": 52,
+      "question": "What is a foreign key?",
+      "options": ["Column that references primary key in another table", "Unique identifier", "Index on a table", "Constraint on a column"],
+      "correctAnswer": "Column that references primary key in another table",
+      "explanation": "A foreign key is a column (or set of columns) in one table that references the primary key in another table, establishing a relationship."
+    },
+    {
+      "id": 53,
+      "question": "What is normalization in databases?",
+      "options": ["Process of organizing data to reduce redundancy", "Process of combining tables", "Process of creating indexes", "Process of adding constraints"],
+      "correctAnswer": "Process of organizing data to reduce redundancy",
+      "explanation": "Normalization is the process of organizing data in a database to reduce redundancy and improve data integrity through a series of normal forms."
+    },
+    {
+      "id": 54,
+      "question": "What is denormalization in databases?",
+      "options": ["Process of combining tables to improve query performance", "Process of normalizing data", "Process of creating indexes", "Process of adding constraints"],
+      "correctAnswer": "Process of combining tables to improve query performance",
+      "explanation": "Denormalization is the process of combining tables and adding redundant data to improve query performance, typically at the cost of data integrity."
+    },
+    {
+      "id": 55,
+      "question": "What is a star schema vs snowflake schema?",
+      "options": ["Star has denormalized dimensions, snowflake has normalized", "Star has normalized dimensions, snowflake has denormalized", "Star has more tables", "Snowflake has fewer tables"],
+      "correctAnswer": "Star has denormalized dimensions, snowflake has normalized",
+      "explanation": "Star schema has denormalized dimension tables directly connected to the fact table, while snowflake schema has normalized dimension tables split into multiple tables."
+    },
+    {
+      "id": 56,
+      "question": "What is OLAP?",
+      "options": ["Online Analytical Processing for complex queries", "Online Transaction Processing", "Online Learning and Analytics", "Operational Analytics Processing"],
+      "correctAnswer": "Online Analytical Processing for complex queries",
+      "explanation": "OLAP (Online Analytical Processing) is a category of software tools that provide analysis of data for business decisions, typically involving complex queries and aggregations."
+    },
+    {
+      "id": 57,
+      "question": "What is OLTP?",
+      "options": ["Online Transaction Processing for transactional workloads", "Online Analytical Processing", "Online Learning and Transaction", "Operational Transaction Processing"],
+      "correctAnswer": "Online Transaction Processing for transactional workloads",
+      "explanation": "OLTP (Online Transaction Processing) handles transactional workloads involving small, fast operations like inserts, updates, and deletes."
+    },
+    {
+      "id": 58,
+      "question": "What is the difference between OLAP and OLTP?",
+      "options": ["OLAP for analytics, OLTP for transactions", "OLAP for transactions, OLTP for analytics", "Both for analytics", "Both for transactions"],
+      "correctAnswer": "OLAP for analytics, OLTP for transactions",
+      "explanation": "OLAP is optimized for analytical queries (complex, read-heavy), while OLTP is optimized for transactional operations (simple, write-heavy)."
+    },
+    {
+      "id": 59,
+      "question": "What is a data mart?",
+      "options": ["Subset of data warehouse for specific business function", "Entire data warehouse", "Collection of data lakes", "Data storage system"],
+      "correctAnswer": "Subset of data warehouse for specific business function",
+      "explanation": "A data mart is a subset of a data warehouse designed for a specific business function, team, or department."
+    },
+    {
+      "id": 60,
+      "question": "What is a conformed fact?",
+      "options": ["Fact used consistently across multiple data marts", "Fact with same name", "Fact with same value", "Fact with same measure"],
+      "correctAnswer": "Fact used consistently across multiple data marts",
+      "explanation": "A conformed fact is a fact that is used consistently across multiple data marts, ensuring the same meaning and calculation."
+    },
+    {
+      "id": 61,
+      "question": "What is a bus matrix in data warehousing?",
+      "options": ["Matrix showing relationship between business processes and dimensions", "Matrix showing data flows", "Matrix showing data volumes", "Matrix showing data types"],
+      "correctAnswer": "Matrix showing relationship between business processes and dimensions",
+      "explanation": "A bus matrix is a matrix that shows the relationship between business processes (rows) and dimensions (columns), helping to identify conformed dimensions and facts."
+    },
+    {
+      "id": 62,
+      "question": "What is a slowly changing dimension Type 6?",
+      "options": ["Combination of Type 1, 2, and 3", "Separate table", "Overwrite and track history", "Store current and previous values"],
+      "correctAnswer": "Combination of Type 1, 2, and 3",
+      "explanation": "Type 6 SCD combines aspects of Type 1 (overwrite), Type 2 (track history), and Type 3 (store previous value) approaches."
+    },
+    {
+      "id": 63,
+      "question": "What is a fact table with only foreign keys called?",
+      "options": ["Factless fact table", "Event tracking table", "Coverage table", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "A fact table with only foreign keys and no measures is called a factless fact table, also known as an event tracking table or coverage table."
+    },
+    {
+      "id": 64,
+      "question": "What is the purpose of a bridge table in dimensional modeling?",
+      "options": ["Handle multi-valued attributes", "Resolve many-to-many relationships", "Both A and B", "Connect dimensions"],
+      "correctAnswer": "Both A and B",
+      "explanation": "A bridge table handles multi-valued attributes and resolves many-to-many relationships between facts and dimensions."
+    },
+    {
+      "id": 65,
+      "question": "What is a heterogeneous SCD?",
+      "options": ["Different SCD types for different attributes", "Same SCD type for all attributes", "SCD for different dimensions", "SCD for different fact tables"],
+      "correctAnswer": "Different SCD types for different attributes",
+      "explanation": "A heterogeneous SCD uses different slowly changing dimension types (Type 1, 2, 3, etc.) for different attributes within the same dimension."
+    },
+    {
+      "id": 66,
+      "question": "What is a mini-dimension?",
+      "options": ["Separate dimension for frequently changing attributes", "Small dimension", "Normalized dimension", "Denormalized dimension"],
+      "correctAnswer": "Separate dimension for frequently changing attributes",
+      "explanation": "A mini-dimension is a separate dimension table created for attributes that change frequently, containing only the changing attributes with a foreign key back to the main dimension."
+    },
+    {
+      "id": 67,
+      "question": "What is a time dimension in data warehousing?",
+      "options": ["Dimension containing date and time attributes", "Dimension for time tracking", "Dimension for scheduling", "Dimension for timing"],
+      "correctAnswer": "Dimension containing date and time attributes",
+      "explanation": "A time dimension contains date and time attributes (day, month, year, quarter, day of week, etc.) used for time-based analysis."
+    },
+    {
+      "id": 68,
+      "question": "What is a role-playing dimension example?",
+      "options": ["Date dimension used as order date and ship date", "Customer dimension used twice", "Product dimension used multiple times", "All of the above"],
+      "correctAnswer": "Date dimension used as order date and ship date",
+      "explanation": "A role-playing dimension example is the date dimension used multiple times in a fact table with different roles (order date, ship date, delivery date)."
+    },
+    {
+      "id": 69,
+      "question": "What is the purpose of a snowflake schema?",
+      "options": ["Reduce data redundancy", "Improve query performance", "Both A and B", "Simplify schema"],
+      "correctAnswer": "Both A and B",
+      "explanation": "A snowflake schema reduces data redundancy by normalizing dimension tables, which can improve query performance by reducing the data volume."
+    },
+    {
+      "id": 70,
+      "question": "What is a junk dimension example?",
+      "options": ["Flags and indicators grouped together", "Customer attributes", "Product attributes", "Date attributes"],
+      "correctAnswer": "Flags and indicators grouped together",
+      "explanation": "A junk dimension example would be grouping together various flags and indicators (like promotion flag, discount flag, priority flag) that don't logically belong in other dimensions."
+    },
+    {
+      "id": 71,
+      "question": "What is a degenerate dimension example?",
+      "options": ["Invoice number stored in fact table", "Customer name", "Product description", "Date"],
+      "correctAnswer": "Invoice number stored in fact table",
+      "explanation": "A degenerate dimension example is an invoice number stored as an attribute in the fact table rather than in a separate dimension table."
+    },
+    {
+      "id": 72,
+      "question": "What is a fact table grain example?",
+      "options": ["Transaction-level fact table", "Daily-level fact table", "Monthly-level fact table", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "Fact table grain examples include transaction-level (each row is a transaction), daily-level (each row is daily summary), and monthly-level (each row is monthly summary)."
+    },
+    {
+      "id": 73,
+      "question": "What is the purpose of surrogate keys in dimensional modeling?",
+      "options": ["Provide stable, integer keys for joins", "Replace natural keys", "Ensure data integrity", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "Surrogate keys provide stable, integer keys for joins, replace potentially unstable natural keys, and help ensure data integrity in dimensional models."
+    },
+    {
+      "id": 74,
+      "question": "What is a bus schema in data warehousing?",
+      "options": ["Enterprise-wide dimensional model", "Star schema", "Snowflake schema", "Galaxy schema"],
+      "correctAnswer": "Enterprise-wide dimensional model",
+      "explanation": "A bus schema is an enterprise-wide dimensional model that integrates all business processes and dimensions across the organization."
+    },
+    {
+      "id": 75,
+      "question": "What is a conformed dimension example?",
+      "options": ["Date dimension used across all fact tables", "Customer dimension", "Product dimension", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "Conformed dimension examples include date, customer, and product dimensions that are used consistently across multiple fact tables."
+    },
+    {
+      "id": 76,
+      "question": "What is a Star Join Schema?",
+      "options": ["Star schema used for join operations", "Join between fact and dimension tables", "Schema for star-shaped queries", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "A Star Join Schema (or Star Schema) is used for join operations, particularly joins between fact tables and dimension tables, forming star-shaped query patterns."
+    },
+    {
+      "id": 77,
+      "question": "What is a Snowflake Join Schema?",
+      "options": ["Snowflake schema used for join operations", "Join between normalized dimensions", "Schema for snowflake-shaped queries", "All of the above"],
+      "correctAnswer": "All of the above",
+      "explanation": "A Snowflake Join Schema (or Snowflake Schema) is used for join operations in normalized dimensions, forming snowflake-shaped query patterns."
+    },
+    {
+      "id": 78,
+      "question": "What is a slowly changing dimension Type 5?",
+      "options": ["Type 1 and Type 4 combined", "Type 2 and Type 3 combined", "Type 1 and Type 2 combined", "Type 3 and Type 4 combined"],
+      "correctAnswer": "Type 1 and Type 4 combined",
+      "explanation": "Type 5 SCD combines Type 1 (overwrite) for the current value and Type 4 (history in separate table) for tracking history."
+    },
+    {
+      "id": 79,
+      "question": "What is a hierarchical dimension?",
+      "options": ["Dimension with parent-child relationships", "Flat dimension", "Normalized dimension", "Denormalized dimension"],
+      "correctAnswer": "Dimension with parent-child relationships",
+      "explanation": "A hierarchical dimension contains parent-child relationships (like geographic hierarchy: country > region > city, or organizational hierarchy: company > department > employee)."
+    },
+    {
+      "id": 80,
+      "question": "What is a fixed dimension in data warehousing?",
+      "options": ["Dimension with fixed, unchanging values", "Dimension that changes frequently", "Dimension that changes infrequently", "Dimension with variable values"],
+      "correctAnswer": "Dimension with fixed, unchanging values",
+      "explanation": "A fixed dimension (or static dimension) contains values that are fixed and unchanging over time, like date or time dimensions."
+    },
+    {
+      "id": 81,
+      "question": "What is a variable dimension?",
+      "options": ["Dimension with changing values", "Dimension with fixed values", "Dimension with no values", "Dimension with single value"],
+      "correctAnswer": "Dimension with changing values",
+      "explanation": "A variable dimension (or changing dimension) contains values that change over time, requiring slowly changing dimension techniques."
+    },
+    {
+      "id": 82,
+      "question": "What is a monster dimension?",
+      "options": ["Very large dimension with many attributes", "Small dimension", "Fast-changing dimension", "Static dimension"],
+      "correctAnswer": "Very large dimension with many attributes",
+      "explanation": "A monster dimension is a very large dimension with many attributes (e.g., 50+ columns), which can cause performance issues."
     }
   ]
 }
