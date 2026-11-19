@@ -51,22 +51,8 @@ indexHtmlContent = indexHtmlContent.replace(
 
 fs.writeFileSync(indexHtmlPath, indexHtmlContent);
 
-// Also fix manifest.webmanifest to use relative paths for scope and start_url
-const manifestPath = path.join(distDir, 'manifest.webmanifest');
-let manifestContent = fs.readFileSync(manifestPath, 'utf-8');
-
-// Fix scope from "/get-it/" to "./"
-manifestContent = manifestContent.replace(
-  /"scope": "\/get-it\/"/g,
-  '"scope": "./"'
-);
-
-// Fix start_url from "/get-it/" to "./"
-manifestContent = manifestContent.replace(
-  /"start_url": "\/get-it\/"/g,
-  '"start_url": "./"'
-);
-
-fs.writeFileSync(manifestPath, manifestContent);
+// Keep manifest.webmanifest with absolute paths for scope and start_url
+// (Chrome PWA detection requires absolute paths from origin for subdirectory deployments)
+// The HTML paths are relative, but manifest scope/start_url must be absolute
 
 console.log('Fixed service worker registration path, manifest link, and all asset paths for GitHub Pages deployment');
