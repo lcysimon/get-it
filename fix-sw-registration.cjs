@@ -10,9 +10,15 @@ const indexHtmlPath = path.join(distDir, 'index.html');
 
 // Fix registerSW.js
 let registerSWContent = fs.readFileSync(registerSWPath, 'utf-8');
+// Fix service worker path from absolute to relative
 registerSWContent = registerSWContent.replace(
   /navigator\.serviceWorker\.register\(\s*'\/get-it\/sw\.js'/g,
   "navigator.serviceWorker.register('./sw.js'"
+);
+// Fix scope from absolute to relative - use './' to match the current directory
+registerSWContent = registerSWContent.replace(
+  /\{ scope: '\/get-it\/' \}/g,
+  "{ scope: './' }"
 );
 fs.writeFileSync(registerSWPath, registerSWContent);
 
@@ -44,5 +50,23 @@ indexHtmlContent = indexHtmlContent.replace(
 );
 
 fs.writeFileSync(indexHtmlPath, indexHtmlContent);
+
+// Also fix manifest.webmanifest to use relative paths for scope and start_url
+const manifestPath = path.join(distDir, 'manifest.webmanifest');
+let manifestContent = fs.readFileSync(manifestPath, 'utf-8');
+
+// Fix scope from "/get-it/" to "./"
+manifestContent = manifestContent.replace(
+  /"scope": "\/get-it\/"/g,
+  '"scope": "./"'
+);
+
+// Fix start_url from "/get-it/" to "./"
+manifestContent = manifestContent.replace(
+  /"start_url": "\/get-it\/"/g,
+  '"start_url": "./"'
+);
+
+fs.writeFileSync(manifestPath, manifestContent);
 
 console.log('Fixed service worker registration path, manifest link, and all asset paths for GitHub Pages deployment');
