@@ -15,10 +15,11 @@ registerSWContent = registerSWContent.replace(
   /navigator\.serviceWorker\.register\(\s*'\/get-it\/sw\.js'/g,
   "navigator.serviceWorker.register('./sw.js'"
 );
-// Fix scope from absolute to relative - use './' to match the current directory
+// Fix scope to match manifest's absolute scope (/get-it/)
+// For GitHub Pages subdirectory, scope must be absolute to match manifest
 registerSWContent = registerSWContent.replace(
-  /\{ scope: '\/get-it\/' \}/g,
-  "{ scope: './' }"
+  /\{ scope: '(?:\.\/|\/get-it\/)' \}/g,
+  "{ scope: '/get-it/' }"
 );
 fs.writeFileSync(registerSWPath, registerSWContent);
 
