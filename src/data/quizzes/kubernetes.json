@@ -15,7 +15,7 @@
       ],
       "correctAnswer": "Pod",
       "explanation": "A Pod is the smallest deployable unit in Kubernetes. It can contain one or more containers that share storage, network, and specifications for how to run.",
-      "detailedAnswer": "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
+      "detailedAnswer": "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster.\n\nKey Characteristics:\n- Smallest deployable unit in Kubernetes\n- Can contain one or more containers that share the same Linux namespace\n- Containers in a Pod share: storage volumes, network namespace, and Linux namespaces\n- Each Pod gets its own unique IP address\n- Pods are ephemeral - they are created, run, and destroyed\n\nMulti-Container Pod Use Cases:\n1. Sidecar Pattern: Helper container that complements the main application\n2. Adapter Pattern: Transforms or standardizes output\n3. Ambassador Pattern: Acts as a proxy to external services\n4. Init Containers: Run before main containers for setup tasks\n\nNote: Direct container-to-container communication within a Pod uses localhost."
     },
     {
       "id": 2,
@@ -28,7 +28,7 @@
       ],
       "correctAnswer": "Kubelet",
       "explanation": "The Kubelet is an agent that runs on each node and ensures containers are running in a Pod as specified.",
-      "detailedAnswer": "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
+      "detailedAnswer": "The Kubelet is the primary node agent that runs on every node in a Kubernetes cluster.\n\nMain Responsibilities:\n1. Pod Management: Creates, updates, and destroys Pods\n2. Container Health Monitoring: Implements liveness and readiness probes\n3. Volume Management: Mounts and unmounts storage volumes\n4. Network Configuration: Works with CNI plugins for Pod networking\n5. Secret & ConfigMap Handling: Retrieves and provides to Pods\n6. Node Monitoring: Reports node status and resource usage\n\nWithout Kubelet, a node cannot participate in the cluster."
     },
     {
       "id": 3,
@@ -41,7 +41,7 @@
       ],
       "correctAnswer": "A declarative way to manage Pods and ReplicaSets",
       "explanation": "A Deployment provides declarative updates to Pods and ReplicaSets, enabling rolling updates, rollbacks, and scaling.",
-      "detailedAnswer": "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
+      "detailedAnswer": "A Deployment is a higher-level abstraction that manages ReplicaSets and provides declarative updates to Pods.\n\nKey Features:\n1. Declarative State Management\n2. Rolling Updates for zero-downtime deployments\n3. Rollback Capability to previous revisions\n4. Scaling: Easily scale replicas up or down\n5. Self-Healing: Automatically replaces failed Pods\n6. Revision History for rollback\n\nDeployment manages a ReplicaSet, which in turn manages Pods."
     },
     {
       "id": 4,
@@ -54,7 +54,7 @@
       ],
       "correctAnswer": "Service",
       "explanation": "A Service provides a stable cluster IP address and DNS name for accessing a set of Pods, abstracting away individual Pod IPs.",
-      "detailedAnswer": "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
+      "detailedAnswer": "A Service provides a stable, persistent identity for a set of Pods. This is crucial because Pods are ephemeral - they can be created, destroyed, and rescheduled at any time, which means their IP addresses can change.\n\nTypes of Services:\n1. ClusterIP (default): Creates an internal virtual IP that is only accessible within the cluster. Ideal for internal microservices communication.\n2. NodePort: Exposes the Service on a static port on each node's IP address. Accessible from outside the cluster via NodeIP:NodePort.\n3. LoadBalancer: Creates an external load balancer in supported cloud environments (AWS, GCP, Azure). Assigns an external IP that routes to the Service.\n4. ExternalName: Maps to an external DNS name (CNAME record). Useful for directing traffic to services outside the cluster.\n\nService Discovery:\nKubernetes automatically creates DNS records for Services. Pods can access Services using: <service-name>.<namespace>.svc.cluster.local (cross-namespace) or <service-name> (same namespace).\n\nSelectors: Services use label selectors to determine which Pods receive traffic. A Service without a selector requires manual endpoint configuration."
     },
     {
       "id": 5,
@@ -67,7 +67,7 @@
       ],
       "correctAnswer": "kubectl scale deployment <name> --replicas=5",
       "explanation": "The kubectl scale command changes the number of replicas in a Deployment, ReplicaSet, or other scalable resources.",
-      "detailedAnswer": "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
+      "detailedAnswer": "The kubectl scale command is the most straightforward way to adjust the number of replicas for scalable resources like Deployments, ReplicaSets, StatefulSets, and ReplicationControllers.\n\nBasic Syntax: kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nExample: kubectl scale deployment my-app --replicas=5\n\nHow It Works:\n1. Updates the spec.replicas field in the specified resource\n2. The controller (ReplicaSet controller for Deployments) observes this change\n3. Creates new Pods or deletes existing Pods to match the new desired count\n4. The change is almost instantaneous once the command completes\n\nAlternative Methods:\n1. kubectl edit: Opens the resource in your default editor\n2. kubectl patch: Use JSON patch to update specific fields\n3. kubectl apply: Apply a modified manifest file\n\nNote: The actual scaling speed depends on how long it takes to pull container images and start new Pods."
     },
     {
       "id": 6,
@@ -80,7 +80,7 @@
       ],
       "correctAnswer": "Container",
       "explanation": "Container is a Docker concept. Kubernetes works with Pods (which contain containers), not directly with containers.",
-      "detailedAnswer": "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
+      "detailedAnswer": "This is a fundamental concept that distinguishes Kubernetes from container runtime systems like Docker.\n\nContainers: A standard concept from Docker/OCI. They are running processes with isolated filesystem, network, and process space. Created from container images and managed by container runtimes.\n\nPods: A Kubernetes-specific abstraction and the smallest deployable unit. They can contain one or more containers that share resources (storage volumes, network namespace, Linux namespaces). Each Pod gets its own IP address and hostname.\n\nKey Relationship: Kubernetes does NOT directly manage containers. Instead, Kubernetes manages Pods, which contain containers. This design allows Kubernetes to provide value-added features like shared volumes, shared network namespace, coordinated lifecycle, and resource sharing/limits.\n\nWhy This Design Matters: The Pod abstraction enables important patterns like Sidecar, Adapter, Ambassador, and Init Containers. Without it, Kubernetes would be just a container orchestration tool."
     },
     {
       "id": 7,
@@ -93,7 +93,7 @@
       ],
       "correctAnswer": "Store configuration data as key-value pairs",
       "explanation": "ConfigMaps store configuration data in key-value pairs, allowing you to decouple configuration from application code.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a configmap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "ConfigMaps are designed to separate configuration from application code, following the 12-factor app methodology. This makes applications more portable and easier to manage.\n\nKey Features: Store configuration as key-value pairs. Can be consumed as environment variables, command-line arguments, configuration files in volumes, or via the Kubernetes API. Can be updated without rebuilding container images.\n\nWhen to Use: Environment-specific configuration, application settings, configuration files, command-line arguments, non-sensitive data. For sensitive data like passwords, use Secrets instead.\n\nCreating ConfigMaps:\n1. Imperative: kubectl create configmap my-config --from-literal=KEY=VALUE\n2. From files: kubectl create configmap my-config --from-file=config.properties\n3. Declarative: Define in YAML manifest with apiVersion: v1, kind: ConfigMap, and data section.\n\nImportant: ConfigMaps store data in plain text. Always use Secrets for sensitive information."
     },
     {
       "id": 8,
@@ -106,7 +106,7 @@
       ],
       "correctAnswer": "ReplicaSet",
       "explanation": "A ReplicaSet ensures that a specified number of Pod replicas are running at any given time.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of which controller ensures desired pod count?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "ReplicaSets ensure that a specified number of Pod replicas are running at any given time. This provides high availability and reliability for your applications.\n\nHow ReplicaSets Work: You define a ReplicaSet with a Pod template, label selectors, and replica count. The ReplicaSet controller continuously monitors Pods and creates or deletes them to match the desired count.\n\nKey Features: Maintains a stable set of Pod replicas, ensures high availability (if Pods crash, new ones are created), can be scaled up or down, self-healing (automatically replaces failed Pods).\n\nExample: A ReplicaSet with 3 replicas will ensure 3 Pods are always running. If one crashes, a new one is created automatically.\n\nImportant: While ReplicaSets can be used directly, Deployments are the recommended higher-level abstraction because they provide rolling updates, rollbacks, and declarative configuration changes."
     },
     {
       "id": 9,
@@ -119,7 +119,7 @@
       ],
       "correctAnswer": "External HTTP(S) access to Services",
       "explanation": "Ingress provides external HTTP(S) access to Services in a cluster, typically with path-based routing and TLS termination.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does ingress provide?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Ingress provides external HTTP and HTTPS access to Services in a Kubernetes cluster, acting as a reverse proxy and load balancer.\n\nWhy Ingress is Needed: Services are internal to the cluster by default. NodePort lacks advanced routing. LoadBalancer can be expensive. Ingress provides a unified, flexible way to expose Services externally.\n\nKey Features: HTTP(S) routing based on hostnames and paths, SSL/TLS termination, load balancing across backend Pods, name-based virtual hosting. Works with various Ingress Controllers (NGINX, Traefik, HAProxy, AWS ALB, GCE, Istio).\n\nHow It Works: You define Ingress rules, an Ingress Controller implements them, external traffic hits the Ingress Controller, which routes requests to appropriate Services.\n\nExample: An Ingress can route example.com to one Service and api.example.com to another Service, with path-based routing like /api to backend Service.\n\nImportant: Ingress requires an Ingress Controller to be installed in your cluster. The Kubernetes project only provides the API; you must deploy a controller that implements it."
     },
     {
       "id": 10,
@@ -132,7 +132,7 @@
       ],
       "correctAnswer": "YAML",
       "explanation": "Kubernetes manifests are typically written in YAML format (though JSON is also supported). YAML is more human-readable.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what file format is used for kubernetes manifests?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Kubernetes manifests define the desired state of your applications and infrastructure in a declarative format.\n\nYAML Format: Most commonly used because it is human-readable, supports comments, uses indentation for nesting, and is more compact for hierarchical data.\n\nJSON Format: Also fully supported. May be preferable when manifests are generated programmatically or need to be processed with standard JSON tools.\n\nBest Practices: Use YAML for most manifests (human-readable). Use consistent indentation (2 spaces). Add comments to explain complex configurations. Use JSON for programmatically generated manifests. Store manifests in version control. Consider using Helm or Kustomize for complex applications.\n\nBoth formats are equivalent and can be converted between each other using tools like yq or jq."
     },
     {
       "id": 11,
@@ -145,7 +145,7 @@
       ],
       "correctAnswer": "Divides cluster resources between users/teams/applications",
       "explanation": "Namespaces provide a mechanism to divide cluster resources and can be used for isolation and organization.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a namespace?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Namespaces provide a mechanism to divide cluster resources between multiple users, teams, or applications. They act as virtual clusters backed by the same physical cluster.\n\nKey Features: Logical partitioning of resources, isolation (resources in one namespace are separate from others), can have their own policies and quotas, useful for organizing and isolating workloads.\n\nCommon Use Cases: Multi-tenant clusters (different teams), environment isolation (dev, staging, production), application isolation (microservices), testing (temporary namespaces).\n\nDefault Namespaces:\n- default: Default namespace for objects with no other namespace specified\n- kube-system: Namespace for objects created by the Kubernetes system\n- kube-public: Read-only namespace for cluster-wide information\n- kube-node-lease: Heartbeat objects for node leases\n\nCommands:\n- kubectl create namespace <name>\n- kubectl get pods -n <namespace>\n- kubectl config set-context --current --namespace=<namespace>\n\nNote: Not all objects are in a namespace. Node, PersistentVolume, StorageClass, and CustomResourceDefinition are cluster-scoped (not namespace-scoped)."
     },
     {
       "id": 12,
@@ -158,7 +158,7 @@
       ],
       "correctAnswer": "Manages stateful apps with stable, persistent identities for Pods",
       "explanation": "StatefulSets manage the deployment and scaling of Pods and provide guarantees about the ordering and uniqueness of these Pods.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a statefulset?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "StatefulSets manage the deployment and scaling of stateful applications and provide guarantees about the ordering and uniqueness of Pods.\n\nKey Features: Stable, persistent identities for Pods (hostname, network identity, storage). Ordered deployment and scaling (Pods are created sequentially). Ordered termination (Pods are terminated in reverse order). Stable storage (each Pod gets its own PersistentVolume that persists across rescheduling). Each Pod has a unique, stable name: <statefulset-name>-<ordinal>.\n\nUse Cases: Databases (MySQL, PostgreSQL, MongoDB), distributed systems that require stable identities, applications that need persistent, ordered deployment, stateful applications like Kafka, ZooKeeper, etcd.\n\nComparison with Deployments:\n- Deployments: stateless apps, Pods are interchangeable, random naming\n- StatefulSets: stateful apps, Pods have stable identities, ordered operations\n\nExample: A StatefulSet with 3 replicas will have Pods named web-0, web-1, web-2. web-0 is created first and must be Running and Ready before web-1 is created.\n\nImportant: StatefulSets require a headless Service (ClusterIP: None) for DNS management."
     },
     {
       "id": 13,
@@ -171,7 +171,7 @@
       ],
       "correctAnswer": "Runs exactly one Pod per node",
       "explanation": "A DaemonSet ensures that a copy of a Pod runs on all (or some) nodes in the cluster.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a daemonset?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "DaemonSets ensure that a copy of a Pod runs on all (or some) nodes in the cluster.\n\nKey Features: Runs exactly one Pod per node. Automatic deployment to new nodes as they are added. Pods are created with a well-known naming convention.\n\nCommon Use Cases: Cluster logging agents (Fluentd, Filebeat), monitoring agents (Prometheus Node Exporter, Datadog Agent), networking (kube-proxy, Calico, Weave), storage daemons (Ceph, GlusterFS), security agents.\n\nHow It Works: The DaemonSet controller watches for new nodes. When a new node is added, the controller creates a Pod on that node. When a node is removed, the corresponding Pod is garbage collected.\n\nExample: A DaemonSet for Fluentd will ensure every node in the cluster has a Fluentd Pod for log collection.\n\nComparison with Deployments: Deployments scale Pods to a specific number, DaemonSets ensure one Pod per node.\n\nNote: DaemonSets can use node selectors, taints and tolerations to control which nodes get Pods."
     },
     {
       "id": 14,
@@ -184,7 +184,7 @@
       ],
       "correctAnswer": "kubectl get pods -A",
       "explanation": "The -A or --all-namespaces flag displays resources from all namespaces.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what lists all pods in all namespaces?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "To list all Pods across all namespaces, use the -A or --all-namespaces flag with kubectl get pods.\n\nCorrect Command: kubectl get pods -A\n\nBreakdown: kubectl is the command-line tool, get retrieves information, pods is the resource type, -A or --all-namespaces shows resources from all namespaces.\n\nAlternative Commands:\n- kubectl get pods --all-namespaces (same as -A)\n- kubectl get pods -n default (specific namespace)\n- kubectl get pods (current namespace context)\n\nExamples:\n- List all Pods in all namespaces: kubectl get pods -A\n- List all Pods with more details: kubectl get pods -A -o wide\n- List all resources in all namespaces: kubectl get all -A\n\nOutput Format: The -o flag controls output format:\n- Default: basic information\n- wide: includes node and IP\n- json: full JSON output\n- yaml: YAML output\n- custom-columns: custom columns\n\nNote: Without -A or -n, kubectl uses the current namespace context."
     },
     {
       "id": 15,
@@ -197,7 +197,7 @@
       ],
       "correctAnswer": "Piece of storage provisioned by admin",
       "explanation": "A PersistentVolume is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is persistentvolume (pv)?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes.\n\nKey Characteristics: Independent of Pods (exists separately from Pod lifecycle). Can be manually or dynamically provisioned. Has a lifecycle: Available, Bound, Released, Failed. Access modes: ReadWriteOnce, ReadOnlyMany, ReadWriteMany. Reclaim policies: Retain, Delete, Recycle.\n\nTypes: HostPath (file or directory on the node), NFS (Network File System), Cloud storage (AWS EBS, GCP PD, Azure Disk), Distributed storage (Ceph, GlusterFS, Portworx).\n\nProvisioning Modes:\n- Static: administrator manually creates PVs\n- Dynamic: PVs are created automatically when a PVC requests storage\n\nExample: A PV could be a 5Gi AWS EBS volume that persists independently of any Pod using it.\n\nImportant: PVs are cluster-wide resources, not namespace-scoped."
     },
     {
       "id": 16,
@@ -210,7 +210,7 @@
       ],
       "correctAnswer": "Request for storage by a user",
       "explanation": "A PersistentVolumeClaim is a request for storage by a user. It's similar to a Pod consuming node resources.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is persistentvolumeclaim (pvc)?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod consuming node resources.\n\nKey Characteristics: Namespace-scoped (unlike PV which is cluster-scoped). Requests specific size and access modes. Can specify storage class. Status: Pending, Bound, Lost, etc.\n\nHow It Works: User creates a PVC requesting storage, Kubernetes looks for a PV that matches the PVC requirements, PVC binds to a suitable PV, Pod uses the PVC as a volume.\n\nExample PVC: Requests 3Gi storage with ReadWriteOnce access mode from the manual storage class.\n\nAccess Modes:\n- ReadWriteOnce (RWO): read-write by a single node\n- ReadOnlyMany (ROX): read-only by many nodes\n- ReadWriteMany (RWX): read-write by many nodes\n\nBinding: Static binding (PVC binds to existing PV) or Dynamic binding (PVC triggers creation of new PV).\n\nImportant: Once bound, PVC and PV have a 1:1 relationship."
     },
     {
       "id": 17,
@@ -223,7 +223,7 @@
       ],
       "correctAnswer": "Runs Pod that exits after completing work",
       "explanation": "A Job creates one or more Pods and ensures that a specified number of them successfully terminate.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a job?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Job creates one or more Pods and ensures that a specified number of them successfully terminate.\n\nKey Characteristics: Runs to completion (batch processing). Pods run until successful termination. Creates new Pods if previous ones fail. Completion: when specified number of Pods terminate successfully.\n\nUse Cases: Batch processing, data migration, backups, one-time tasks, cron jobs (via CronJob).\n\nExample Job: A Pod that calculates pi to 2000 digits using Perl.\n\nTypes of Jobs:\n1. Non-parallel Jobs: single Pod\n2. Parallel Jobs with fixed completion count: multiple Pods, all must succeed\n3. Parallel Jobs with work queue: multiple Pods, completion based on queue\n\nCommands:\n- kubectl get jobs\n- kubectl describe job <name>\n- kubectl logs job/<name>\n- kubectl delete job <name>\n\nNote: Jobs create Pods with restartPolicy: Never or OnFailure."
     },
     {
       "id": 18,
@@ -236,7 +236,7 @@
       ],
       "correctAnswer": "Job that runs on time-based schedule",
       "explanation": "A CronJob creates Jobs on a time-based schedule, written in Cron format.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a cronjob?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A CronJob creates Jobs on a time-based schedule, similar to the cron utility in Unix-like operating systems.\n\nKey Characteristics: Creates Jobs on a time schedule. Scheduling uses cron syntax. Each Job creates Pods. Retention: keeps completed and failed Jobs based on history limits.\n\nCron Syntax: Minute (0-59), Hour (0-23), Day of month (1-31), Month (1-12), Day of week (0-6, Sunday=0).\n\nExample: Schedule \"*/5 * * * *\" means every 5 minutes.\n\nCommon Schedules:\n- Every minute: \"* * * * *\"\n- Every 5 minutes: \"*/5 * * * *\"\n- Every hour: \"0 * * * *\"\n- Every day at midnight: \"0 0 * * *\"\n- Every Sunday at 3 AM: \"0 3 * * 0\"\n\nExample CronJob: Runs a script every 5 minutes that prints the date and a hello message.\n\nCommands:\n- kubectl get cronjobs\n- kubectl describe cronjob <name>\n- kubectl get jobs --watch (watch Jobs created by CronJob)\n\nNote: Time zone is based on the Kubernetes master's time zone."
     },
     {
       "id": 19,
@@ -249,7 +249,7 @@
       ],
       "correctAnswer": "Auto-scales Pods based on CPU/memory",
       "explanation": "HPA automatically adjusts the number of Pods in a Deployment, ReplicaSet, or StatefulSet based on observed CPU/memory usage.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is horizontalpodautoscaler (hpa)?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Horizontal Pod Autoscaler (HPA) automatically adjusts the number of Pods in a Deployment, ReplicaSet, or StatefulSet based on observed CPU/memory usage or custom metrics.\n\nKey Characteristics: Scales workloads horizontally. Default metric: CPU utilization percentage. Can use memory or custom metrics. Can specify minimum and maximum number of replicas. Works with metrics from the Metrics Server or custom metrics.\n\nHow It Works: HPA controller checks metrics at regular intervals (default: 15 seconds), compares current metrics with target values, calculates desired number of replicas, updates the workload's replica count.\n\nExample HPA: Maintains between 1 and 10 replicas of a Deployment with a target CPU utilization of 50%.\n\nMetrics Types:\n1. Resource: CPU, memory\n2. Pods: metrics from Pods\n3. Object: metrics from other objects\n4. External: metrics from external sources\n\nScaling Behavior: Scale up happens quickly based on current usage vs target. Scale down happens more slowly to prevent thrashing. Stabilization window prevents rapid scale fluctuations.\n\nCommands:\n- kubectl get hpa\n- kubectl describe hpa <name>\n- kubectl top pods (view metrics)\n\nNote: HPA requires the Metrics Server to be installed in the cluster."
     },
     {
       "id": 20,
@@ -262,7 +262,7 @@
       ],
       "correctAnswer": "Controls network traffic to/from Pods",
       "explanation": "NetworkPolicy defines rules for ingress and/or egress traffic from and to the Pods selected by the policy.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is networkpolicy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "NetworkPolicy is an application-centric construct that lets you control the network traffic to and from your Pods. It defines a set of rules that specify which traffic is allowed to and from Pods.\n\nKey Features: Controls ingress and/or egress traffic to/from Pods. Operates at Layer 3 (IP) and Layer 4 (port). Can target specific Pods using label selectors.\n\nWhy Network Policies are Needed: By default, Pods in Kubernetes can communicate with all other Pods without restrictions. Network Policies provide a way to implement a zero-trust security model.\n\nUse Cases: Isolate sensitive Pods (databases), restrict traffic between microservices, implement multi-tier application security, prevent lateral movement in case of compromise.\n\nExample NetworkPolicy:\n- Allow traffic from Pods with label app=frontend to Pods with label app=backend on port 8080\n- Block all other traffic to backend Pods\n- Allow egress from database Pods only to specific storage services\n\nNetwork Policy Controllers: Kubernetes provides the API, but you need a network plugin that implements NetworkPolicy. Options include: Calico, Cilium, Weave Net, kube-router, etc.\n\nDefault Behavior: If no NetworkPolicies exist in a namespace, all traffic is allowed. If any NetworkPolicies exist, only traffic allowed by the policies is permitted.\n\nImportant: NetworkPolicies are enforced by the network plugin, not by Kubernetes itself. You must have a compatible CNI plugin installed."
     },
     {
       "id": 21,
@@ -275,7 +275,7 @@
       ],
       "correctAnswer": "Manages cluster state and coordinates workloads",
       "explanation": "The Control Plane (formerly Master) manages the cluster state, coordinates workloads, and makes global decisions about the cluster.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the control plane in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The Control Plane is the management layer of Kubernetes. It controls the entire cluster and makes global decisions. Components: API Server (front-end, handles all requests), etcd (distributed key-value store for cluster state), Controller Manager (runs controller loops), Scheduler (assigns Pods to Nodes). The API Server is the only component clients interact with directly. All other components communicate through it. For high availability, Control Plane components should run on multiple machines."
     },
     {
       "id": 22,
@@ -288,7 +288,7 @@
       ],
       "correctAnswer": "API Server, etcd, Controller Manager, Scheduler",
       "explanation": "The Control Plane consists of: API Server (entry point), etcd (key-value store), Controller Manager (runs controllers), and Scheduler (assigns Pods to Nodes).",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what are the components of the control plane?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The Control Plane consists of: 1) API Server - exposes REST API, handles all requests, only component that writes to etcd. 2) etcd - distributed key-value store, source of truth for cluster state. 3) Controller Manager - runs controller loops (Node Controller, ReplicaSet Controller, Deployment Controller, etc.) that watch cluster state and make changes. 4) Scheduler - watches for new Pods and assigns them to Nodes based on resources, constraints, and policies. These can run on a single node or distributed across nodes."
     },
     {
       "id": 23,
@@ -301,7 +301,7 @@
       ],
       "correctAnswer": "Distributed key-value store for cluster state",
       "explanation": "etcd is a distributed, consistent key-value store that stores the cluster state and configuration.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is etcd in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "etcd is the distributed key-value store for Kubernetes. It stores all cluster data, configuration, and state. Characteristics: distributed (multiple nodes for redundancy), consistent (all nodes have same data view), highly available (automatic leader election), secure (TLS, RBAC), fast (low-latency). The API Server is the only component that writes to etcd. All other components read through the API Server. Regular backups are critical. etcd is the source of truth - if it goes down, the API Server cannot function."
     },
     {
       "id": 24,
@@ -314,7 +314,7 @@
       ],
       "correctAnswer": "Front-end for the Control Plane",
       "explanation": "The API Server is the front-end for the Kubernetes Control Plane, exposing the Kubernetes API via REST.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the api server in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The API Server is the front-end for the Kubernetes control plane. It handles all REST API requests. Key functions: authentication (X.509, tokens, OIDC), authorization (RBAC, ABAC, Webhook), admission control (validates and modifies requests), validation, persistence (writes to etcd), watch mechanism. It is stateless - state is stored in etcd. Can be scaled horizontally. All instances share the same etcd backend. It is the only component that kubectl and other clients interact with directly."
     },
     {
       "id": 25,
@@ -327,7 +327,7 @@
       ],
       "correctAnswer": "Runs controller loops that watch cluster state",
       "explanation": "The Controller Manager runs controller loops that watch the shared state of the cluster and make changes to drive the current state towards the desired state.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the controller manager?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The Controller Manager runs control loops that watch cluster state through the API Server and make changes to reach desired state. Key built-in controllers: Node Controller, ReplicaSet Controller, Deployment Controller, StatefulSet Controller, DaemonSet Controller, Job Controller, CronJob Controller, Service Controller, PV Controller, Namespace Controller. It runs in a loop, detecting discrepancies and taking action. Can be run as single or multiple processes for redundancy."
     },
     {
       "id": 26,
@@ -340,7 +340,7 @@
       ],
       "correctAnswer": "Assigns Pods to Nodes based on resource availability",
       "explanation": "The Scheduler watches for newly created Pods and assigns them to Nodes based on resource availability, constraints, and other factors.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the scheduler in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The Scheduler assigns newly created Pods to Nodes. It evaluates Node suitability using predicates (filtering) and priorities (scoring). Process: 1) Watch for new Pods with no Node, 2) Gather Node info, 3) Filter unsuitable Nodes, 4) Score remaining Nodes, 5) Select highest-scoring Node, 6) Bind Pod to Node. Scheduling criteria: resource requirements, selectors, affinity/anti-affinity, taints/tolerations, topology constraints, volume constraints, Node conditions. Important: The Scheduler only decides which Node - the Kubelet on that Node actually starts the Pod."
     },
     {
       "id": 27,
@@ -353,7 +353,7 @@
       ],
       "correctAnswer": "Machines that run application workloads",
       "explanation": "Worker Nodes (formerly Minions) are the machines that run the application workloads (containers in Pods).",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what are worker nodes in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Worker Nodes run application workloads. Key components: Kubelet (primary node agent, manages Pods), Container Runtime (runs containers - containerd, Docker, CRI-O), Kube-proxy (network proxy for Services). Node requirements: compatible OS, container runtime, Kubelet, Kube-proxy, networking, sufficient resources. Node management: can add/remove Nodes, taint Nodes, label Nodes. Node conditions: Ready, MemoryPressure, DiskPressure, PIDPressure. Commands: kubectl get nodes, kubectl describe node, kubectl drain/cordon/uncordon."
     },
     {
       "id": 28,
@@ -366,7 +366,7 @@
       ],
       "correctAnswer": "Agent that runs on each Node and communicates with Control Plane",
       "explanation": "The Kubelet is an agent that runs on each Node and ensures containers are running in a Pod, communicating with the Control Plane.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the kubelet?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The Kubelet is the primary node agent. Main responsibilities: Pod management (creates, updates, destroys Pods based on PodSpecs), container health monitoring (liveness/readiness probes), volume management (mounts/unmounts volumes), network configuration (CNI plugins), Secret/ConfigMap handling, resource monitoring, image management (pulls images), container lifecycle management. It communicates with API Server (receives PodSpecs, reports status) and container runtime (via CRI). Without Kubelet, a Node cannot participate in the cluster."
     },
     {
       "id": 29,
@@ -379,7 +379,7 @@
       ],
       "correctAnswer": "Network proxy that runs on each Node",
       "explanation": "Kube-proxy is a network proxy that runs on each Node and implements the Kubernetes Service concept, providing load balancing and routing.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the kube-proxy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Kube-proxy is a network proxy running on each Node. It implements Service networking. Key responsibilities: maintains network rules for Services/Endpoints, implements load balancing, configures network rules. Proxy modes: userspace (slowest, user-space processing), iptables (faster, uses iptables rules), ipvs (best performance, uses IPVS). It watches API Server for new Services/Endpoints and creates appropriate network rules. Runs as a DaemonSet (one Pod per Node). Required for Kubernetes Service concept to work."
     },
     {
       "id": 30,
@@ -392,7 +392,7 @@
       ],
       "correctAnswer": "Software responsible for running containers",
       "explanation": "The Container Runtime is the software responsible for running containers (e.g., Docker, containerd, CRI-O).",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a container runtime?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Container Runtime executes containers. Options: containerd (lightweight, standalone, recommended), Docker (original, includes daemon/CLI), CRI-O (focused on CRI, optimized for Kubernetes). CRI (Container Runtime Interface) is the standard API for runtimes to communicate with Kubernetes. The Kubelet communicates with container runtimes via CRI. Multiple runtimes can be used in the same cluster. As of Kubernetes 1.24, Docker is no longer supported - containerd or CRI-O are recommended."
     },
     {
       "id": 31,
@@ -405,7 +405,7 @@
       ],
       "correctAnswer": "Container Runtime Interface",
       "explanation": "CRI (Container Runtime Interface) is the API that the Kubelet uses to communicate with container runtimes.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is cri?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "CRI (Container Runtime Interface) is an API that allows the Kubelet to communicate with different container runtimes. It defines a standard protocol for container runtimes to implement, making Kubernetes runtime-agnostic. Before CRI, the Kubelet had direct integration with Docker. CRI decouples this, allowing any compatible runtime to be used. Key CRI operations: RunPodSandbox, StopPodSandbox, CreateContainer, StartContainer, StopContainer, RemoveContainer, PullImage, etc. This abstraction enables: runtime pluggability, multiple runtime support in the same cluster, and easier adoption of new container technologies."
     },
     {
       "id": 32,
@@ -418,7 +418,7 @@
       ],
       "correctAnswer": "Container Network Interface",
       "explanation": "CNI (Container Network Interface) is a standard for configuring networking in containerized environments.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is cni?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "CNI (Container Network Interface) is a standard interface for configuring network connectivity for containers. It is used by Kubernetes to provide networking for Pods. CNI plugins handle: Pod IP address assignment, Pod-to-Pod networking, Pod-to-Service networking, external connectivity. CNI is based on a simple plugin architecture where each plugin is an executable that implements the CNI specification. Popular CNI plugins: Calico, Cilium, Weave Net, Flannel, kube-router, AWS VPC CNI, GCP Networking. How it works: When a Pod is created, the Kubelet calls the CNI plugin to set up the Pod network namespace, assign an IP address, and configure network rules."
     },
     {
       "id": 33,
@@ -431,7 +431,7 @@
       ],
       "correctAnswer": "Container Storage Interface",
       "explanation": "CSI (Container Storage Interface) is a standard for exposing storage systems to containerized workloads.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is csi?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "CSI (Container Storage Interface) is a standard interface for exposing storage systems to containerized workloads. It allows storage vendors to develop plugins that work with Kubernetes without modifying the core Kubernetes code. CSI defines a set of RPC (Remote Procedure Call) endpoints that a storage provider implements. Key CSI operations: CreateVolume, DeleteVolume, AttachVolume, DetachVolume, PublishVolume (make volume available at a path), UnpublishVolume. CSI plugins can be: in-tree (built into Kubernetes) or out-of-tree (external). Popular CSI plugins: AWS EBS CSI Driver, GCP Persistent Disk CSI Driver, Azure Disk CSI Driver, Ceph CSI, etc. Benefits: storage vendor flexibility, out-of-tree development, standardized interface."
     },
     {
       "id": 34,
@@ -444,7 +444,7 @@
       ],
       "correctAnswer": "Smallest deployable unit, one or more containers with shared resources",
       "explanation": "A Pod is the smallest deployable unit in Kubernetes, containing one or more containers that share the same network namespace, storage, and specifications.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a pod in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Pod is the smallest deployable unit in Kubernetes. It represents a single instance of a running process in your cluster. Key characteristics: can contain one or more containers that share the same Linux namespace (PID, network, IPC), containers share storage volumes, each Pod has a unique IP address and hostname, Pods are ephemeral (created, run, destroyed), Pods are the atomic unit of scheduling. Pods provide a higher-level abstraction than containers, enabling Kubernetes to provide value-added features like shared volumes, coordinated lifecycle management, and resource sharing between containers."
     },
     {
       "id": 35,
@@ -457,7 +457,7 @@
       ],
       "correctAnswer": "Pod with multiple containers that work together",
       "explanation": "A multi-container Pod contains multiple containers that work together, typically with one main container and sidecar containers that provide supporting functionality.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a multi-container pod?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A multi-container Pod contains two or more containers that work together to accomplish a task. Containers in the same Pod: share the same network namespace (can communicate via localhost), share the same storage volumes, have the same lifecycle (created together, destroyed together), run on the same Node. Use cases for multi-container Pods: Sidecar pattern (helper container that complements main app), Adapter pattern (transforms or standardizes output), Ambassador pattern (acts as a proxy), Init containers (run once before main containers for setup). Examples: log shipper sidecar, monitoring agent, configuration reloader."
     },
     {
       "id": 36,
@@ -470,7 +470,7 @@
       ],
       "correctAnswer": "Helper container that runs alongside main container",
       "explanation": "A sidecar container is a helper container that runs alongside the main container in a Pod, providing supporting functionality like logging, monitoring, or networking.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a sidecar container?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A sidecar container is a helper container that runs alongside the main application container in the same Pod. It complements or enhances the main application without being part of it. Key characteristics: runs in the same Pod as the main container, shares network and storage with the main container, can communicate via localhost. Common sidecar patterns: Log collection (Fluentd, Filebeat), Monitoring (Prometheus Node Exporter, Datadog Agent), Security (authentication, encryption), Network proxy (service mesh sidecars like Istio, Linkerd), Synchronization (sync data between main app and external systems). Benefits: separation of concerns, modularity, reusability."
     },
     {
       "id": 37,
@@ -483,7 +483,7 @@
       ],
       "correctAnswer": "Container that runs before app containers to set up Pod",
       "explanation": "Init containers are specialized containers that run before app containers in a Pod to perform setup tasks like configuration, data loading, or dependency checks.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is an init container?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "An init container is a special container that runs before the main application containers in a Pod. Init containers always run to completion and must exit successfully before the main containers can start. Key characteristics: run before app containers, run sequentially (one after another), must all succeed for Pod to be ready, can have different image, resources, and security context than app containers. Use cases: setup tasks (download configuration, initialize databases, clone repositories), waiting for dependencies (wait for a service to be ready), security checks (validate environment before app starts), data preprocessing. Example: A Pod with an init container that downloads configuration files from a secure server before the app container starts."
     },
     {
       "id": 38,
@@ -496,7 +496,7 @@
       ],
       "correctAnswer": "Checks if container is running and healthy",
       "explanation": "A Liveness Probe indicates whether a container is running and healthy. If the probe fails, the container is restarted.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a liveness probe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Liveness Probe is a health check that determines if a container is running correctly. If the liveness probe fails, Kubernetes restarts the container. This helps recover from states that cannot be recovered from automatically (e.g., deadlocks, memory leaks causing crashes). Types of liveness probes: 1) HTTP probe: makes an HTTP request to a specified endpoint, 2) TCP probe: tries to open a TCP connection to a specified port, 3) Command probe: executes a command in the container and checks its exit code, 4) gRPC probe (new): makes a gRPC call. Configuration includes: initial delay, period (how often to check), timeout, success threshold, failure threshold."
     },
     {
       "id": 39,
@@ -509,7 +509,7 @@
       ],
       "correctAnswer": "Checks if container is ready to serve traffic",
       "explanation": "A Readiness Probe indicates whether the container is ready to respond to requests. If the probe fails, the container is removed from Service endpoints.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a readiness probe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Readiness Probe is a health check that determines if a container is ready to receive traffic. If the readiness probe fails, the container is removed from Service endpoints (Service load balancers will not send traffic to that Pod). This is useful for preventing traffic from being sent to Pods that are still initializing or are temporarily unavailable. Types of readiness probes: HTTP, TCP, Command, gRPC (same as liveness probes). Unlike liveness probes, readiness probe failures do NOT cause container restarts - they only affect traffic routing. This is particularly useful for: applications that take time to initialize, applications that need to load data before serving requests, rolling updates (new Pods only receive traffic when ready)."
     },
     {
       "id": 40,
@@ -522,7 +522,7 @@
       ],
       "correctAnswer": "Checks if application has started successfully",
       "explanation": "A Startup Probe indicates whether the application within the container has started. If it fails, the container is restarted.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a startup probe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Startup Probe is a health check that determines if an application has started successfully. It is used for applications that have long startup times and need to run initialization code before they are ready to accept liveness or readiness checks. Once the startup probe succeeds, the liveness probe takes over. If the startup probe fails, Kubernetes restarts the container (similar to liveness probe). Key benefits: prevents false positives during application startup (where liveness probes might kill a container that is still initializing), allows containers with slow startup to run without being killed prematurely. Only the startup probe can succeed - liveness and readiness probes are disabled until the startup probe succeeds. After startup succeeds, the liveness probe takes over."
     },
     {
       "id": 41,
@@ -535,7 +535,7 @@
       ],
       "correctAnswer": "Liveness, Readiness, Startup",
       "explanation": "Kubernetes supports three types of probes: Liveness Probe (checks if container is running), Readiness Probe (checks if container is ready), and Startup Probe (checks if application has started).",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what are the types of probes in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Kubernetes supports three types of probes for container health monitoring: 1) Liveness Probe: Determines if a container is running correctly. If it fails, Kubernetes restarts the container. Use this for detecting states that cannot be recovered from automatically (e.g., deadlocks). 2) Readiness Probe: Determines if a container is ready to receive traffic. If it fails, the container is removed from Service endpoints. Use this for preventing traffic from being sent to Pods that are still initializing. 3) Startup Probe: Determines if an application has started successfully. Used for containers with long startup times. Once it succeeds, the liveness probe takes over. If it fails, the container is restarted. Each probe can be one of four types: HTTP (makes HTTP request), TCP (opens TCP connection), Command (executes command in container), gRPC (makes gRPC call)."
     },
     {
       "id": 42,
@@ -548,7 +548,7 @@
       ],
       "correctAnswer": "Ensures specified number of Pod replicas are running",
       "explanation": "A ReplicaSet ensures that a specified number of Pod replicas are running at any given time, replacing any Pods that fail.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a replicaset?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A ReplicaSet ensures that a specified number of Pod replicas are running at any given time. It is a lower-level abstraction that provides the basic functionality for maintaining Pod availability. Key features: maintains stable set of Pod replicas, ensures high availability (replaces failed Pods), can be scaled up or down, self-healing. How it works: You define a ReplicaSet with a Pod template, label selectors, and replica count. The ReplicaSet controller continuously monitors Pods and creates or deletes them to match the desired count. ReplicaSets are typically not used directly - Deployments are the recommended higher-level abstraction as they provide rolling updates, rollbacks, and declarative configuration changes."
     },
     {
       "id": 43,
@@ -561,7 +561,7 @@
       ],
       "correctAnswer": "Both A and B",
       "explanation": "A Deployment provides declarative updates to Pods and ReplicaSets, enables rolling updates and rollbacks, and manages ReplicaSets. ReplicaSet only ensures the specified number of replicas are running.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between deployment and replicaset?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The main differences between Deployment and ReplicaSet are: 1) Abstraction Level: Deployment is a higher-level abstraction that manages ReplicaSets. ReplicaSet is a lower-level abstraction that manages Pods directly. 2) Features: Deployment provides rolling updates, rollback capability, revision history, and declarative configuration changes. ReplicaSet only provides basic Pod replication. 3) Use Case: Use Deployment for most stateless applications. Use ReplicaSet only when you need fine-grained control over Pod replication (rare). 4) Architecture: Deployment -> ReplicaSet -> Pods. Deployment manages a ReplicaSet, which manages Pods. This provides two layers of stability and abstraction. 5) kubectl Commands: Deployment supports kubectl rollout commands (status, history, undo). ReplicaSet does not support these. 6) Revision History: Deployment maintains revision history for rollbacks. ReplicaSet does not."
     },
     {
       "id": 44,
@@ -574,7 +574,7 @@
       ],
       "correctAnswer": "Update Pods incrementally without downtime",
       "explanation": "A Rolling Update updates Pods incrementally (one by one or in batches) without downtime, replacing old Pods with new ones as they become ready.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a rolling update in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Rolling Update is a deployment strategy that gradually replaces old Pods with new Pods, ensuring zero downtime and minimizing the impact on users. Instead of replacing all Pods at once (which would cause downtime), Kubernetes replaces them incrementally. How it works: When you update a Deployment (e.g., change the container image), Kubernetes creates new Pods with the updated configuration while keeping the old Pods running. As new Pods become ready, old Pods are gradually terminated. The update progresses in a controlled manner. Configuration options: maxSurge (maximum number of extra Pods to create during update), maxUnavailable (maximum number of Pods that can be unavailable during update). Rolling updates are the default update strategy for Deployments."
     },
     {
       "id": 45,
@@ -587,7 +587,7 @@
       ],
       "correctAnswer": "Revert to previous Deployment revision",
       "explanation": "A Rollback reverts a Deployment to a previous revision, restoring the previous Pod template and configuration.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a rollback in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Rollback is the process of reverting a Deployment to a previous revision. This is useful when a deployment fails or causes issues, and you need to quickly revert to a known-good state. Rollbacks are possible because Deployments maintain a revision history of all previous configurations. How to rollback: kubectl rollout undo deployment/<name> rolls back to the previous revision. kubectl rollout undo deployment/<name> --to-revision=<n> rolls back to a specific revision. The rollback process is essentially a rolling update to the previous configuration. Kubernetes creates new Pods with the previous configuration and gradually replaces the current Pods. Rollbacks are fast and maintain the same guarantees as rolling updates (zero downtime, controlled rollout)."
     },
     {
       "id": 46,
@@ -600,7 +600,7 @@
       ],
       "correctAnswer": "Watch rolling update status",
       "explanation": "kubectl rollout status monitors the progress of a rolling update, waiting for it to complete or reporting any errors.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl rollout status?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "kubectl rollout status is a command that monitors the progress of a rollout (deployment or update). It watches the rollout until it either completes or fails, or until a timeout is reached. Syntax: kubectl rollout status <resource-type>/<name>. Example: kubectl rollout status deployment/my-app. This command is useful for: monitoring rolling updates in real-time, verifying that a deployment has completed successfully, debugging issues with rollouts. It provides a stream of updates showing the progress of the rollout, including how many Pods have been updated, how many are still being updated, and the overall status. Default timeout is 5 minutes."
     },
     {
       "id": 47,
@@ -613,7 +613,7 @@
       ],
       "correctAnswer": "View history of rollouts for a resource",
       "explanation": "kubectl rollout history displays the rollout history for a Deployment or other resource, showing previous revisions.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl rollout history?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "kubectl rollout history is a command that shows the revision history of a Deployment. This is useful for viewing all previous configurations and for rolling back to a specific revision. Syntax: kubectl rollout history <resource-type>/<name>. Example: kubectl rollout history deployment/my-app. This shows a list of revisions with their revision number, timestamp, and a brief description. To see more details about a specific revision: kubectl rollout history deployment/my-app --revision=<n>. This shows the full configuration of that revision. Revisions are created automatically when you update a Deployment (e.g., change the image, replica count, or other configuration)."
     },
     {
       "id": 48,
@@ -626,7 +626,7 @@
       ],
       "correctAnswer": "Rollback to previous revision",
       "explanation": "kubectl rollout undo rolls back a Deployment to the previous revision.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl rollout undo?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "kubectl rollout undo is a command that rolls back a Deployment to a previous revision. This is useful when a deployment fails or causes issues. Syntax: kubectl rollout undo <resource-type>/<name>. Example: kubectl rollout undo deployment/my-app. This rolls back to the previous revision. To roll back to a specific revision: kubectl rollout undo deployment/my-app --to-revision=<n>. The rollback process is essentially a rolling update to the previous configuration. It creates new Pods with the previous configuration and gradually replaces the current Pods. This maintains the same guarantees as rolling updates: zero downtime, controlled rollout. You can also use --dry-run to see what would happen without actually performing the rollback."
     },
     {
       "id": 49,
@@ -639,7 +639,7 @@
       ],
       "correctAnswer": "Exposes Pods as network service with stable IP and DNS",
       "explanation": "A Service exposes a set of Pods as a network service with a stable cluster IP address and DNS name, abstracting away individual Pod IPs.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a service in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Service in Kubernetes is an abstraction that defines a logical set of Pods and a policy to access them. It provides a stable, persistent identity for a set of Pods, abstracting away the ephemeral nature of Pods (which can be created, destroyed, and rescheduled at any time). Services enable loose coupling between dependent Pods. They are the primary way to expose applications running in Kubernetes, whether internally within the cluster or externally to the world. Key features: stable IP address and DNS name, load balancing across Pods, service discovery (automatic DNS creation), abstraction of Pod management. Services are defined by label selectors that identify which Pods should receive traffic."
     },
     {
       "id": 50,
@@ -652,7 +652,7 @@
       ],
       "correctAnswer": "ClusterIP, NodePort, LoadBalancer, ExternalName",
       "explanation": "The four types of Services are: ClusterIP (internal cluster IP), NodePort (exposes service on each Node's IP), LoadBalancer (creates external load balancer), and ExternalName (maps to external DNS).",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what are the types of services in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Kubernetes provides four types of Services: 1) ClusterIP (default): Creates an internal virtual IP that is only accessible within the cluster. Ideal for internal microservices communication. Pods can access it using <service-name>.<namespace>.svc.cluster.local. 2) NodePort: Exposes the Service on a static port on each Node's IP address. Accessible from outside the cluster via <NodeIP>:<NodePort>. Kubernetes automatically assigns a port in the range 30000-32767. 3) LoadBalancer: Creates an external load balancer in supported cloud environments (AWS, GCP, Azure). Assigns an external IP that routes to the Service. Combines the features of ClusterIP and NodePort. 4) ExternalName: Maps the Service to an external DNS name (CNAME record). Useful for directing traffic to services outside the cluster."
     },
     {
       "id": 51,
@@ -665,7 +665,7 @@
       ],
       "correctAnswer": "Internal Service with cluster-internal IP",
       "explanation": "ClusterIP Service exposes the Service on an internal IP in the cluster, making it accessible only from within the cluster.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is clusterip service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "ClusterIP Service is the default and most commonly used Service type. It creates an internal virtual IP address that is only accessible from within the Kubernetes cluster. This is ideal for internal microservices communication where you want to expose a Service to other Pods within the cluster but not to external clients. Key characteristics: internal-only access, automatically creates a DNS name (e.g., <service-name>.<namespace>.svc.cluster.local), load balances traffic across all Pods with matching labels, stable IP address that persists even if Pods are recreated. Use case: When you want Pod A to communicate with Pod B within the same cluster."
     },
     {
       "id": 52,
@@ -678,7 +678,7 @@
       ],
       "correctAnswer": "Exposes Service on static port on each Node's IP",
       "explanation": "NodePort Service exposes the Service on each Node's IP at a static port (the NodePort), making it accessible from outside the cluster.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is nodeport service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "NodePort Service exposes the Service on a static port on each Node's IP address. This makes the Service accessible from outside the cluster via <NodeIP>:<NodePort>. Key characteristics: Kubernetes automatically assigns a port in the range 30000-32767 (you can also specify a port manually), the same port is used on all Nodes, accessible from any machine that can reach the Node, creates a ClusterIP Service internally and routes to it. Use case: When you need to expose a Service to external clients but do not have a cloud load balancer. NodePort is often used in development environments or on-premises clusters."
     },
     {
       "id": 53,
@@ -691,7 +691,7 @@
       ],
       "correctAnswer": "Creates external load balancer in cloud provider",
       "explanation": "LoadBalancer Service creates an external load balancer in the cloud provider (e.g., AWS ELB, GCP Load Balancer) to expose the Service externally.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is loadbalancer service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "LoadBalancer Service creates an external load balancer in supported cloud environments (AWS, GCP, Azure, etc.). It provisions a cloud load balancer and assigns an external IP address that routes to the Service. Key characteristics: creates a NodePort Service internally, which in turn creates a ClusterIP Service, the cloud provider automatically creates the load balancer and manages it, assigns an external IP address, can be expensive due to cloud provider costs. Use case: When you need to expose a Service to the internet in a cloud environment. Not all environments support LoadBalancer (e.g., bare metal, Minikube requires additional setup)."
     },
     {
       "id": 54,
@@ -704,7 +704,7 @@
       ],
       "correctAnswer": "Maps Service to external DNS name",
       "explanation": "ExternalName Service maps the Service to an external DNS name (CNAME record), redirecting requests to that external service.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is externalname service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "ExternalName Service maps the Service to an external DNS name (CNAME record). This allows you to use the Service abstraction to direct traffic to services that exist outside of your Kubernetes cluster. Key characteristics: does not create a proxy or load balancer, simply creates a DNS CNAME record, when a client queries the Service DNS, it gets the external DNS name, the client then directly connects to the external service. Use case: When you want to provide a consistent abstraction for external services (e.g., database running outside the cluster, third-party APIs) or when migrating services to Kubernetes gradually. Example: Map a Service named external-db to mydatabase.example.com."
     },
     {
       "id": 55,
@@ -717,7 +717,7 @@
       ],
       "correctAnswer": "Service without cluster IP for direct Pod access",
       "explanation": "A Headless Service is a Service with ClusterIP set to None, allowing direct access to Pods via DNS without load balancing or proxying.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is headless service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Headless Service is a Service without a cluster IP address (ClusterIP: None). It provides a way to directly access Pods without a proxy or load balancer. Key characteristics: DNS returns the Pod IPs directly (not a single Service IP), enables direct Pod-to-Pod communication, often used with StatefulSets where each Pod has a stable identity. Use cases: 1) StatefulSets: Each Pod has its own stable hostname (e.g., web-0, web-1, web-2) and can be accessed directly. 2) Custom service discovery: When you want clients to discover Pods directly via DNS. 3) DNS-only services: When you only need DNS resolution without load balancing. Important: Headless Services are used when you need to access individual Pods directly rather than through a load balancer."
     },
     {
       "id": 56,
@@ -730,7 +730,7 @@
       ],
       "correctAnswer": "Uses Linux IPVS for load balancing",
       "explanation": "The ipvs mode of kube-proxy uses Linux IPVS (IP Virtual Server) for load balancing, providing better performance and scalability than iptables mode.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kube-proxy mode ipvs?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "IPVS (IP Virtual Server) is a Linux kernel-based load balancing solution. In kube-proxy ipvs mode, kube-proxy uses IPVS to create virtual servers for each Service. This provides better performance and scalability than iptables mode, especially for clusters with many Services. Key characteristics: uses the Linux IPVS kernel module, supports multiple load balancing algorithms (rr - round robin, lc - least connection, dh - destination hashing, sh - source hashing, sed - shortest expected delay, nq - never queue), maintains connection persistence, lower latency and higher throughput compared to iptables. IPVS is the default mode for kube-proxy in newer Kubernetes versions. It is particularly well-suited for large clusters with many Services."
     },
     {
       "id": 57,
@@ -743,7 +743,7 @@
       ],
       "correctAnswer": "Uses iptables rules for load balancing",
       "explanation": "The iptables mode of kube-proxy uses iptables rules to implement Service load balancing, which was the default mode before ipvs.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kube-proxy mode iptables?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "In kube-proxy iptables mode, kube-proxy uses iptables rules to implement Service load balancing and networking. This was the default mode in older Kubernetes versions. Key characteristics: creates iptables rules for each Service, uses DNAT (Destination Network Address Translation) to redirect traffic to Pods, works well for most use cases, simpler to understand and debug compared to ipvs, slightly less efficient than ipvs for very large clusters. When a Service is created, kube-proxy creates iptables rules that intercept traffic to the Service IP and redirect it to one of the Pods. When a Pod is added or removed, kube-proxy updates the iptables rules accordingly. This mode is still widely used and is a good choice for smaller clusters or when you need compatibility with older setups."
     },
     {
       "id": 58,
@@ -756,7 +756,7 @@
       ],
       "correctAnswer": "Manages Ingress resources and provides external access",
       "explanation": "An Ingress Controller is a specialized load balancer that manages Ingress resources and provides external HTTP(S) access to Services in the cluster.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is an ingress controller?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "An Ingress Controller is a specialized load balancer and reverse proxy that implements the Kubernetes Ingress API. While the Ingress API defines the rules for routing traffic to Services, the Ingress Controller actually implements those rules. Key characteristics: watches the API Server for Ingress resources, configures the underlying load balancer or proxy based on the Ingress rules, handles SSL/TLS termination, provides advanced routing capabilities (path-based, host-based). Popular Ingress Controllers: NGINX Ingress Controller (most popular, supports advanced features), Traefik (cloud-native, supports dynamic configuration), HAProxy Ingress (high performance, supports advanced routing), AWS ALB Ingress Controller (native AWS Load Balancer integration), GCE Ingress Controller (native Google Cloud Load Balancer integration), Istio Ingress Gateway (service mesh integration). You must deploy and configure an Ingress Controller for the Ingress API to work."
     },
     {
       "id": 59,
@@ -769,7 +769,7 @@
       ],
       "correctAnswer": "Stores sensitive data like passwords, tokens, keys",
       "explanation": "A Secret is an object that stores sensitive data like passwords, OAuth tokens, SSH keys, and other credentials.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a secret?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Secret is a Kubernetes object that stores sensitive data such as passwords, tokens, API keys, certificates, or other confidential information. Secrets are similar to ConfigMaps but are specifically designed for sensitive data. Key characteristics: base64-encoded data (not encrypted at rest by default), can be mounted as volumes or exposed as environment variables to Pods, three types: Opaque (generic key-value pairs), Service Account Token (used for service account authentication), Docker Registry (credentials for Docker registries). Important security notes: Secrets are only encoded, not encrypted. Anyone with API access can decode them. For true encryption, use encryption at rest (enabled via Kubernetes API Server configuration). Secrets are not automatically rotated - you must update them manually or use an external system."
     },
     {
       "id": 60,
@@ -782,7 +782,7 @@
       ],
       "correctAnswer": "ConfigMap for non-sensitive, Secret for sensitive data",
       "explanation": "ConfigMaps are intended for storing non-sensitive configuration data, while Secrets are designed for storing sensitive data that should be protected.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between configmap and secret?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The main differences between ConfigMap and Secret are: 1) Purpose: ConfigMap stores non-sensitive configuration data. Secret stores sensitive data like passwords, tokens, keys. 2) Data Encoding: ConfigMap stores data in plain text. Secret stores data as base64-encoded (not encrypted). 3) Use Cases: ConfigMap is used for environment variables, configuration files, command-line arguments. Secret is used for passwords, API keys, certificates, tokens. 4) Security: Both are stored in etcd. Both can be accessed by anyone with appropriate permissions. Neither provides encryption at rest by default (encryption must be explicitly enabled). 5) API: Both have similar API structures (data and binaryData fields). 6) Both can be consumed as environment variables, command-line arguments, or volume mounts. Both should be used according to their intended purpose for better security and clarity."
     },
     {
       "id": 61,
@@ -795,7 +795,7 @@
       ],
       "correctAnswer": "Secrets are base64 encoded by default",
       "explanation": "Secrets store data as base64 encoded strings by default (not encrypted), while ConfigMaps store data as plain text. Both need additional encryption for security.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between secret and configmap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "ConfigMap and Secret serve different purposes and have different use cases. ConfigMap is designed for storing non-sensitive configuration data in key-value pairs. It is used for environment variables, configuration files, command-line arguments, and other non-confidential settings. Secret is designed specifically for storing sensitive data like passwords, tokens, API keys, and certificates. While both store data in key-value pairs and can be mounted as volumes or injected as environment variables, the key differences are: purpose (non-sensitive vs sensitive), typical usage patterns, and the intent they signal to users. Both are stored unencrypted in etcd by default - encryption at rest must be explicitly enabled. Always use the appropriate type based on the sensitivity of your data."
     },
     {
       "id": 62,
@@ -808,7 +808,7 @@
       ],
       "correctAnswer": "Persistent storage mounted into Pod",
       "explanation": "A Volume is a directory containing data that is accessible to the containers in a Pod, with different types supporting various storage backends.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is volume in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Volume in Kubernetes is a directory containing data that is accessible to containers in a Pod. Volumes provide persistent storage that exists beyond the lifecycle of individual containers. Key characteristics: Volumes are Pod-scoped (shared by all containers in a Pod), data in a Volume persists even if containers restart, Volumes can use different types of storage backends (local, network, cloud). Types of Volumes: emptyDir (temporary storage created when Pod starts), hostPath (mounts file/directory from Node), PersistentVolumeClaim (dynamic or static), ConfigMap/Secret (mounts configuration data), cloud storage (AWS EBS, GCP PD, Azure Disk), network storage (NFS, Ceph, GlusterFS). Volumes are defined in the Pod specification under spec.volumes, and mounted to containers under spec.containers[*].volumeMounts."
     },
     {
       "id": 63,
@@ -821,7 +821,7 @@
       ],
       "correctAnswer": "Temporary storage that exists as long as Pod exists",
       "explanation": "emptyDir is a Volume type that creates an empty directory for the Pod and exists as long as the Pod exists, deleted when the Pod is removed.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is emptydir volume?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "emptyDir is a type of Volume that is created when a Pod is assigned to a Node and exists as long as the Pod is running. It is initially empty and all containers in the Pod can read and write the same files in the emptyDir Volume. Key characteristics: created when Pod starts, deleted when Pod is removed, stored on whatever medium backs the Node (usually disk or SSD), can be mounted at the same or different paths in each container, useful for sharing data between containers in a Pod. Use cases: scratch space, cache, sharing data between containers. By default, emptyDir uses the Node default storage medium. You can specify a medium (Memory for RAM-based tmpfs). Example: Two containers in a Pod where one writes data to emptyDir and the other reads it."
     },
     {
       "id": 64,
@@ -834,7 +834,7 @@
       ],
       "correctAnswer": "Mounts file or directory from host node into Pod",
       "explanation": "hostPath Volume mounts a file or directory from the host Node's filesystem into the Pod, useful for accessing Node-specific files.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is hostpath volume?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "hostPath is a type of Volume that mounts a file or directory from the Node's filesystem into the Pod. This allows the Pod to access files on the Node directly. Key characteristics: mounts existing files/directories from Node, not created by Kubernetes, persists even if Pod is deleted, can be used to access system files, logs, or other Node-specific data. Use cases: running a Pod that needs access to Node system files (e.g., /var/log), accessing custom configuration files on the Node, mounting Docker socket for Docker-in-Docker scenarios, running DaemonSets that need Node access. Important: hostPath Volumes can be a security risk - any Pod with hostPath access can read/write Node files. Use with caution and appropriate security contexts."
     },
     {
       "id": 65,
@@ -847,7 +847,7 @@
       ],
       "correctAnswer": "Defines different types of storage like SSD, HDD",
       "explanation": "StorageClass defines different types of storage (e.g., fast SSD, slow HDD) that can be dynamically provisioned, with different performance characteristics.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is storageclass in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "StorageClass is a Kubernetes object that defines different types of storage that can be dynamically provisioned. It allows administrators to describe classes of storage they offer (e.g., fast SSD, slow HDD, cloud storage) and users to request storage with specific characteristics. Key components: provisioner (identifies the storage provider, e.g., kubernetes.io/aws-ebs), parameters (storage-specific parameters like type, zone), reclaimPolicy (what happens to PV when PVC is deleted), volumeBindingMode (when volume binding occurs). StorageClass is used for dynamic provisioning - when a PVC requests storage, Kubernetes can automatically create a PV based on the StorageClass. Example: Create a StorageClass for fast SSD storage with kubernetes.io/aws-ebs provisioner and gp3 type."
     },
     {
       "id": 66,
@@ -860,7 +860,7 @@
       ],
       "correctAnswer": "Automatically creates PersistentVolumes when PVC is created",
       "explanation": "Dynamic provisioning automatically creates PersistentVolumes when a PersistentVolumeClaim is created, using StorageClass to determine the storage type.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is dynamic provisioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Dynamic Provisioning is the process of automatically creating PersistentVolumes (PVs) when a PersistentVolumeClaim (PVC) requests storage. This eliminates the need for administrators to manually create PVs for every PVC. How it works: 1) User creates a PVC that requests storage with a specific StorageClass, 2) Kubernetes checks if there is a matching PV available, 3) If not, Kubernetes uses the StorageClass to automatically provision a PV from the storage provider, 4) The PV is then bound to the PVC. Benefits: reduces administrative overhead, enables self-service storage provisioning for users, allows for more efficient storage utilization. Dynamic provisioning requires a StorageClass with a provisioner that supports dynamic provisioning."
     },
     {
       "id": 67,
@@ -873,7 +873,7 @@
       ],
       "correctAnswer": "Manually creates PersistentVolumes by administrator",
       "explanation": "Static provisioning involves manually creating PersistentVolumes by an administrator, which are then bound to PersistentVolumeClaims.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is static provisioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Static Provisioning is the process where administrators manually create PersistentVolumes (PVs) that match the storage requirements of their users. In this model, PVs are created upfront before any PVCs are created. How it works: 1) Administrator creates PVs with specific storage characteristics (size, access modes, etc.), 2) Users create PVCs that request storage with specific requirements, 3) Kubernetes matches PVCs with available PVs and binds them. Use cases: when you have specific storage requirements that cannot be automatically provisioned, when you need to use existing storage resources, when you need fine-grained control over storage provisioning. Static provisioning requires more administrative overhead but provides more control over the storage environment."
     },
     {
       "id": 68,
@@ -886,7 +886,7 @@
       ],
       "correctAnswer": "Defines how PV can be mounted: ReadWriteOnce, ReadOnlyMany, ReadWriteMany",
       "explanation": "Access Mode defines how a PersistentVolume can be mounted: ReadWriteOnce (single node read-write), ReadOnlyMany (multiple nodes read-only), or ReadWriteMany (multiple nodes read-write).",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is access mode in persistentvolume?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Access Modes define how a PersistentVolume can be mounted and accessed by Pods. There are three access modes: 1) ReadWriteOnce (RWO): The volume can be mounted as read-write by a single Node at a time. This is the most common access mode. Multiple Pods on the same Node can access the volume simultaneously. 2) ReadOnlyMany (ROX): The volume can be mounted as read-only by many Nodes simultaneously. This is useful for shared read-only data. 3) ReadWriteMany (RWX): The volume can be mounted as read-write by many Nodes simultaneously. This is the most flexible but also the most restrictive in terms of supported storage backends (not all storage systems support RWX). Note: Access modes are not properties of the PVC or PV but rather capabilities that the storage backend supports. Not all storage backends support all access modes."
     },
     {
       "id": 69,
@@ -899,7 +899,7 @@
       ],
       "correctAnswer": "Defines what happens to PV when PVC is deleted: Retain, Delete, Recycle",
       "explanation": "Reclaim Policy defines what happens to a PersistentVolume when its PersistentVolumeClaim is deleted: Retain (keep PV), Delete (delete PV), or Recycle (scrub and make available).",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is reclaim policy in persistentvolume?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "Reclaim Policy defines what happens to a PersistentVolume when its bound PersistentVolumeClaim is deleted. There are three reclaim policies: 1) Retain: The PV is not automatically deleted. The administrator must manually delete it. This is useful for preserving data after a PVC is deleted. 2) Delete: The PV and the underlying storage are automatically deleted when the PVC is deleted. This is useful for temporary data that does not need to be preserved. 3) Recycle: The PV is wiped (rm -rf /thevolume/*) and made available for a new PVC. This was deprecated in favor of using dynamic provisioning with StorageClasses. Note: The reclaim policy is set on the PV. Different PVs can have different reclaim policies. The default reclaim policy depends on the StorageClass."
     },
     {
       "id": 70,
@@ -912,7 +912,7 @@
       ],
       "correctAnswer": "Provides scope for names, virtual clusters",
       "explanation": "A Namespace provides a scope for names (resource names must be unique within a Namespace) and acts as a virtual cluster for organizing resources.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a namespace in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Namespace in Kubernetes is a way to divide cluster resources between multiple users, teams, or applications. It provides a scope for resource names, allowing you to have the same resource name in different namespaces. Key characteristics: virtual clusters backed by the same physical cluster, logical partitioning of resources, isolation (resources in one namespace are separate from others), can have their own policies and quotas. Use cases: multi-tenant clusters (different teams use different namespaces), environment isolation (dev, staging, production), application isolation (microservices in separate namespaces), testing (create temporary namespaces for testing). Default namespaces: default, kube-system, kube-public, kube-node-lease. Commands: kubectl create namespace, kubectl get pods -n <namespace>, kubectl config set-context --current --namespace=<namespace>. Note: Not all objects are in a namespace (e.g., Node, PersistentVolume, StorageClass)."
     },
     {
       "id": 71,
@@ -925,7 +925,7 @@
       ],
       "correctAnswer": "Namespace where resources are created if not specified",
       "explanation": "The default Namespace is where resources are created if no Namespace is specified. Resources created without a Namespace go into the default Namespace.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is default namespace?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The default Namespace is the default scope for objects that do not specify a Namespace. When you create objects without specifying a Namespace, they are created in the default Namespace. Key characteristics: exists by default in all Kubernetes clusters, used when no Namespace is specified, ideal for getting started and for small clusters. You can view objects in the default Namespace using kubectl get pods (without -n flag). You can also explicitly specify the default Namespace using -n default. It is good practice to create separate Namespaces for different applications, environments, or teams rather than using the default Namespace for everything. This helps with organization, isolation, and access control."
     },
     {
       "id": 72,
@@ -938,7 +938,7 @@
       ],
       "correctAnswer": "Namespace for Kubernetes system components",
       "explanation": "The kube-system Namespace is reserved for Kubernetes system components like the API Server, etcd, DNS, Dashboard, and other cluster services.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kube-system namespace?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The kube-system Namespace is a special Namespace that contains objects created by the Kubernetes system itself. It is where all the control plane components and system-level add-ons run. Key characteristics: created automatically by Kubernetes, reserved for system components, contains critical Pods and Services that keep the cluster running. Components that typically run in kube-system: API Server, Controller Manager, Scheduler, etcd (may run in kube-system or have their own namespace), CoreDNS (or kube-dns), kube-proxy, Metrics Server, Node Exporter, various admission controllers. Important: Do not create or modify objects in kube-system unless you are a cluster administrator. Deleting or modifying objects in kube-system can cause cluster instability or failure. You can view system components using kubectl get pods -n kube-system."
     },
     {
       "id": 73,
@@ -951,7 +951,7 @@
       ],
       "correctAnswer": "Namespace for public resources, readable by all users",
       "explanation": "The kube-public Namespace is for public resources that should be readable by all users, even unauthenticated users.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kube-public namespace?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The kube-public Namespace is a special Namespace that contains information that should be publicly readable (i.e., accessible without authentication). It is automatically created by Kubernetes and is world-readable. Key characteristics: exists by default in all Kubernetes clusters, accessible to all users (even unauthenticated users in some configurations), contains ConfigMaps that are meant to be publicly accessible. Common use case: Contains a ConfigMap with the cluster-info that includes the cluster API Server address and CA certificate. This allows unauthenticated users to discover the API Server endpoint. Important: Be cautious about what you put in kube-public, as it is accessible to all users. Only put information here that is truly public and not sensitive. Most objects should not be placed in kube-public."
     },
     {
       "id": 74,
@@ -964,7 +964,7 @@
       ],
       "correctAnswer": "Combination of cluster, Namespace, and user",
       "explanation": "A Context in kubectl is a combination of a cluster, a Namespace, and a user, allowing quick switching between different configurations.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a context in kubectl?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Context in kubectl is a combination of a cluster, a user, and a Namespace. It allows you to quickly switch between different configurations without having to specify all the details each time. Contexts are stored in the kubectl configuration file (typically ~/.kube/config). Key components: cluster (API Server URL and CA certificate), user (credentials for authentication), namespace (default Namespace for commands). Commands: kubectl config get-contexts (list all contexts), kubectl config current-context (show current context), kubectl config use-context <name> (switch to a context), kubectl config set-context <name> --namespace=<ns> (set default namespace for a context), kubectl config delete-context <name> (delete a context). Contexts are useful for managing multiple clusters (e.g., dev, staging, production) or multiple users."
     },
     {
       "id": 75,
@@ -977,7 +977,7 @@
       ],
       "correctAnswer": "Role-Based Access Control for authorization",
       "explanation": "RBAC (Role-Based Access Control) is an authorization mechanism that uses Roles and RoleBindings to control access to Kubernetes resources.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is rbac in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "RBAC (Role-Based Access Control) is a method of regulating access to Kubernetes resources based on roles and permissions. It allows you to define fine-grained access policies for users, groups, and service accounts. RBAC is enabled by default in Kubernetes v1.8 and later. Key concepts: Role (set of permissions within a Namespace), ClusterRole (set of permissions across the entire cluster), RoleBinding (assigns a Role to a user/group within a Namespace), ClusterRoleBinding (assigns a ClusterRole to a user/group across the entire cluster), Subject (user, group, or service account that receives permissions). RBAC is rule-based - you define what actions (verbs) can be performed on which resources (resource types) in which namespaces."
     },
     {
       "id": 76,
@@ -990,7 +990,7 @@
       ],
       "correctAnswer": "Set of permissions within a Namespace",
       "explanation": "A Role in RBAC defines a set of permissions (rules) within a single Namespace, specifying what operations are allowed on which resources.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a role in rbac?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A Role in RBAC is a Kubernetes object that defines a set of permissions within a specific Namespace. It lists which operations (verbs) can be performed on which resources (resource types). Key components: rules (array of Rule objects), each Rule has: apiGroups (list of API groups), resources (list of resource types), verbs (list of allowed actions). Example: A Role that allows read access to Pods in a Namespace. Roles are Namespace-scoped - they only apply to resources within their Namespace. Roles are used in conjunction with RoleBindings to grant permissions to specific users or groups. Common verbs: get, list, watch, create, update, patch, delete, exec."
     },
     {
       "id": 77,
@@ -1003,7 +1003,7 @@
       ],
       "correctAnswer": "Set of permissions across all Namespaces",
       "explanation": "A ClusterRole in RBAC defines a set of permissions across all Namespaces in the cluster, specifying what operations are allowed on which resources.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a clusterrole in rbac?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A ClusterRole in RBAC is similar to a Role, but it applies across the entire cluster rather than being limited to a single Namespace. It defines a set of permissions that can be applied to all Namespaces or to specific Namespaces through ClusterRoleBindings. Key components: same as Role (rules with apiGroups, resources, verbs). ClusterRoles are used for: cluster-wide permissions (e.g., Node access, PersistentVolume access), non-Namespace-scoped resources (e.g., Nodes, PersistentVolumes), permissions that need to be applied to multiple Namespaces. ClusterRoles are used in conjunction with ClusterRoleBindings to grant permissions to specific users or groups. ClusterRoles can also be used with RoleBindings to grant permissions within specific Namespaces."
     },
     {
       "id": 78,
@@ -1016,7 +1016,7 @@
       ],
       "correctAnswer": "Grants Role permissions to users within a Namespace",
       "explanation": "A RoleBinding grants the permissions defined in a Role to a user or group of users within a specific Namespace.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a rolebinding in rbac?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A RoleBinding in RBAC is a Kubernetes object that assigns a Role to a specific user, group, or service account within a specific Namespace. It connects the Role (which defines permissions) to the Subject (which receives the permissions). Key components: subjects (array of Subject objects, each with kind, name, and optionally namespace or apiGroup), roleRef (reference to the Role being assigned). The binding only applies to the Namespace where the RoleBinding is created. RoleBindings grant the permissions defined in the Role to the specified Subjects within the specified Namespace. Multiple RoleBindings can reference the same Role, and multiple Subjects can be assigned to the same Role through a single RoleBinding."
     },
     {
       "id": 79,
@@ -1029,7 +1029,7 @@
       ],
       "correctAnswer": "Grants ClusterRole permissions across all Namespaces",
       "explanation": "A ClusterRoleBinding grants the permissions defined in a ClusterRole to a user or group of users across all Namespaces in the cluster.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a clusterrolebinding in rbac?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A ClusterRoleBinding in RBAC is similar to a RoleBinding, but it assigns a ClusterRole to users, groups, or service accounts across the entire cluster. It connects the ClusterRole (which defines permissions) to the Subject (which receives the permissions). Key components: same as RoleBinding (subjects, roleRef). ClusterRoleBindings grant the permissions defined in the ClusterRole to the specified Subjects across all Namespaces. They can also be used to grant access to cluster-scoped resources (e.g., Nodes, PersistentVolumes). Use ClusterRoleBinding when you need to grant cluster-wide permissions. Use RoleBinding when you need to grant permissions within a specific Namespace."
     },
     {
       "id": 80,
@@ -1042,7 +1042,7 @@
       ],
       "correctAnswer": "Provides identity for processes in Pods",
       "explanation": "A ServiceAccount provides an identity for processes that run in Pods, allowing them to authenticate with the API Server and access resources based on RBAC permissions.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a serviceaccount?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "A ServiceAccount provides an identity for processes that run in a Pod. It allows Pods to authenticate with the Kubernetes API Server and be authorized to perform specific actions based on RBAC rules. Key characteristics: every Pod has a ServiceAccount (defaults to default if not specified), ServiceAccounts are associated with specific Namespaces, each ServiceAccount has a set of credentials (tokens, CA certificates) stored as Secrets. Use cases: 1) Running applications that need to interact with the Kubernetes API, 2) Providing fine-grained permissions to Pods based on their ServiceAccount, 3) Enabling workload identity (e.g., in cloud environments). Each ServiceAccount has: a name, a Namespace, an associated Secret (containing the token), and associated RBAC roles. Commands: kubectl get serviceaccounts, kubectl create serviceaccount <name>, kubectl describe serviceaccount <name>. ServiceAccounts are critical for workload identity and security."
     },
     {
       "id": 81,
@@ -1055,7 +1055,7 @@
       ],
       "correctAnswer": "ServiceAccount created automatically in each Namespace",
       "explanation": "The default ServiceAccount is created automatically in each Namespace and is used by Pods that don't specify a ServiceAccount.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is default serviceaccount?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "The default ServiceAccount is automatically created in every Namespace and is used by Pods that do not explicitly specify a ServiceAccount. Every Pod has a ServiceAccount, and if you do not specify one in the Pod specification, the default ServiceAccount for that Namespace is used. Key characteristics: created automatically when a Namespace is created, has no special permissions by default, associated with a Secret that contains a token for API authentication. The default ServiceAccount is typically named default and can be viewed using kubectl get serviceaccount -n <namespace>. It is good practice to create custom ServiceAccounts for your Pods with specific RBAC roles rather than using the default ServiceAccount for everything. This enables better security and access control."
     },
     {
       "id": 82,
@@ -1068,7 +1068,7 @@
       ],
       "correctAnswer": "Manages kubectl configuration",
       "explanation": "kubectl config is a command group for managing kubectl configuration, including contexts, clusters, and users.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl config?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "kubectl config is a set of commands for managing the kubectl configuration file. The configuration file (typically ~/.kube/config) stores information about clusters, users, contexts, and preferences. kubectl config commands allow you to: view and manage contexts (kubectl config get-contexts, kubectl config use-context), view and set the current context (kubectl config current-context), view and manage clusters (kubectl config get-clusters, kubectl config set-cluster), view and manage users (kubectl config get-users, kubectl config set-credentials), view and manage preferences (kubectl config set). The configuration file uses a hierarchical structure to store information about multiple clusters and users, making it easy to switch between different environments."
     },
     {
       "id": 83,
@@ -1081,7 +1081,7 @@
       ],
       "correctAnswer": "All of the above",
       "explanation": "kubectl get is a versatile command that lists resources, retrieves resource details, and can display information in various formats.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl get?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "kubectl get is one of the most commonly used kubectl commands for listing and viewing Kubernetes resources. It retrieves information about resources from the API Server and displays it in a readable format. Syntax: kubectl get <resource-type> [options]. Common resource types: pods, services, deployments, replica sets, nodes, namespaces, configmaps, secrets, persistentvolumes, persistentvolumeclaims, jobs, cronjobs, ingresses. Common options: -n or --namespace (specify namespace), -o or --output (specify output format: wide, json, yaml), -l or --selector (filter by label), --all-namespaces or -A (list from all namespaces), --show-labels (show labels). Examples: kubectl get pods, kubectl get pods -n kube-system, kubectl get pods -o wide, kubectl get all, kubectl get pods --all-namespaces."
     },
     {
       "id": 84,
@@ -1094,7 +1094,7 @@
       ],
       "correctAnswer": "Shows detailed information about a resource",
       "explanation": "kubectl describe provides detailed information about a specific resource, including its configuration, status, and events.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl describe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "kubectl describe is a command that provides detailed information about a specific Kubernetes resource. It retrieves all the metadata and configuration details for the resource and displays it in a human-readable format. Syntax: kubectl describe <resource-type> <resource-name> [options]. Common resource types: pods, services, deployments, nodes, namespaces, etc. Common options: -n or --namespace (specify namespace). The describe command shows: metadata (name, namespace, labels, annotations), specification (full configuration), status (current state, conditions, events), events (recent events related to the resource, helpful for debugging). Examples: kubectl describe pod <pod-name>, kubectl describe node <node-name>, kubectl describe deployment <deployment-name>. This command is particularly useful for debugging and troubleshooting."
     },
     {
       "id": 85,
@@ -1107,7 +1107,7 @@
       ],
       "correctAnswer": "Prints logs from Pod containers",
       "explanation": "kubectl logs prints the logs from the containers in a Pod, useful for debugging and monitoring.",
-      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl logs?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+      "detailedAnswer": "kubectl logs is a command that retrieves and displays the logs from containers in a Pod. This is essential for debugging and monitoring running applications. Syntax: kubectl logs <pod-name> [options]. Common options: -c or --container (specify container name if Pod has multiple containers), --previous (show logs from previous instance of the container, useful for debugging crash loops), -f or --follow (stream logs in real-time), --since (show logs from a specific time), --tail (show last N lines). Examples: kubectl logs <pod-name> (show logs from the only container), kubectl logs <pod-name> -c <container-name> (show logs from specific container), kubectl logs -f <pod-name> (follow logs in real-time). For debugging crash loops: kubectl logs --previous <pod-name>."
     }
   ]
 }

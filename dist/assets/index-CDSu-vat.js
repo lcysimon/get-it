@@ -7015,7 +7015,7 @@ const questions$5 = [
     ],
     correctAnswer: "Pod",
     explanation: "A Pod is the smallest deployable unit in Kubernetes. It can contain one or more containers that share storage, network, and specifications for how to run.",
-    detailedAnswer: "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
+    detailedAnswer: "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster.\n\nKey Characteristics:\n- Smallest deployable unit in Kubernetes\n- Can contain one or more containers that share the same Linux namespace\n- Containers in a Pod share: storage volumes, network namespace, and Linux namespaces\n- Each Pod gets its own unique IP address\n- Pods are ephemeral - they are created, run, and destroyed\n\nMulti-Container Pod Use Cases:\n1. Sidecar Pattern: Helper container that complements the main application\n2. Adapter Pattern: Transforms or standardizes output\n3. Ambassador Pattern: Acts as a proxy to external services\n4. Init Containers: Run before main containers for setup tasks\n\nNote: Direct container-to-container communication within a Pod uses localhost."
   },
   {
     id: 2,
@@ -7028,7 +7028,7 @@ const questions$5 = [
     ],
     correctAnswer: "Kubelet",
     explanation: "The Kubelet is an agent that runs on each node and ensures containers are running in a Pod as specified.",
-    detailedAnswer: "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
+    detailedAnswer: "The Kubelet is the primary node agent that runs on every node in a Kubernetes cluster.\n\nMain Responsibilities:\n1. Pod Management: Creates, updates, and destroys Pods\n2. Container Health Monitoring: Implements liveness and readiness probes\n3. Volume Management: Mounts and unmounts storage volumes\n4. Network Configuration: Works with CNI plugins for Pod networking\n5. Secret & ConfigMap Handling: Retrieves and provides to Pods\n6. Node Monitoring: Reports node status and resource usage\n\nWithout Kubelet, a node cannot participate in the cluster."
   },
   {
     id: 3,
@@ -7041,7 +7041,7 @@ const questions$5 = [
     ],
     correctAnswer: "A declarative way to manage Pods and ReplicaSets",
     explanation: "A Deployment provides declarative updates to Pods and ReplicaSets, enabling rolling updates, rollbacks, and scaling.",
-    detailedAnswer: "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
+    detailedAnswer: "A Deployment is a higher-level abstraction that manages ReplicaSets and provides declarative updates to Pods.\n\nKey Features:\n1. Declarative State Management\n2. Rolling Updates for zero-downtime deployments\n3. Rollback Capability to previous revisions\n4. Scaling: Easily scale replicas up or down\n5. Self-Healing: Automatically replaces failed Pods\n6. Revision History for rollback\n\nDeployment manages a ReplicaSet, which in turn manages Pods."
   },
   {
     id: 4,
@@ -7054,7 +7054,7 @@ const questions$5 = [
     ],
     correctAnswer: "Service",
     explanation: "A Service provides a stable cluster IP address and DNS name for accessing a set of Pods, abstracting away individual Pod IPs.",
-    detailedAnswer: "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
+    detailedAnswer: "A Service provides a stable, persistent identity for a set of Pods. This is crucial because Pods are ephemeral - they can be created, destroyed, and rescheduled at any time, which means their IP addresses can change.\n\nTypes of Services:\n1. ClusterIP (default): Creates an internal virtual IP that is only accessible within the cluster. Ideal for internal microservices communication.\n2. NodePort: Exposes the Service on a static port on each node's IP address. Accessible from outside the cluster via NodeIP:NodePort.\n3. LoadBalancer: Creates an external load balancer in supported cloud environments (AWS, GCP, Azure). Assigns an external IP that routes to the Service.\n4. ExternalName: Maps to an external DNS name (CNAME record). Useful for directing traffic to services outside the cluster.\n\nService Discovery:\nKubernetes automatically creates DNS records for Services. Pods can access Services using: <service-name>.<namespace>.svc.cluster.local (cross-namespace) or <service-name> (same namespace).\n\nSelectors: Services use label selectors to determine which Pods receive traffic. A Service without a selector requires manual endpoint configuration."
   },
   {
     id: 5,
@@ -7067,7 +7067,7 @@ const questions$5 = [
     ],
     correctAnswer: "kubectl scale deployment <name> --replicas=5",
     explanation: "The kubectl scale command changes the number of replicas in a Deployment, ReplicaSet, or other scalable resources.",
-    detailedAnswer: "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
+    detailedAnswer: "The kubectl scale command is the most straightforward way to adjust the number of replicas for scalable resources like Deployments, ReplicaSets, StatefulSets, and ReplicationControllers.\n\nBasic Syntax: kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nExample: kubectl scale deployment my-app --replicas=5\n\nHow It Works:\n1. Updates the spec.replicas field in the specified resource\n2. The controller (ReplicaSet controller for Deployments) observes this change\n3. Creates new Pods or deletes existing Pods to match the new desired count\n4. The change is almost instantaneous once the command completes\n\nAlternative Methods:\n1. kubectl edit: Opens the resource in your default editor\n2. kubectl patch: Use JSON patch to update specific fields\n3. kubectl apply: Apply a modified manifest file\n\nNote: The actual scaling speed depends on how long it takes to pull container images and start new Pods."
   },
   {
     id: 6,
@@ -7080,7 +7080,7 @@ const questions$5 = [
     ],
     correctAnswer: "Container",
     explanation: "Container is a Docker concept. Kubernetes works with Pods (which contain containers), not directly with containers.",
-    detailedAnswer: "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
+    detailedAnswer: "This is a fundamental concept that distinguishes Kubernetes from container runtime systems like Docker.\n\nContainers: A standard concept from Docker/OCI. They are running processes with isolated filesystem, network, and process space. Created from container images and managed by container runtimes.\n\nPods: A Kubernetes-specific abstraction and the smallest deployable unit. They can contain one or more containers that share resources (storage volumes, network namespace, Linux namespaces). Each Pod gets its own IP address and hostname.\n\nKey Relationship: Kubernetes does NOT directly manage containers. Instead, Kubernetes manages Pods, which contain containers. This design allows Kubernetes to provide value-added features like shared volumes, shared network namespace, coordinated lifecycle, and resource sharing/limits.\n\nWhy This Design Matters: The Pod abstraction enables important patterns like Sidecar, Adapter, Ambassador, and Init Containers. Without it, Kubernetes would be just a container orchestration tool."
   },
   {
     id: 7,
@@ -7093,7 +7093,7 @@ const questions$5 = [
     ],
     correctAnswer: "Store configuration data as key-value pairs",
     explanation: "ConfigMaps store configuration data in key-value pairs, allowing you to decouple configuration from application code.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a configmap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "ConfigMaps are designed to separate configuration from application code, following the 12-factor app methodology. This makes applications more portable and easier to manage.\n\nKey Features: Store configuration as key-value pairs. Can be consumed as environment variables, command-line arguments, configuration files in volumes, or via the Kubernetes API. Can be updated without rebuilding container images.\n\nWhen to Use: Environment-specific configuration, application settings, configuration files, command-line arguments, non-sensitive data. For sensitive data like passwords, use Secrets instead.\n\nCreating ConfigMaps:\n1. Imperative: kubectl create configmap my-config --from-literal=KEY=VALUE\n2. From files: kubectl create configmap my-config --from-file=config.properties\n3. Declarative: Define in YAML manifest with apiVersion: v1, kind: ConfigMap, and data section.\n\nImportant: ConfigMaps store data in plain text. Always use Secrets for sensitive information."
   },
   {
     id: 8,
@@ -7106,7 +7106,7 @@ const questions$5 = [
     ],
     correctAnswer: "ReplicaSet",
     explanation: "A ReplicaSet ensures that a specified number of Pod replicas are running at any given time.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which controller ensures desired pod count?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "ReplicaSets ensure that a specified number of Pod replicas are running at any given time. This provides high availability and reliability for your applications.\n\nHow ReplicaSets Work: You define a ReplicaSet with a Pod template, label selectors, and replica count. The ReplicaSet controller continuously monitors Pods and creates or deletes them to match the desired count.\n\nKey Features: Maintains a stable set of Pod replicas, ensures high availability (if Pods crash, new ones are created), can be scaled up or down, self-healing (automatically replaces failed Pods).\n\nExample: A ReplicaSet with 3 replicas will ensure 3 Pods are always running. If one crashes, a new one is created automatically.\n\nImportant: While ReplicaSets can be used directly, Deployments are the recommended higher-level abstraction because they provide rolling updates, rollbacks, and declarative configuration changes."
   },
   {
     id: 9,
@@ -7119,7 +7119,7 @@ const questions$5 = [
     ],
     correctAnswer: "External HTTP(S) access to Services",
     explanation: "Ingress provides external HTTP(S) access to Services in a cluster, typically with path-based routing and TLS termination.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does ingress provide?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Ingress provides external HTTP and HTTPS access to Services in a Kubernetes cluster, acting as a reverse proxy and load balancer.\n\nWhy Ingress is Needed: Services are internal to the cluster by default. NodePort lacks advanced routing. LoadBalancer can be expensive. Ingress provides a unified, flexible way to expose Services externally.\n\nKey Features: HTTP(S) routing based on hostnames and paths, SSL/TLS termination, load balancing across backend Pods, name-based virtual hosting. Works with various Ingress Controllers (NGINX, Traefik, HAProxy, AWS ALB, GCE, Istio).\n\nHow It Works: You define Ingress rules, an Ingress Controller implements them, external traffic hits the Ingress Controller, which routes requests to appropriate Services.\n\nExample: An Ingress can route example.com to one Service and api.example.com to another Service, with path-based routing like /api to backend Service.\n\nImportant: Ingress requires an Ingress Controller to be installed in your cluster. The Kubernetes project only provides the API; you must deploy a controller that implements it."
   },
   {
     id: 10,
@@ -7132,7 +7132,7 @@ const questions$5 = [
     ],
     correctAnswer: "YAML",
     explanation: "Kubernetes manifests are typically written in YAML format (though JSON is also supported). YAML is more human-readable.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what file format is used for kubernetes manifests?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Kubernetes manifests define the desired state of your applications and infrastructure in a declarative format.\n\nYAML Format: Most commonly used because it is human-readable, supports comments, uses indentation for nesting, and is more compact for hierarchical data.\n\nJSON Format: Also fully supported. May be preferable when manifests are generated programmatically or need to be processed with standard JSON tools.\n\nBest Practices: Use YAML for most manifests (human-readable). Use consistent indentation (2 spaces). Add comments to explain complex configurations. Use JSON for programmatically generated manifests. Store manifests in version control. Consider using Helm or Kustomize for complex applications.\n\nBoth formats are equivalent and can be converted between each other using tools like yq or jq."
   },
   {
     id: 11,
@@ -7145,7 +7145,7 @@ const questions$5 = [
     ],
     correctAnswer: "Divides cluster resources between users/teams/applications",
     explanation: "Namespaces provide a mechanism to divide cluster resources and can be used for isolation and organization.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a namespace?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Namespaces provide a mechanism to divide cluster resources between multiple users, teams, or applications. They act as virtual clusters backed by the same physical cluster.\n\nKey Features: Logical partitioning of resources, isolation (resources in one namespace are separate from others), can have their own policies and quotas, useful for organizing and isolating workloads.\n\nCommon Use Cases: Multi-tenant clusters (different teams), environment isolation (dev, staging, production), application isolation (microservices), testing (temporary namespaces).\n\nDefault Namespaces:\n- default: Default namespace for objects with no other namespace specified\n- kube-system: Namespace for objects created by the Kubernetes system\n- kube-public: Read-only namespace for cluster-wide information\n- kube-node-lease: Heartbeat objects for node leases\n\nCommands:\n- kubectl create namespace <name>\n- kubectl get pods -n <namespace>\n- kubectl config set-context --current --namespace=<namespace>\n\nNote: Not all objects are in a namespace. Node, PersistentVolume, StorageClass, and CustomResourceDefinition are cluster-scoped (not namespace-scoped)."
   },
   {
     id: 12,
@@ -7158,7 +7158,7 @@ const questions$5 = [
     ],
     correctAnswer: "Manages stateful apps with stable, persistent identities for Pods",
     explanation: "StatefulSets manage the deployment and scaling of Pods and provide guarantees about the ordering and uniqueness of these Pods.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a statefulset?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "StatefulSets manage the deployment and scaling of stateful applications and provide guarantees about the ordering and uniqueness of Pods.\n\nKey Features: Stable, persistent identities for Pods (hostname, network identity, storage). Ordered deployment and scaling (Pods are created sequentially). Ordered termination (Pods are terminated in reverse order). Stable storage (each Pod gets its own PersistentVolume that persists across rescheduling). Each Pod has a unique, stable name: <statefulset-name>-<ordinal>.\n\nUse Cases: Databases (MySQL, PostgreSQL, MongoDB), distributed systems that require stable identities, applications that need persistent, ordered deployment, stateful applications like Kafka, ZooKeeper, etcd.\n\nComparison with Deployments:\n- Deployments: stateless apps, Pods are interchangeable, random naming\n- StatefulSets: stateful apps, Pods have stable identities, ordered operations\n\nExample: A StatefulSet with 3 replicas will have Pods named web-0, web-1, web-2. web-0 is created first and must be Running and Ready before web-1 is created.\n\nImportant: StatefulSets require a headless Service (ClusterIP: None) for DNS management."
   },
   {
     id: 13,
@@ -7171,7 +7171,7 @@ const questions$5 = [
     ],
     correctAnswer: "Runs exactly one Pod per node",
     explanation: "A DaemonSet ensures that a copy of a Pod runs on all (or some) nodes in the cluster.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a daemonset?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "DaemonSets ensure that a copy of a Pod runs on all (or some) nodes in the cluster.\n\nKey Features: Runs exactly one Pod per node. Automatic deployment to new nodes as they are added. Pods are created with a well-known naming convention.\n\nCommon Use Cases: Cluster logging agents (Fluentd, Filebeat), monitoring agents (Prometheus Node Exporter, Datadog Agent), networking (kube-proxy, Calico, Weave), storage daemons (Ceph, GlusterFS), security agents.\n\nHow It Works: The DaemonSet controller watches for new nodes. When a new node is added, the controller creates a Pod on that node. When a node is removed, the corresponding Pod is garbage collected.\n\nExample: A DaemonSet for Fluentd will ensure every node in the cluster has a Fluentd Pod for log collection.\n\nComparison with Deployments: Deployments scale Pods to a specific number, DaemonSets ensure one Pod per node.\n\nNote: DaemonSets can use node selectors, taints and tolerations to control which nodes get Pods."
   },
   {
     id: 14,
@@ -7184,7 +7184,7 @@ const questions$5 = [
     ],
     correctAnswer: "kubectl get pods -A",
     explanation: "The -A or --all-namespaces flag displays resources from all namespaces.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what lists all pods in all namespaces?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "To list all Pods across all namespaces, use the -A or --all-namespaces flag with kubectl get pods.\n\nCorrect Command: kubectl get pods -A\n\nBreakdown: kubectl is the command-line tool, get retrieves information, pods is the resource type, -A or --all-namespaces shows resources from all namespaces.\n\nAlternative Commands:\n- kubectl get pods --all-namespaces (same as -A)\n- kubectl get pods -n default (specific namespace)\n- kubectl get pods (current namespace context)\n\nExamples:\n- List all Pods in all namespaces: kubectl get pods -A\n- List all Pods with more details: kubectl get pods -A -o wide\n- List all resources in all namespaces: kubectl get all -A\n\nOutput Format: The -o flag controls output format:\n- Default: basic information\n- wide: includes node and IP\n- json: full JSON output\n- yaml: YAML output\n- custom-columns: custom columns\n\nNote: Without -A or -n, kubectl uses the current namespace context."
   },
   {
     id: 15,
@@ -7197,7 +7197,7 @@ const questions$5 = [
     ],
     correctAnswer: "Piece of storage provisioned by admin",
     explanation: "A PersistentVolume is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is persistentvolume (pv)?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator or dynamically provisioned using Storage Classes.\n\nKey Characteristics: Independent of Pods (exists separately from Pod lifecycle). Can be manually or dynamically provisioned. Has a lifecycle: Available, Bound, Released, Failed. Access modes: ReadWriteOnce, ReadOnlyMany, ReadWriteMany. Reclaim policies: Retain, Delete, Recycle.\n\nTypes: HostPath (file or directory on the node), NFS (Network File System), Cloud storage (AWS EBS, GCP PD, Azure Disk), Distributed storage (Ceph, GlusterFS, Portworx).\n\nProvisioning Modes:\n- Static: administrator manually creates PVs\n- Dynamic: PVs are created automatically when a PVC requests storage\n\nExample: A PV could be a 5Gi AWS EBS volume that persists independently of any Pod using it.\n\nImportant: PVs are cluster-wide resources, not namespace-scoped."
   },
   {
     id: 16,
@@ -7210,7 +7210,7 @@ const questions$5 = [
     ],
     correctAnswer: "Request for storage by a user",
     explanation: "A PersistentVolumeClaim is a request for storage by a user. It's similar to a Pod consuming node resources.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is persistentvolumeclaim (pvc)?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "PersistentVolumeClaim (PVC) is a request for storage by a user. It is similar to a Pod consuming node resources.\n\nKey Characteristics: Namespace-scoped (unlike PV which is cluster-scoped). Requests specific size and access modes. Can specify storage class. Status: Pending, Bound, Lost, etc.\n\nHow It Works: User creates a PVC requesting storage, Kubernetes looks for a PV that matches the PVC requirements, PVC binds to a suitable PV, Pod uses the PVC as a volume.\n\nExample PVC: Requests 3Gi storage with ReadWriteOnce access mode from the manual storage class.\n\nAccess Modes:\n- ReadWriteOnce (RWO): read-write by a single node\n- ReadOnlyMany (ROX): read-only by many nodes\n- ReadWriteMany (RWX): read-write by many nodes\n\nBinding: Static binding (PVC binds to existing PV) or Dynamic binding (PVC triggers creation of new PV).\n\nImportant: Once bound, PVC and PV have a 1:1 relationship."
   },
   {
     id: 17,
@@ -7223,7 +7223,7 @@ const questions$5 = [
     ],
     correctAnswer: "Runs Pod that exits after completing work",
     explanation: "A Job creates one or more Pods and ensures that a specified number of them successfully terminate.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a job?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Job creates one or more Pods and ensures that a specified number of them successfully terminate.\n\nKey Characteristics: Runs to completion (batch processing). Pods run until successful termination. Creates new Pods if previous ones fail. Completion: when specified number of Pods terminate successfully.\n\nUse Cases: Batch processing, data migration, backups, one-time tasks, cron jobs (via CronJob).\n\nExample Job: A Pod that calculates pi to 2000 digits using Perl.\n\nTypes of Jobs:\n1. Non-parallel Jobs: single Pod\n2. Parallel Jobs with fixed completion count: multiple Pods, all must succeed\n3. Parallel Jobs with work queue: multiple Pods, completion based on queue\n\nCommands:\n- kubectl get jobs\n- kubectl describe job <name>\n- kubectl logs job/<name>\n- kubectl delete job <name>\n\nNote: Jobs create Pods with restartPolicy: Never or OnFailure."
   },
   {
     id: 18,
@@ -7236,7 +7236,29 @@ const questions$5 = [
     ],
     correctAnswer: "Job that runs on time-based schedule",
     explanation: "A CronJob creates Jobs on a time-based schedule, written in Cron format.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a cronjob?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: `A CronJob creates Jobs on a time-based schedule, similar to the cron utility in Unix-like operating systems.
+
+Key Characteristics: Creates Jobs on a time schedule. Scheduling uses cron syntax. Each Job creates Pods. Retention: keeps completed and failed Jobs based on history limits.
+
+Cron Syntax: Minute (0-59), Hour (0-23), Day of month (1-31), Month (1-12), Day of week (0-6, Sunday=0).
+
+Example: Schedule "*/5 * * * *" means every 5 minutes.
+
+Common Schedules:
+- Every minute: "* * * * *"
+- Every 5 minutes: "*/5 * * * *"
+- Every hour: "0 * * * *"
+- Every day at midnight: "0 0 * * *"
+- Every Sunday at 3 AM: "0 3 * * 0"
+
+Example CronJob: Runs a script every 5 minutes that prints the date and a hello message.
+
+Commands:
+- kubectl get cronjobs
+- kubectl describe cronjob <name>
+- kubectl get jobs --watch (watch Jobs created by CronJob)
+
+Note: Time zone is based on the Kubernetes master's time zone.`
   },
   {
     id: 19,
@@ -7249,7 +7271,7 @@ const questions$5 = [
     ],
     correctAnswer: "Auto-scales Pods based on CPU/memory",
     explanation: "HPA automatically adjusts the number of Pods in a Deployment, ReplicaSet, or StatefulSet based on observed CPU/memory usage.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is horizontalpodautoscaler (hpa)?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Horizontal Pod Autoscaler (HPA) automatically adjusts the number of Pods in a Deployment, ReplicaSet, or StatefulSet based on observed CPU/memory usage or custom metrics.\n\nKey Characteristics: Scales workloads horizontally. Default metric: CPU utilization percentage. Can use memory or custom metrics. Can specify minimum and maximum number of replicas. Works with metrics from the Metrics Server or custom metrics.\n\nHow It Works: HPA controller checks metrics at regular intervals (default: 15 seconds), compares current metrics with target values, calculates desired number of replicas, updates the workload's replica count.\n\nExample HPA: Maintains between 1 and 10 replicas of a Deployment with a target CPU utilization of 50%.\n\nMetrics Types:\n1. Resource: CPU, memory\n2. Pods: metrics from Pods\n3. Object: metrics from other objects\n4. External: metrics from external sources\n\nScaling Behavior: Scale up happens quickly based on current usage vs target. Scale down happens more slowly to prevent thrashing. Stabilization window prevents rapid scale fluctuations.\n\nCommands:\n- kubectl get hpa\n- kubectl describe hpa <name>\n- kubectl top pods (view metrics)\n\nNote: HPA requires the Metrics Server to be installed in the cluster."
   },
   {
     id: 20,
@@ -7262,7 +7284,7 @@ const questions$5 = [
     ],
     correctAnswer: "Controls network traffic to/from Pods",
     explanation: "NetworkPolicy defines rules for ingress and/or egress traffic from and to the Pods selected by the policy.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is networkpolicy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "NetworkPolicy is an application-centric construct that lets you control the network traffic to and from your Pods. It defines a set of rules that specify which traffic is allowed to and from Pods.\n\nKey Features: Controls ingress and/or egress traffic to/from Pods. Operates at Layer 3 (IP) and Layer 4 (port). Can target specific Pods using label selectors.\n\nWhy Network Policies are Needed: By default, Pods in Kubernetes can communicate with all other Pods without restrictions. Network Policies provide a way to implement a zero-trust security model.\n\nUse Cases: Isolate sensitive Pods (databases), restrict traffic between microservices, implement multi-tier application security, prevent lateral movement in case of compromise.\n\nExample NetworkPolicy:\n- Allow traffic from Pods with label app=frontend to Pods with label app=backend on port 8080\n- Block all other traffic to backend Pods\n- Allow egress from database Pods only to specific storage services\n\nNetwork Policy Controllers: Kubernetes provides the API, but you need a network plugin that implements NetworkPolicy. Options include: Calico, Cilium, Weave Net, kube-router, etc.\n\nDefault Behavior: If no NetworkPolicies exist in a namespace, all traffic is allowed. If any NetworkPolicies exist, only traffic allowed by the policies is permitted.\n\nImportant: NetworkPolicies are enforced by the network plugin, not by Kubernetes itself. You must have a compatible CNI plugin installed."
   },
   {
     id: 21,
@@ -7275,7 +7297,7 @@ const questions$5 = [
     ],
     correctAnswer: "Manages cluster state and coordinates workloads",
     explanation: "The Control Plane (formerly Master) manages the cluster state, coordinates workloads, and makes global decisions about the cluster.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the control plane in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The Control Plane is the management layer of Kubernetes. It controls the entire cluster and makes global decisions. Components: API Server (front-end, handles all requests), etcd (distributed key-value store for cluster state), Controller Manager (runs controller loops), Scheduler (assigns Pods to Nodes). The API Server is the only component clients interact with directly. All other components communicate through it. For high availability, Control Plane components should run on multiple machines."
   },
   {
     id: 22,
@@ -7288,7 +7310,7 @@ const questions$5 = [
     ],
     correctAnswer: "API Server, etcd, Controller Manager, Scheduler",
     explanation: "The Control Plane consists of: API Server (entry point), etcd (key-value store), Controller Manager (runs controllers), and Scheduler (assigns Pods to Nodes).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what are the components of the control plane?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The Control Plane consists of: 1) API Server - exposes REST API, handles all requests, only component that writes to etcd. 2) etcd - distributed key-value store, source of truth for cluster state. 3) Controller Manager - runs controller loops (Node Controller, ReplicaSet Controller, Deployment Controller, etc.) that watch cluster state and make changes. 4) Scheduler - watches for new Pods and assigns them to Nodes based on resources, constraints, and policies. These can run on a single node or distributed across nodes."
   },
   {
     id: 23,
@@ -7301,7 +7323,7 @@ const questions$5 = [
     ],
     correctAnswer: "Distributed key-value store for cluster state",
     explanation: "etcd is a distributed, consistent key-value store that stores the cluster state and configuration.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is etcd in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "etcd is the distributed key-value store for Kubernetes. It stores all cluster data, configuration, and state. Characteristics: distributed (multiple nodes for redundancy), consistent (all nodes have same data view), highly available (automatic leader election), secure (TLS, RBAC), fast (low-latency). The API Server is the only component that writes to etcd. All other components read through the API Server. Regular backups are critical. etcd is the source of truth - if it goes down, the API Server cannot function."
   },
   {
     id: 24,
@@ -7314,7 +7336,7 @@ const questions$5 = [
     ],
     correctAnswer: "Front-end for the Control Plane",
     explanation: "The API Server is the front-end for the Kubernetes Control Plane, exposing the Kubernetes API via REST.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the api server in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The API Server is the front-end for the Kubernetes control plane. It handles all REST API requests. Key functions: authentication (X.509, tokens, OIDC), authorization (RBAC, ABAC, Webhook), admission control (validates and modifies requests), validation, persistence (writes to etcd), watch mechanism. It is stateless - state is stored in etcd. Can be scaled horizontally. All instances share the same etcd backend. It is the only component that kubectl and other clients interact with directly."
   },
   {
     id: 25,
@@ -7327,7 +7349,7 @@ const questions$5 = [
     ],
     correctAnswer: "Runs controller loops that watch cluster state",
     explanation: "The Controller Manager runs controller loops that watch the shared state of the cluster and make changes to drive the current state towards the desired state.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the controller manager?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The Controller Manager runs control loops that watch cluster state through the API Server and make changes to reach desired state. Key built-in controllers: Node Controller, ReplicaSet Controller, Deployment Controller, StatefulSet Controller, DaemonSet Controller, Job Controller, CronJob Controller, Service Controller, PV Controller, Namespace Controller. It runs in a loop, detecting discrepancies and taking action. Can be run as single or multiple processes for redundancy."
   },
   {
     id: 26,
@@ -7340,7 +7362,7 @@ const questions$5 = [
     ],
     correctAnswer: "Assigns Pods to Nodes based on resource availability",
     explanation: "The Scheduler watches for newly created Pods and assigns them to Nodes based on resource availability, constraints, and other factors.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the scheduler in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The Scheduler assigns newly created Pods to Nodes. It evaluates Node suitability using predicates (filtering) and priorities (scoring). Process: 1) Watch for new Pods with no Node, 2) Gather Node info, 3) Filter unsuitable Nodes, 4) Score remaining Nodes, 5) Select highest-scoring Node, 6) Bind Pod to Node. Scheduling criteria: resource requirements, selectors, affinity/anti-affinity, taints/tolerations, topology constraints, volume constraints, Node conditions. Important: The Scheduler only decides which Node - the Kubelet on that Node actually starts the Pod."
   },
   {
     id: 27,
@@ -7353,7 +7375,7 @@ const questions$5 = [
     ],
     correctAnswer: "Machines that run application workloads",
     explanation: "Worker Nodes (formerly Minions) are the machines that run the application workloads (containers in Pods).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what are worker nodes in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Worker Nodes run application workloads. Key components: Kubelet (primary node agent, manages Pods), Container Runtime (runs containers - containerd, Docker, CRI-O), Kube-proxy (network proxy for Services). Node requirements: compatible OS, container runtime, Kubelet, Kube-proxy, networking, sufficient resources. Node management: can add/remove Nodes, taint Nodes, label Nodes. Node conditions: Ready, MemoryPressure, DiskPressure, PIDPressure. Commands: kubectl get nodes, kubectl describe node, kubectl drain/cordon/uncordon."
   },
   {
     id: 28,
@@ -7366,7 +7388,7 @@ const questions$5 = [
     ],
     correctAnswer: "Agent that runs on each Node and communicates with Control Plane",
     explanation: "The Kubelet is an agent that runs on each Node and ensures containers are running in a Pod, communicating with the Control Plane.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the kubelet?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The Kubelet is the primary node agent. Main responsibilities: Pod management (creates, updates, destroys Pods based on PodSpecs), container health monitoring (liveness/readiness probes), volume management (mounts/unmounts volumes), network configuration (CNI plugins), Secret/ConfigMap handling, resource monitoring, image management (pulls images), container lifecycle management. It communicates with API Server (receives PodSpecs, reports status) and container runtime (via CRI). Without Kubelet, a Node cannot participate in the cluster."
   },
   {
     id: 29,
@@ -7379,7 +7401,7 @@ const questions$5 = [
     ],
     correctAnswer: "Network proxy that runs on each Node",
     explanation: "Kube-proxy is a network proxy that runs on each Node and implements the Kubernetes Service concept, providing load balancing and routing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the kube-proxy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Kube-proxy is a network proxy running on each Node. It implements Service networking. Key responsibilities: maintains network rules for Services/Endpoints, implements load balancing, configures network rules. Proxy modes: userspace (slowest, user-space processing), iptables (faster, uses iptables rules), ipvs (best performance, uses IPVS). It watches API Server for new Services/Endpoints and creates appropriate network rules. Runs as a DaemonSet (one Pod per Node). Required for Kubernetes Service concept to work."
   },
   {
     id: 30,
@@ -7392,7 +7414,7 @@ const questions$5 = [
     ],
     correctAnswer: "Software responsible for running containers",
     explanation: "The Container Runtime is the software responsible for running containers (e.g., Docker, containerd, CRI-O).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a container runtime?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Container Runtime executes containers. Options: containerd (lightweight, standalone, recommended), Docker (original, includes daemon/CLI), CRI-O (focused on CRI, optimized for Kubernetes). CRI (Container Runtime Interface) is the standard API for runtimes to communicate with Kubernetes. The Kubelet communicates with container runtimes via CRI. Multiple runtimes can be used in the same cluster. As of Kubernetes 1.24, Docker is no longer supported - containerd or CRI-O are recommended."
   },
   {
     id: 31,
@@ -7405,7 +7427,7 @@ const questions$5 = [
     ],
     correctAnswer: "Container Runtime Interface",
     explanation: "CRI (Container Runtime Interface) is the API that the Kubelet uses to communicate with container runtimes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is cri?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "CRI (Container Runtime Interface) is an API that allows the Kubelet to communicate with different container runtimes. It defines a standard protocol for container runtimes to implement, making Kubernetes runtime-agnostic. Before CRI, the Kubelet had direct integration with Docker. CRI decouples this, allowing any compatible runtime to be used. Key CRI operations: RunPodSandbox, StopPodSandbox, CreateContainer, StartContainer, StopContainer, RemoveContainer, PullImage, etc. This abstraction enables: runtime pluggability, multiple runtime support in the same cluster, and easier adoption of new container technologies."
   },
   {
     id: 32,
@@ -7418,7 +7440,7 @@ const questions$5 = [
     ],
     correctAnswer: "Container Network Interface",
     explanation: "CNI (Container Network Interface) is a standard for configuring networking in containerized environments.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is cni?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "CNI (Container Network Interface) is a standard interface for configuring network connectivity for containers. It is used by Kubernetes to provide networking for Pods. CNI plugins handle: Pod IP address assignment, Pod-to-Pod networking, Pod-to-Service networking, external connectivity. CNI is based on a simple plugin architecture where each plugin is an executable that implements the CNI specification. Popular CNI plugins: Calico, Cilium, Weave Net, Flannel, kube-router, AWS VPC CNI, GCP Networking. How it works: When a Pod is created, the Kubelet calls the CNI plugin to set up the Pod network namespace, assign an IP address, and configure network rules."
   },
   {
     id: 33,
@@ -7431,7 +7453,7 @@ const questions$5 = [
     ],
     correctAnswer: "Container Storage Interface",
     explanation: "CSI (Container Storage Interface) is a standard for exposing storage systems to containerized workloads.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is csi?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "CSI (Container Storage Interface) is a standard interface for exposing storage systems to containerized workloads. It allows storage vendors to develop plugins that work with Kubernetes without modifying the core Kubernetes code. CSI defines a set of RPC (Remote Procedure Call) endpoints that a storage provider implements. Key CSI operations: CreateVolume, DeleteVolume, AttachVolume, DetachVolume, PublishVolume (make volume available at a path), UnpublishVolume. CSI plugins can be: in-tree (built into Kubernetes) or out-of-tree (external). Popular CSI plugins: AWS EBS CSI Driver, GCP Persistent Disk CSI Driver, Azure Disk CSI Driver, Ceph CSI, etc. Benefits: storage vendor flexibility, out-of-tree development, standardized interface."
   },
   {
     id: 34,
@@ -7444,7 +7466,7 @@ const questions$5 = [
     ],
     correctAnswer: "Smallest deployable unit, one or more containers with shared resources",
     explanation: "A Pod is the smallest deployable unit in Kubernetes, containing one or more containers that share the same network namespace, storage, and specifications.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a pod in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Pod is the smallest deployable unit in Kubernetes. It represents a single instance of a running process in your cluster. Key characteristics: can contain one or more containers that share the same Linux namespace (PID, network, IPC), containers share storage volumes, each Pod has a unique IP address and hostname, Pods are ephemeral (created, run, destroyed), Pods are the atomic unit of scheduling. Pods provide a higher-level abstraction than containers, enabling Kubernetes to provide value-added features like shared volumes, coordinated lifecycle management, and resource sharing between containers."
   },
   {
     id: 35,
@@ -7457,7 +7479,7 @@ const questions$5 = [
     ],
     correctAnswer: "Pod with multiple containers that work together",
     explanation: "A multi-container Pod contains multiple containers that work together, typically with one main container and sidecar containers that provide supporting functionality.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a multi-container pod?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A multi-container Pod contains two or more containers that work together to accomplish a task. Containers in the same Pod: share the same network namespace (can communicate via localhost), share the same storage volumes, have the same lifecycle (created together, destroyed together), run on the same Node. Use cases for multi-container Pods: Sidecar pattern (helper container that complements main app), Adapter pattern (transforms or standardizes output), Ambassador pattern (acts as a proxy), Init containers (run once before main containers for setup). Examples: log shipper sidecar, monitoring agent, configuration reloader."
   },
   {
     id: 36,
@@ -7470,7 +7492,7 @@ const questions$5 = [
     ],
     correctAnswer: "Helper container that runs alongside main container",
     explanation: "A sidecar container is a helper container that runs alongside the main container in a Pod, providing supporting functionality like logging, monitoring, or networking.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a sidecar container?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A sidecar container is a helper container that runs alongside the main application container in the same Pod. It complements or enhances the main application without being part of it. Key characteristics: runs in the same Pod as the main container, shares network and storage with the main container, can communicate via localhost. Common sidecar patterns: Log collection (Fluentd, Filebeat), Monitoring (Prometheus Node Exporter, Datadog Agent), Security (authentication, encryption), Network proxy (service mesh sidecars like Istio, Linkerd), Synchronization (sync data between main app and external systems). Benefits: separation of concerns, modularity, reusability."
   },
   {
     id: 37,
@@ -7483,7 +7505,7 @@ const questions$5 = [
     ],
     correctAnswer: "Container that runs before app containers to set up Pod",
     explanation: "Init containers are specialized containers that run before app containers in a Pod to perform setup tasks like configuration, data loading, or dependency checks.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is an init container?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "An init container is a special container that runs before the main application containers in a Pod. Init containers always run to completion and must exit successfully before the main containers can start. Key characteristics: run before app containers, run sequentially (one after another), must all succeed for Pod to be ready, can have different image, resources, and security context than app containers. Use cases: setup tasks (download configuration, initialize databases, clone repositories), waiting for dependencies (wait for a service to be ready), security checks (validate environment before app starts), data preprocessing. Example: A Pod with an init container that downloads configuration files from a secure server before the app container starts."
   },
   {
     id: 38,
@@ -7496,7 +7518,7 @@ const questions$5 = [
     ],
     correctAnswer: "Checks if container is running and healthy",
     explanation: "A Liveness Probe indicates whether a container is running and healthy. If the probe fails, the container is restarted.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a liveness probe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Liveness Probe is a health check that determines if a container is running correctly. If the liveness probe fails, Kubernetes restarts the container. This helps recover from states that cannot be recovered from automatically (e.g., deadlocks, memory leaks causing crashes). Types of liveness probes: 1) HTTP probe: makes an HTTP request to a specified endpoint, 2) TCP probe: tries to open a TCP connection to a specified port, 3) Command probe: executes a command in the container and checks its exit code, 4) gRPC probe (new): makes a gRPC call. Configuration includes: initial delay, period (how often to check), timeout, success threshold, failure threshold."
   },
   {
     id: 39,
@@ -7509,7 +7531,7 @@ const questions$5 = [
     ],
     correctAnswer: "Checks if container is ready to serve traffic",
     explanation: "A Readiness Probe indicates whether the container is ready to respond to requests. If the probe fails, the container is removed from Service endpoints.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a readiness probe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Readiness Probe is a health check that determines if a container is ready to receive traffic. If the readiness probe fails, the container is removed from Service endpoints (Service load balancers will not send traffic to that Pod). This is useful for preventing traffic from being sent to Pods that are still initializing or are temporarily unavailable. Types of readiness probes: HTTP, TCP, Command, gRPC (same as liveness probes). Unlike liveness probes, readiness probe failures do NOT cause container restarts - they only affect traffic routing. This is particularly useful for: applications that take time to initialize, applications that need to load data before serving requests, rolling updates (new Pods only receive traffic when ready)."
   },
   {
     id: 40,
@@ -7522,7 +7544,7 @@ const questions$5 = [
     ],
     correctAnswer: "Checks if application has started successfully",
     explanation: "A Startup Probe indicates whether the application within the container has started. If it fails, the container is restarted.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a startup probe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Startup Probe is a health check that determines if an application has started successfully. It is used for applications that have long startup times and need to run initialization code before they are ready to accept liveness or readiness checks. Once the startup probe succeeds, the liveness probe takes over. If the startup probe fails, Kubernetes restarts the container (similar to liveness probe). Key benefits: prevents false positives during application startup (where liveness probes might kill a container that is still initializing), allows containers with slow startup to run without being killed prematurely. Only the startup probe can succeed - liveness and readiness probes are disabled until the startup probe succeeds. After startup succeeds, the liveness probe takes over."
   },
   {
     id: 41,
@@ -7535,7 +7557,7 @@ const questions$5 = [
     ],
     correctAnswer: "Liveness, Readiness, Startup",
     explanation: "Kubernetes supports three types of probes: Liveness Probe (checks if container is running), Readiness Probe (checks if container is ready), and Startup Probe (checks if application has started).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what are the types of probes in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Kubernetes supports three types of probes for container health monitoring: 1) Liveness Probe: Determines if a container is running correctly. If it fails, Kubernetes restarts the container. Use this for detecting states that cannot be recovered from automatically (e.g., deadlocks). 2) Readiness Probe: Determines if a container is ready to receive traffic. If it fails, the container is removed from Service endpoints. Use this for preventing traffic from being sent to Pods that are still initializing. 3) Startup Probe: Determines if an application has started successfully. Used for containers with long startup times. Once it succeeds, the liveness probe takes over. If it fails, the container is restarted. Each probe can be one of four types: HTTP (makes HTTP request), TCP (opens TCP connection), Command (executes command in container), gRPC (makes gRPC call)."
   },
   {
     id: 42,
@@ -7548,7 +7570,7 @@ const questions$5 = [
     ],
     correctAnswer: "Ensures specified number of Pod replicas are running",
     explanation: "A ReplicaSet ensures that a specified number of Pod replicas are running at any given time, replacing any Pods that fail.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a replicaset?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A ReplicaSet ensures that a specified number of Pod replicas are running at any given time. It is a lower-level abstraction that provides the basic functionality for maintaining Pod availability. Key features: maintains stable set of Pod replicas, ensures high availability (replaces failed Pods), can be scaled up or down, self-healing. How it works: You define a ReplicaSet with a Pod template, label selectors, and replica count. The ReplicaSet controller continuously monitors Pods and creates or deletes them to match the desired count. ReplicaSets are typically not used directly - Deployments are the recommended higher-level abstraction as they provide rolling updates, rollbacks, and declarative configuration changes."
   },
   {
     id: 43,
@@ -7561,7 +7583,7 @@ const questions$5 = [
     ],
     correctAnswer: "Both A and B",
     explanation: "A Deployment provides declarative updates to Pods and ReplicaSets, enables rolling updates and rollbacks, and manages ReplicaSets. ReplicaSet only ensures the specified number of replicas are running.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between deployment and replicaset?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The main differences between Deployment and ReplicaSet are: 1) Abstraction Level: Deployment is a higher-level abstraction that manages ReplicaSets. ReplicaSet is a lower-level abstraction that manages Pods directly. 2) Features: Deployment provides rolling updates, rollback capability, revision history, and declarative configuration changes. ReplicaSet only provides basic Pod replication. 3) Use Case: Use Deployment for most stateless applications. Use ReplicaSet only when you need fine-grained control over Pod replication (rare). 4) Architecture: Deployment -> ReplicaSet -> Pods. Deployment manages a ReplicaSet, which manages Pods. This provides two layers of stability and abstraction. 5) kubectl Commands: Deployment supports kubectl rollout commands (status, history, undo). ReplicaSet does not support these. 6) Revision History: Deployment maintains revision history for rollbacks. ReplicaSet does not."
   },
   {
     id: 44,
@@ -7574,7 +7596,7 @@ const questions$5 = [
     ],
     correctAnswer: "Update Pods incrementally without downtime",
     explanation: "A Rolling Update updates Pods incrementally (one by one or in batches) without downtime, replacing old Pods with new ones as they become ready.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a rolling update in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Rolling Update is a deployment strategy that gradually replaces old Pods with new Pods, ensuring zero downtime and minimizing the impact on users. Instead of replacing all Pods at once (which would cause downtime), Kubernetes replaces them incrementally. How it works: When you update a Deployment (e.g., change the container image), Kubernetes creates new Pods with the updated configuration while keeping the old Pods running. As new Pods become ready, old Pods are gradually terminated. The update progresses in a controlled manner. Configuration options: maxSurge (maximum number of extra Pods to create during update), maxUnavailable (maximum number of Pods that can be unavailable during update). Rolling updates are the default update strategy for Deployments."
   },
   {
     id: 45,
@@ -7587,7 +7609,7 @@ const questions$5 = [
     ],
     correctAnswer: "Revert to previous Deployment revision",
     explanation: "A Rollback reverts a Deployment to a previous revision, restoring the previous Pod template and configuration.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a rollback in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Rollback is the process of reverting a Deployment to a previous revision. This is useful when a deployment fails or causes issues, and you need to quickly revert to a known-good state. Rollbacks are possible because Deployments maintain a revision history of all previous configurations. How to rollback: kubectl rollout undo deployment/<name> rolls back to the previous revision. kubectl rollout undo deployment/<name> --to-revision=<n> rolls back to a specific revision. The rollback process is essentially a rolling update to the previous configuration. Kubernetes creates new Pods with the previous configuration and gradually replaces the current Pods. Rollbacks are fast and maintain the same guarantees as rolling updates (zero downtime, controlled rollout)."
   },
   {
     id: 46,
@@ -7600,7 +7622,7 @@ const questions$5 = [
     ],
     correctAnswer: "Watch rolling update status",
     explanation: "kubectl rollout status monitors the progress of a rolling update, waiting for it to complete or reporting any errors.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl rollout status?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "kubectl rollout status is a command that monitors the progress of a rollout (deployment or update). It watches the rollout until it either completes or fails, or until a timeout is reached. Syntax: kubectl rollout status <resource-type>/<name>. Example: kubectl rollout status deployment/my-app. This command is useful for: monitoring rolling updates in real-time, verifying that a deployment has completed successfully, debugging issues with rollouts. It provides a stream of updates showing the progress of the rollout, including how many Pods have been updated, how many are still being updated, and the overall status. Default timeout is 5 minutes."
   },
   {
     id: 47,
@@ -7613,7 +7635,7 @@ const questions$5 = [
     ],
     correctAnswer: "View history of rollouts for a resource",
     explanation: "kubectl rollout history displays the rollout history for a Deployment or other resource, showing previous revisions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl rollout history?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "kubectl rollout history is a command that shows the revision history of a Deployment. This is useful for viewing all previous configurations and for rolling back to a specific revision. Syntax: kubectl rollout history <resource-type>/<name>. Example: kubectl rollout history deployment/my-app. This shows a list of revisions with their revision number, timestamp, and a brief description. To see more details about a specific revision: kubectl rollout history deployment/my-app --revision=<n>. This shows the full configuration of that revision. Revisions are created automatically when you update a Deployment (e.g., change the image, replica count, or other configuration)."
   },
   {
     id: 48,
@@ -7626,7 +7648,7 @@ const questions$5 = [
     ],
     correctAnswer: "Rollback to previous revision",
     explanation: "kubectl rollout undo rolls back a Deployment to the previous revision.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl rollout undo?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "kubectl rollout undo is a command that rolls back a Deployment to a previous revision. This is useful when a deployment fails or causes issues. Syntax: kubectl rollout undo <resource-type>/<name>. Example: kubectl rollout undo deployment/my-app. This rolls back to the previous revision. To roll back to a specific revision: kubectl rollout undo deployment/my-app --to-revision=<n>. The rollback process is essentially a rolling update to the previous configuration. It creates new Pods with the previous configuration and gradually replaces the current Pods. This maintains the same guarantees as rolling updates: zero downtime, controlled rollout. You can also use --dry-run to see what would happen without actually performing the rollback."
   },
   {
     id: 49,
@@ -7639,7 +7661,7 @@ const questions$5 = [
     ],
     correctAnswer: "Exposes Pods as network service with stable IP and DNS",
     explanation: "A Service exposes a set of Pods as a network service with a stable cluster IP address and DNS name, abstracting away individual Pod IPs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a service in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Service in Kubernetes is an abstraction that defines a logical set of Pods and a policy to access them. It provides a stable, persistent identity for a set of Pods, abstracting away the ephemeral nature of Pods (which can be created, destroyed, and rescheduled at any time). Services enable loose coupling between dependent Pods. They are the primary way to expose applications running in Kubernetes, whether internally within the cluster or externally to the world. Key features: stable IP address and DNS name, load balancing across Pods, service discovery (automatic DNS creation), abstraction of Pod management. Services are defined by label selectors that identify which Pods should receive traffic."
   },
   {
     id: 50,
@@ -7652,7 +7674,7 @@ const questions$5 = [
     ],
     correctAnswer: "ClusterIP, NodePort, LoadBalancer, ExternalName",
     explanation: "The four types of Services are: ClusterIP (internal cluster IP), NodePort (exposes service on each Node's IP), LoadBalancer (creates external load balancer), and ExternalName (maps to external DNS).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what are the types of services in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Kubernetes provides four types of Services: 1) ClusterIP (default): Creates an internal virtual IP that is only accessible within the cluster. Ideal for internal microservices communication. Pods can access it using <service-name>.<namespace>.svc.cluster.local. 2) NodePort: Exposes the Service on a static port on each Node's IP address. Accessible from outside the cluster via <NodeIP>:<NodePort>. Kubernetes automatically assigns a port in the range 30000-32767. 3) LoadBalancer: Creates an external load balancer in supported cloud environments (AWS, GCP, Azure). Assigns an external IP that routes to the Service. Combines the features of ClusterIP and NodePort. 4) ExternalName: Maps the Service to an external DNS name (CNAME record). Useful for directing traffic to services outside the cluster."
   },
   {
     id: 51,
@@ -7665,7 +7687,7 @@ const questions$5 = [
     ],
     correctAnswer: "Internal Service with cluster-internal IP",
     explanation: "ClusterIP Service exposes the Service on an internal IP in the cluster, making it accessible only from within the cluster.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is clusterip service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "ClusterIP Service is the default and most commonly used Service type. It creates an internal virtual IP address that is only accessible from within the Kubernetes cluster. This is ideal for internal microservices communication where you want to expose a Service to other Pods within the cluster but not to external clients. Key characteristics: internal-only access, automatically creates a DNS name (e.g., <service-name>.<namespace>.svc.cluster.local), load balances traffic across all Pods with matching labels, stable IP address that persists even if Pods are recreated. Use case: When you want Pod A to communicate with Pod B within the same cluster."
   },
   {
     id: 52,
@@ -7678,7 +7700,7 @@ const questions$5 = [
     ],
     correctAnswer: "Exposes Service on static port on each Node's IP",
     explanation: "NodePort Service exposes the Service on each Node's IP at a static port (the NodePort), making it accessible from outside the cluster.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is nodeport service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "NodePort Service exposes the Service on a static port on each Node's IP address. This makes the Service accessible from outside the cluster via <NodeIP>:<NodePort>. Key characteristics: Kubernetes automatically assigns a port in the range 30000-32767 (you can also specify a port manually), the same port is used on all Nodes, accessible from any machine that can reach the Node, creates a ClusterIP Service internally and routes to it. Use case: When you need to expose a Service to external clients but do not have a cloud load balancer. NodePort is often used in development environments or on-premises clusters."
   },
   {
     id: 53,
@@ -7691,7 +7713,7 @@ const questions$5 = [
     ],
     correctAnswer: "Creates external load balancer in cloud provider",
     explanation: "LoadBalancer Service creates an external load balancer in the cloud provider (e.g., AWS ELB, GCP Load Balancer) to expose the Service externally.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is loadbalancer service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "LoadBalancer Service creates an external load balancer in supported cloud environments (AWS, GCP, Azure, etc.). It provisions a cloud load balancer and assigns an external IP address that routes to the Service. Key characteristics: creates a NodePort Service internally, which in turn creates a ClusterIP Service, the cloud provider automatically creates the load balancer and manages it, assigns an external IP address, can be expensive due to cloud provider costs. Use case: When you need to expose a Service to the internet in a cloud environment. Not all environments support LoadBalancer (e.g., bare metal, Minikube requires additional setup)."
   },
   {
     id: 54,
@@ -7704,7 +7726,7 @@ const questions$5 = [
     ],
     correctAnswer: "Maps Service to external DNS name",
     explanation: "ExternalName Service maps the Service to an external DNS name (CNAME record), redirecting requests to that external service.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is externalname service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "ExternalName Service maps the Service to an external DNS name (CNAME record). This allows you to use the Service abstraction to direct traffic to services that exist outside of your Kubernetes cluster. Key characteristics: does not create a proxy or load balancer, simply creates a DNS CNAME record, when a client queries the Service DNS, it gets the external DNS name, the client then directly connects to the external service. Use case: When you want to provide a consistent abstraction for external services (e.g., database running outside the cluster, third-party APIs) or when migrating services to Kubernetes gradually. Example: Map a Service named external-db to mydatabase.example.com."
   },
   {
     id: 55,
@@ -7717,7 +7739,7 @@ const questions$5 = [
     ],
     correctAnswer: "Service without cluster IP for direct Pod access",
     explanation: "A Headless Service is a Service with ClusterIP set to None, allowing direct access to Pods via DNS without load balancing or proxying.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is headless service?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Headless Service is a Service without a cluster IP address (ClusterIP: None). It provides a way to directly access Pods without a proxy or load balancer. Key characteristics: DNS returns the Pod IPs directly (not a single Service IP), enables direct Pod-to-Pod communication, often used with StatefulSets where each Pod has a stable identity. Use cases: 1) StatefulSets: Each Pod has its own stable hostname (e.g., web-0, web-1, web-2) and can be accessed directly. 2) Custom service discovery: When you want clients to discover Pods directly via DNS. 3) DNS-only services: When you only need DNS resolution without load balancing. Important: Headless Services are used when you need to access individual Pods directly rather than through a load balancer."
   },
   {
     id: 56,
@@ -7730,7 +7752,7 @@ const questions$5 = [
     ],
     correctAnswer: "Uses Linux IPVS for load balancing",
     explanation: "The ipvs mode of kube-proxy uses Linux IPVS (IP Virtual Server) for load balancing, providing better performance and scalability than iptables mode.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kube-proxy mode ipvs?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "IPVS (IP Virtual Server) is a Linux kernel-based load balancing solution. In kube-proxy ipvs mode, kube-proxy uses IPVS to create virtual servers for each Service. This provides better performance and scalability than iptables mode, especially for clusters with many Services. Key characteristics: uses the Linux IPVS kernel module, supports multiple load balancing algorithms (rr - round robin, lc - least connection, dh - destination hashing, sh - source hashing, sed - shortest expected delay, nq - never queue), maintains connection persistence, lower latency and higher throughput compared to iptables. IPVS is the default mode for kube-proxy in newer Kubernetes versions. It is particularly well-suited for large clusters with many Services."
   },
   {
     id: 57,
@@ -7743,7 +7765,7 @@ const questions$5 = [
     ],
     correctAnswer: "Uses iptables rules for load balancing",
     explanation: "The iptables mode of kube-proxy uses iptables rules to implement Service load balancing, which was the default mode before ipvs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kube-proxy mode iptables?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "In kube-proxy iptables mode, kube-proxy uses iptables rules to implement Service load balancing and networking. This was the default mode in older Kubernetes versions. Key characteristics: creates iptables rules for each Service, uses DNAT (Destination Network Address Translation) to redirect traffic to Pods, works well for most use cases, simpler to understand and debug compared to ipvs, slightly less efficient than ipvs for very large clusters. When a Service is created, kube-proxy creates iptables rules that intercept traffic to the Service IP and redirect it to one of the Pods. When a Pod is added or removed, kube-proxy updates the iptables rules accordingly. This mode is still widely used and is a good choice for smaller clusters or when you need compatibility with older setups."
   },
   {
     id: 58,
@@ -7756,7 +7778,7 @@ const questions$5 = [
     ],
     correctAnswer: "Manages Ingress resources and provides external access",
     explanation: "An Ingress Controller is a specialized load balancer that manages Ingress resources and provides external HTTP(S) access to Services in the cluster.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is an ingress controller?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "An Ingress Controller is a specialized load balancer and reverse proxy that implements the Kubernetes Ingress API. While the Ingress API defines the rules for routing traffic to Services, the Ingress Controller actually implements those rules. Key characteristics: watches the API Server for Ingress resources, configures the underlying load balancer or proxy based on the Ingress rules, handles SSL/TLS termination, provides advanced routing capabilities (path-based, host-based). Popular Ingress Controllers: NGINX Ingress Controller (most popular, supports advanced features), Traefik (cloud-native, supports dynamic configuration), HAProxy Ingress (high performance, supports advanced routing), AWS ALB Ingress Controller (native AWS Load Balancer integration), GCE Ingress Controller (native Google Cloud Load Balancer integration), Istio Ingress Gateway (service mesh integration). You must deploy and configure an Ingress Controller for the Ingress API to work."
   },
   {
     id: 59,
@@ -7769,7 +7791,7 @@ const questions$5 = [
     ],
     correctAnswer: "Stores sensitive data like passwords, tokens, keys",
     explanation: "A Secret is an object that stores sensitive data like passwords, OAuth tokens, SSH keys, and other credentials.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a secret?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Secret is a Kubernetes object that stores sensitive data such as passwords, tokens, API keys, certificates, or other confidential information. Secrets are similar to ConfigMaps but are specifically designed for sensitive data. Key characteristics: base64-encoded data (not encrypted at rest by default), can be mounted as volumes or exposed as environment variables to Pods, three types: Opaque (generic key-value pairs), Service Account Token (used for service account authentication), Docker Registry (credentials for Docker registries). Important security notes: Secrets are only encoded, not encrypted. Anyone with API access can decode them. For true encryption, use encryption at rest (enabled via Kubernetes API Server configuration). Secrets are not automatically rotated - you must update them manually or use an external system."
   },
   {
     id: 60,
@@ -7782,7 +7804,7 @@ const questions$5 = [
     ],
     correctAnswer: "ConfigMap for non-sensitive, Secret for sensitive data",
     explanation: "ConfigMaps are intended for storing non-sensitive configuration data, while Secrets are designed for storing sensitive data that should be protected.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between configmap and secret?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The main differences between ConfigMap and Secret are: 1) Purpose: ConfigMap stores non-sensitive configuration data. Secret stores sensitive data like passwords, tokens, keys. 2) Data Encoding: ConfigMap stores data in plain text. Secret stores data as base64-encoded (not encrypted). 3) Use Cases: ConfigMap is used for environment variables, configuration files, command-line arguments. Secret is used for passwords, API keys, certificates, tokens. 4) Security: Both are stored in etcd. Both can be accessed by anyone with appropriate permissions. Neither provides encryption at rest by default (encryption must be explicitly enabled). 5) API: Both have similar API structures (data and binaryData fields). 6) Both can be consumed as environment variables, command-line arguments, or volume mounts. Both should be used according to their intended purpose for better security and clarity."
   },
   {
     id: 61,
@@ -7795,7 +7817,7 @@ const questions$5 = [
     ],
     correctAnswer: "Secrets are base64 encoded by default",
     explanation: "Secrets store data as base64 encoded strings by default (not encrypted), while ConfigMaps store data as plain text. Both need additional encryption for security.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between secret and configmap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "ConfigMap and Secret serve different purposes and have different use cases. ConfigMap is designed for storing non-sensitive configuration data in key-value pairs. It is used for environment variables, configuration files, command-line arguments, and other non-confidential settings. Secret is designed specifically for storing sensitive data like passwords, tokens, API keys, and certificates. While both store data in key-value pairs and can be mounted as volumes or injected as environment variables, the key differences are: purpose (non-sensitive vs sensitive), typical usage patterns, and the intent they signal to users. Both are stored unencrypted in etcd by default - encryption at rest must be explicitly enabled. Always use the appropriate type based on the sensitivity of your data."
   },
   {
     id: 62,
@@ -7808,7 +7830,7 @@ const questions$5 = [
     ],
     correctAnswer: "Persistent storage mounted into Pod",
     explanation: "A Volume is a directory containing data that is accessible to the containers in a Pod, with different types supporting various storage backends.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is volume in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Volume in Kubernetes is a directory containing data that is accessible to containers in a Pod. Volumes provide persistent storage that exists beyond the lifecycle of individual containers. Key characteristics: Volumes are Pod-scoped (shared by all containers in a Pod), data in a Volume persists even if containers restart, Volumes can use different types of storage backends (local, network, cloud). Types of Volumes: emptyDir (temporary storage created when Pod starts), hostPath (mounts file/directory from Node), PersistentVolumeClaim (dynamic or static), ConfigMap/Secret (mounts configuration data), cloud storage (AWS EBS, GCP PD, Azure Disk), network storage (NFS, Ceph, GlusterFS). Volumes are defined in the Pod specification under spec.volumes, and mounted to containers under spec.containers[*].volumeMounts."
   },
   {
     id: 63,
@@ -7821,7 +7843,7 @@ const questions$5 = [
     ],
     correctAnswer: "Temporary storage that exists as long as Pod exists",
     explanation: "emptyDir is a Volume type that creates an empty directory for the Pod and exists as long as the Pod exists, deleted when the Pod is removed.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is emptydir volume?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "emptyDir is a type of Volume that is created when a Pod is assigned to a Node and exists as long as the Pod is running. It is initially empty and all containers in the Pod can read and write the same files in the emptyDir Volume. Key characteristics: created when Pod starts, deleted when Pod is removed, stored on whatever medium backs the Node (usually disk or SSD), can be mounted at the same or different paths in each container, useful for sharing data between containers in a Pod. Use cases: scratch space, cache, sharing data between containers. By default, emptyDir uses the Node default storage medium. You can specify a medium (Memory for RAM-based tmpfs). Example: Two containers in a Pod where one writes data to emptyDir and the other reads it."
   },
   {
     id: 64,
@@ -7834,7 +7856,7 @@ const questions$5 = [
     ],
     correctAnswer: "Mounts file or directory from host node into Pod",
     explanation: "hostPath Volume mounts a file or directory from the host Node's filesystem into the Pod, useful for accessing Node-specific files.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is hostpath volume?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "hostPath is a type of Volume that mounts a file or directory from the Node's filesystem into the Pod. This allows the Pod to access files on the Node directly. Key characteristics: mounts existing files/directories from Node, not created by Kubernetes, persists even if Pod is deleted, can be used to access system files, logs, or other Node-specific data. Use cases: running a Pod that needs access to Node system files (e.g., /var/log), accessing custom configuration files on the Node, mounting Docker socket for Docker-in-Docker scenarios, running DaemonSets that need Node access. Important: hostPath Volumes can be a security risk - any Pod with hostPath access can read/write Node files. Use with caution and appropriate security contexts."
   },
   {
     id: 65,
@@ -7847,7 +7869,7 @@ const questions$5 = [
     ],
     correctAnswer: "Defines different types of storage like SSD, HDD",
     explanation: "StorageClass defines different types of storage (e.g., fast SSD, slow HDD) that can be dynamically provisioned, with different performance characteristics.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is storageclass in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "StorageClass is a Kubernetes object that defines different types of storage that can be dynamically provisioned. It allows administrators to describe classes of storage they offer (e.g., fast SSD, slow HDD, cloud storage) and users to request storage with specific characteristics. Key components: provisioner (identifies the storage provider, e.g., kubernetes.io/aws-ebs), parameters (storage-specific parameters like type, zone), reclaimPolicy (what happens to PV when PVC is deleted), volumeBindingMode (when volume binding occurs). StorageClass is used for dynamic provisioning - when a PVC requests storage, Kubernetes can automatically create a PV based on the StorageClass. Example: Create a StorageClass for fast SSD storage with kubernetes.io/aws-ebs provisioner and gp3 type."
   },
   {
     id: 66,
@@ -7860,7 +7882,7 @@ const questions$5 = [
     ],
     correctAnswer: "Automatically creates PersistentVolumes when PVC is created",
     explanation: "Dynamic provisioning automatically creates PersistentVolumes when a PersistentVolumeClaim is created, using StorageClass to determine the storage type.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is dynamic provisioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Dynamic Provisioning is the process of automatically creating PersistentVolumes (PVs) when a PersistentVolumeClaim (PVC) requests storage. This eliminates the need for administrators to manually create PVs for every PVC. How it works: 1) User creates a PVC that requests storage with a specific StorageClass, 2) Kubernetes checks if there is a matching PV available, 3) If not, Kubernetes uses the StorageClass to automatically provision a PV from the storage provider, 4) The PV is then bound to the PVC. Benefits: reduces administrative overhead, enables self-service storage provisioning for users, allows for more efficient storage utilization. Dynamic provisioning requires a StorageClass with a provisioner that supports dynamic provisioning."
   },
   {
     id: 67,
@@ -7873,7 +7895,7 @@ const questions$5 = [
     ],
     correctAnswer: "Manually creates PersistentVolumes by administrator",
     explanation: "Static provisioning involves manually creating PersistentVolumes by an administrator, which are then bound to PersistentVolumeClaims.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is static provisioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Static Provisioning is the process where administrators manually create PersistentVolumes (PVs) that match the storage requirements of their users. In this model, PVs are created upfront before any PVCs are created. How it works: 1) Administrator creates PVs with specific storage characteristics (size, access modes, etc.), 2) Users create PVCs that request storage with specific requirements, 3) Kubernetes matches PVCs with available PVs and binds them. Use cases: when you have specific storage requirements that cannot be automatically provisioned, when you need to use existing storage resources, when you need fine-grained control over storage provisioning. Static provisioning requires more administrative overhead but provides more control over the storage environment."
   },
   {
     id: 68,
@@ -7886,7 +7908,7 @@ const questions$5 = [
     ],
     correctAnswer: "Defines how PV can be mounted: ReadWriteOnce, ReadOnlyMany, ReadWriteMany",
     explanation: "Access Mode defines how a PersistentVolume can be mounted: ReadWriteOnce (single node read-write), ReadOnlyMany (multiple nodes read-only), or ReadWriteMany (multiple nodes read-write).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is access mode in persistentvolume?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Access Modes define how a PersistentVolume can be mounted and accessed by Pods. There are three access modes: 1) ReadWriteOnce (RWO): The volume can be mounted as read-write by a single Node at a time. This is the most common access mode. Multiple Pods on the same Node can access the volume simultaneously. 2) ReadOnlyMany (ROX): The volume can be mounted as read-only by many Nodes simultaneously. This is useful for shared read-only data. 3) ReadWriteMany (RWX): The volume can be mounted as read-write by many Nodes simultaneously. This is the most flexible but also the most restrictive in terms of supported storage backends (not all storage systems support RWX). Note: Access modes are not properties of the PVC or PV but rather capabilities that the storage backend supports. Not all storage backends support all access modes."
   },
   {
     id: 69,
@@ -7899,7 +7921,7 @@ const questions$5 = [
     ],
     correctAnswer: "Defines what happens to PV when PVC is deleted: Retain, Delete, Recycle",
     explanation: "Reclaim Policy defines what happens to a PersistentVolume when its PersistentVolumeClaim is deleted: Retain (keep PV), Delete (delete PV), or Recycle (scrub and make available).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is reclaim policy in persistentvolume?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "Reclaim Policy defines what happens to a PersistentVolume when its bound PersistentVolumeClaim is deleted. There are three reclaim policies: 1) Retain: The PV is not automatically deleted. The administrator must manually delete it. This is useful for preserving data after a PVC is deleted. 2) Delete: The PV and the underlying storage are automatically deleted when the PVC is deleted. This is useful for temporary data that does not need to be preserved. 3) Recycle: The PV is wiped (rm -rf /thevolume/*) and made available for a new PVC. This was deprecated in favor of using dynamic provisioning with StorageClasses. Note: The reclaim policy is set on the PV. Different PVs can have different reclaim policies. The default reclaim policy depends on the StorageClass."
   },
   {
     id: 70,
@@ -7912,7 +7934,7 @@ const questions$5 = [
     ],
     correctAnswer: "Provides scope for names, virtual clusters",
     explanation: "A Namespace provides a scope for names (resource names must be unique within a Namespace) and acts as a virtual cluster for organizing resources.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a namespace in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Namespace in Kubernetes is a way to divide cluster resources between multiple users, teams, or applications. It provides a scope for resource names, allowing you to have the same resource name in different namespaces. Key characteristics: virtual clusters backed by the same physical cluster, logical partitioning of resources, isolation (resources in one namespace are separate from others), can have their own policies and quotas. Use cases: multi-tenant clusters (different teams use different namespaces), environment isolation (dev, staging, production), application isolation (microservices in separate namespaces), testing (create temporary namespaces for testing). Default namespaces: default, kube-system, kube-public, kube-node-lease. Commands: kubectl create namespace, kubectl get pods -n <namespace>, kubectl config set-context --current --namespace=<namespace>. Note: Not all objects are in a namespace (e.g., Node, PersistentVolume, StorageClass)."
   },
   {
     id: 71,
@@ -7925,7 +7947,7 @@ const questions$5 = [
     ],
     correctAnswer: "Namespace where resources are created if not specified",
     explanation: "The default Namespace is where resources are created if no Namespace is specified. Resources created without a Namespace go into the default Namespace.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is default namespace?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The default Namespace is the default scope for objects that do not specify a Namespace. When you create objects without specifying a Namespace, they are created in the default Namespace. Key characteristics: exists by default in all Kubernetes clusters, used when no Namespace is specified, ideal for getting started and for small clusters. You can view objects in the default Namespace using kubectl get pods (without -n flag). You can also explicitly specify the default Namespace using -n default. It is good practice to create separate Namespaces for different applications, environments, or teams rather than using the default Namespace for everything. This helps with organization, isolation, and access control."
   },
   {
     id: 72,
@@ -7938,7 +7960,7 @@ const questions$5 = [
     ],
     correctAnswer: "Namespace for Kubernetes system components",
     explanation: "The kube-system Namespace is reserved for Kubernetes system components like the API Server, etcd, DNS, Dashboard, and other cluster services.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kube-system namespace?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The kube-system Namespace is a special Namespace that contains objects created by the Kubernetes system itself. It is where all the control plane components and system-level add-ons run. Key characteristics: created automatically by Kubernetes, reserved for system components, contains critical Pods and Services that keep the cluster running. Components that typically run in kube-system: API Server, Controller Manager, Scheduler, etcd (may run in kube-system or have their own namespace), CoreDNS (or kube-dns), kube-proxy, Metrics Server, Node Exporter, various admission controllers. Important: Do not create or modify objects in kube-system unless you are a cluster administrator. Deleting or modifying objects in kube-system can cause cluster instability or failure. You can view system components using kubectl get pods -n kube-system."
   },
   {
     id: 73,
@@ -7951,7 +7973,7 @@ const questions$5 = [
     ],
     correctAnswer: "Namespace for public resources, readable by all users",
     explanation: "The kube-public Namespace is for public resources that should be readable by all users, even unauthenticated users.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kube-public namespace?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The kube-public Namespace is a special Namespace that contains information that should be publicly readable (i.e., accessible without authentication). It is automatically created by Kubernetes and is world-readable. Key characteristics: exists by default in all Kubernetes clusters, accessible to all users (even unauthenticated users in some configurations), contains ConfigMaps that are meant to be publicly accessible. Common use case: Contains a ConfigMap with the cluster-info that includes the cluster API Server address and CA certificate. This allows unauthenticated users to discover the API Server endpoint. Important: Be cautious about what you put in kube-public, as it is accessible to all users. Only put information here that is truly public and not sensitive. Most objects should not be placed in kube-public."
   },
   {
     id: 74,
@@ -7964,7 +7986,7 @@ const questions$5 = [
     ],
     correctAnswer: "Combination of cluster, Namespace, and user",
     explanation: "A Context in kubectl is a combination of a cluster, a Namespace, and a user, allowing quick switching between different configurations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a context in kubectl?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Context in kubectl is a combination of a cluster, a user, and a Namespace. It allows you to quickly switch between different configurations without having to specify all the details each time. Contexts are stored in the kubectl configuration file (typically ~/.kube/config). Key components: cluster (API Server URL and CA certificate), user (credentials for authentication), namespace (default Namespace for commands). Commands: kubectl config get-contexts (list all contexts), kubectl config current-context (show current context), kubectl config use-context <name> (switch to a context), kubectl config set-context <name> --namespace=<ns> (set default namespace for a context), kubectl config delete-context <name> (delete a context). Contexts are useful for managing multiple clusters (e.g., dev, staging, production) or multiple users."
   },
   {
     id: 75,
@@ -7977,7 +7999,7 @@ const questions$5 = [
     ],
     correctAnswer: "Role-Based Access Control for authorization",
     explanation: "RBAC (Role-Based Access Control) is an authorization mechanism that uses Roles and RoleBindings to control access to Kubernetes resources.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is rbac in kubernetes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "RBAC (Role-Based Access Control) is a method of regulating access to Kubernetes resources based on roles and permissions. It allows you to define fine-grained access policies for users, groups, and service accounts. RBAC is enabled by default in Kubernetes v1.8 and later. Key concepts: Role (set of permissions within a Namespace), ClusterRole (set of permissions across the entire cluster), RoleBinding (assigns a Role to a user/group within a Namespace), ClusterRoleBinding (assigns a ClusterRole to a user/group across the entire cluster), Subject (user, group, or service account that receives permissions). RBAC is rule-based - you define what actions (verbs) can be performed on which resources (resource types) in which namespaces."
   },
   {
     id: 76,
@@ -7990,7 +8012,7 @@ const questions$5 = [
     ],
     correctAnswer: "Set of permissions within a Namespace",
     explanation: "A Role in RBAC defines a set of permissions (rules) within a single Namespace, specifying what operations are allowed on which resources.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a role in rbac?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A Role in RBAC is a Kubernetes object that defines a set of permissions within a specific Namespace. It lists which operations (verbs) can be performed on which resources (resource types). Key components: rules (array of Rule objects), each Rule has: apiGroups (list of API groups), resources (list of resource types), verbs (list of allowed actions). Example: A Role that allows read access to Pods in a Namespace. Roles are Namespace-scoped - they only apply to resources within their Namespace. Roles are used in conjunction with RoleBindings to grant permissions to specific users or groups. Common verbs: get, list, watch, create, update, patch, delete, exec."
   },
   {
     id: 77,
@@ -8003,7 +8025,7 @@ const questions$5 = [
     ],
     correctAnswer: "Set of permissions across all Namespaces",
     explanation: "A ClusterRole in RBAC defines a set of permissions across all Namespaces in the cluster, specifying what operations are allowed on which resources.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a clusterrole in rbac?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A ClusterRole in RBAC is similar to a Role, but it applies across the entire cluster rather than being limited to a single Namespace. It defines a set of permissions that can be applied to all Namespaces or to specific Namespaces through ClusterRoleBindings. Key components: same as Role (rules with apiGroups, resources, verbs). ClusterRoles are used for: cluster-wide permissions (e.g., Node access, PersistentVolume access), non-Namespace-scoped resources (e.g., Nodes, PersistentVolumes), permissions that need to be applied to multiple Namespaces. ClusterRoles are used in conjunction with ClusterRoleBindings to grant permissions to specific users or groups. ClusterRoles can also be used with RoleBindings to grant permissions within specific Namespaces."
   },
   {
     id: 78,
@@ -8016,7 +8038,7 @@ const questions$5 = [
     ],
     correctAnswer: "Grants Role permissions to users within a Namespace",
     explanation: "A RoleBinding grants the permissions defined in a Role to a user or group of users within a specific Namespace.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a rolebinding in rbac?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A RoleBinding in RBAC is a Kubernetes object that assigns a Role to a specific user, group, or service account within a specific Namespace. It connects the Role (which defines permissions) to the Subject (which receives the permissions). Key components: subjects (array of Subject objects, each with kind, name, and optionally namespace or apiGroup), roleRef (reference to the Role being assigned). The binding only applies to the Namespace where the RoleBinding is created. RoleBindings grant the permissions defined in the Role to the specified Subjects within the specified Namespace. Multiple RoleBindings can reference the same Role, and multiple Subjects can be assigned to the same Role through a single RoleBinding."
   },
   {
     id: 79,
@@ -8029,7 +8051,7 @@ const questions$5 = [
     ],
     correctAnswer: "Grants ClusterRole permissions across all Namespaces",
     explanation: "A ClusterRoleBinding grants the permissions defined in a ClusterRole to a user or group of users across all Namespaces in the cluster.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a clusterrolebinding in rbac?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A ClusterRoleBinding in RBAC is similar to a RoleBinding, but it assigns a ClusterRole to users, groups, or service accounts across the entire cluster. It connects the ClusterRole (which defines permissions) to the Subject (which receives the permissions). Key components: same as RoleBinding (subjects, roleRef). ClusterRoleBindings grant the permissions defined in the ClusterRole to the specified Subjects across all Namespaces. They can also be used to grant access to cluster-scoped resources (e.g., Nodes, PersistentVolumes). Use ClusterRoleBinding when you need to grant cluster-wide permissions. Use RoleBinding when you need to grant permissions within a specific Namespace."
   },
   {
     id: 80,
@@ -8042,7 +8064,7 @@ const questions$5 = [
     ],
     correctAnswer: "Provides identity for processes in Pods",
     explanation: "A ServiceAccount provides an identity for processes that run in Pods, allowing them to authenticate with the API Server and access resources based on RBAC permissions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a serviceaccount?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "A ServiceAccount provides an identity for processes that run in a Pod. It allows Pods to authenticate with the Kubernetes API Server and be authorized to perform specific actions based on RBAC rules. Key characteristics: every Pod has a ServiceAccount (defaults to default if not specified), ServiceAccounts are associated with specific Namespaces, each ServiceAccount has a set of credentials (tokens, CA certificates) stored as Secrets. Use cases: 1) Running applications that need to interact with the Kubernetes API, 2) Providing fine-grained permissions to Pods based on their ServiceAccount, 3) Enabling workload identity (e.g., in cloud environments). Each ServiceAccount has: a name, a Namespace, an associated Secret (containing the token), and associated RBAC roles. Commands: kubectl get serviceaccounts, kubectl create serviceaccount <name>, kubectl describe serviceaccount <name>. ServiceAccounts are critical for workload identity and security."
   },
   {
     id: 81,
@@ -8055,7 +8077,7 @@ const questions$5 = [
     ],
     correctAnswer: "ServiceAccount created automatically in each Namespace",
     explanation: "The default ServiceAccount is created automatically in each Namespace and is used by Pods that don't specify a ServiceAccount.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is default serviceaccount?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "The default ServiceAccount is automatically created in every Namespace and is used by Pods that do not explicitly specify a ServiceAccount. Every Pod has a ServiceAccount, and if you do not specify one in the Pod specification, the default ServiceAccount for that Namespace is used. Key characteristics: created automatically when a Namespace is created, has no special permissions by default, associated with a Secret that contains a token for API authentication. The default ServiceAccount is typically named default and can be viewed using kubectl get serviceaccount -n <namespace>. It is good practice to create custom ServiceAccounts for your Pods with specific RBAC roles rather than using the default ServiceAccount for everything. This enables better security and access control."
   },
   {
     id: 82,
@@ -8068,7 +8090,7 @@ const questions$5 = [
     ],
     correctAnswer: "Manages kubectl configuration",
     explanation: "kubectl config is a command group for managing kubectl configuration, including contexts, clusters, and users.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl config?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "kubectl config is a set of commands for managing the kubectl configuration file. The configuration file (typically ~/.kube/config) stores information about clusters, users, contexts, and preferences. kubectl config commands allow you to: view and manage contexts (kubectl config get-contexts, kubectl config use-context), view and set the current context (kubectl config current-context), view and manage clusters (kubectl config get-clusters, kubectl config set-cluster), view and manage users (kubectl config get-users, kubectl config set-credentials), view and manage preferences (kubectl config set). The configuration file uses a hierarchical structure to store information about multiple clusters and users, making it easy to switch between different environments."
   },
   {
     id: 83,
@@ -8081,7 +8103,7 @@ const questions$5 = [
     ],
     correctAnswer: "All of the above",
     explanation: "kubectl get is a versatile command that lists resources, retrieves resource details, and can display information in various formats.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl get?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "kubectl get is one of the most commonly used kubectl commands for listing and viewing Kubernetes resources. It retrieves information about resources from the API Server and displays it in a readable format. Syntax: kubectl get <resource-type> [options]. Common resource types: pods, services, deployments, replica sets, nodes, namespaces, configmaps, secrets, persistentvolumes, persistentvolumeclaims, jobs, cronjobs, ingresses. Common options: -n or --namespace (specify namespace), -o or --output (specify output format: wide, json, yaml), -l or --selector (filter by label), --all-namespaces or -A (list from all namespaces), --show-labels (show labels). Examples: kubectl get pods, kubectl get pods -n kube-system, kubectl get pods -o wide, kubectl get all, kubectl get pods --all-namespaces."
   },
   {
     id: 84,
@@ -8094,7 +8116,7 @@ const questions$5 = [
     ],
     correctAnswer: "Shows detailed information about a resource",
     explanation: "kubectl describe provides detailed information about a specific resource, including its configuration, status, and events.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl describe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "kubectl describe is a command that provides detailed information about a specific Kubernetes resource. It retrieves all the metadata and configuration details for the resource and displays it in a human-readable format. Syntax: kubectl describe <resource-type> <resource-name> [options]. Common resource types: pods, services, deployments, nodes, namespaces, etc. Common options: -n or --namespace (specify namespace). The describe command shows: metadata (name, namespace, labels, annotations), specification (full configuration), status (current state, conditions, events), events (recent events related to the resource, helpful for debugging). Examples: kubectl describe pod <pod-name>, kubectl describe node <node-name>, kubectl describe deployment <deployment-name>. This command is particularly useful for debugging and troubleshooting."
   },
   {
     id: 85,
@@ -8107,7 +8129,7 @@ const questions$5 = [
     ],
     correctAnswer: "Prints logs from Pod containers",
     explanation: "kubectl logs prints the logs from the containers in a Pod, useful for debugging and monitoring.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kubectl logs?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    detailedAnswer: "kubectl logs is a command that retrieves and displays the logs from containers in a Pod. This is essential for debugging and monitoring running applications. Syntax: kubectl logs <pod-name> [options]. Common options: -c or --container (specify container name if Pod has multiple containers), --previous (show logs from previous instance of the container, useful for debugging crash loops), -f or --follow (stream logs in real-time), --since (show logs from a specific time), --tail (show last N lines). Examples: kubectl logs <pod-name> (show logs from the only container), kubectl logs <pod-name> -c <container-name> (show logs from specific container), kubectl logs -f <pod-name> (follow logs in real-time). For debugging crash loops: kubectl logs --previous <pod-name>."
   }
 ];
 const kubernetes = {
@@ -8132,8 +8154,7 @@ const questions$4 = [
       "Edit, Transform, Load"
     ],
     correctAnswer: "Extract, Transform, Load",
-    explanation: "ETL is the process of extracting data from sources, transforming it into a consistent format, and loading it into a target system like a data warehouse.",
-    detailedAnswer: "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
+    explanation: "ETL is the process of extracting data from sources, transforming it into a consistent format, and loading it into a target system like a data warehouse."
   },
   {
     id: 2,
@@ -8145,8 +8166,7 @@ const questions$4 = [
       "Execute, Load, Transform"
     ],
     correctAnswer: "Extract, Load, Transform",
-    explanation: "ELT loads raw data first, then transforms it within the target system. This approach leverages cloud platform processing power.",
-    detailedAnswer: "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
+    explanation: "ELT loads raw data first, then transforms it within the target system. This approach leverages cloud platform processing power."
   },
   {
     id: 3,
@@ -8158,8 +8178,7 @@ const questions$4 = [
       "ETL is batch - ELT is real-time"
     ],
     correctAnswer: "ETL transforms before loading - ELT transforms after",
-    explanation: "The key difference is when transformation happens. ETL transforms during extraction before loading. ELT loads raw data first, then transforms within the target.",
-    detailedAnswer: "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
+    explanation: "The key difference is when transformation happens. ETL transforms during extraction before loading. ELT loads raw data first, then transforms within the target."
   },
   {
     id: 4,
@@ -8171,8 +8190,7 @@ const questions$4 = [
       "Backup database files"
     ],
     correctAnswer: "Centralized repository for structured data optimized for querying",
-    explanation: "A data warehouse is a centralized repository that stores integrated data from multiple sources, optimized for analytical querying and reporting.",
-    detailedAnswer: "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
+    explanation: "A data warehouse is a centralized repository that stores integrated data from multiple sources, optimized for analytical querying and reporting."
   },
   {
     id: 5,
@@ -8184,8 +8202,7 @@ const questions$4 = [
       "Visualization tool"
     ],
     correctAnswer: "Storage holding raw data in native format",
-    explanation: "A data lake stores raw data in its native format without requiring a predefined schema, supporting structured, semi-structured, and unstructured data.",
-    detailedAnswer: "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
+    explanation: "A data lake stores raw data in its native format without requiring a predefined schema, supporting structured, semi-structured, and unstructured data."
   },
   {
     id: 6,
@@ -8197,8 +8214,7 @@ const questions$4 = [
       "Cloud-only storage"
     ],
     correctAnswer: "Combination of data lake and warehouse features",
-    explanation: "A data lakehouse combines the flexibility and low-cost storage of data lakes with the reliability, performance, and ACID transactions of data warehouses.",
-    detailedAnswer: "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
+    explanation: "A data lakehouse combines the flexibility and low-cost storage of data lakes with the reliability, performance, and ACID transactions of data warehouses."
   },
   {
     id: 7,
@@ -8210,8 +8226,7 @@ const questions$4 = [
       "Redshift"
     ],
     correctAnswer: "Kafka",
-    explanation: "Kafka is a distributed event streaming platform, not a data warehouse. Snowflake, BigQuery, and Redshift are data warehouse solutions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which is not a data warehouse?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Kafka is a distributed event streaming platform, not a data warehouse. Snowflake, BigQuery, and Redshift are data warehouse solutions."
   },
   {
     id: 8,
@@ -8223,8 +8238,7 @@ const questions$4 = [
       "XML"
     ],
     correctAnswer: "Parquet",
-    explanation: "Parquet is a columnar storage file format optimized for use with big data processing frameworks, providing efficient compression and encoding.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which file format is optimized for columnar storage?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Parquet is a columnar storage file format optimized for use with big data processing frameworks, providing efficient compression and encoding."
   },
   {
     id: 9,
@@ -8236,8 +8250,7 @@ const questions$4 = [
       "Google and Microsoft"
     ],
     correctAnswer: "Twitter and Cloudera",
-    explanation: "Parquet was initially created by Twitter and Cloudera as an efficient columnar storage format for Hadoop.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of who developed parquet file format?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Parquet was initially created by Twitter and Cloudera as an efficient columnar storage format for Hadoop."
   },
   {
     id: 10,
@@ -8249,8 +8262,7 @@ const questions$4 = [
       "Apache for Spark"
     ],
     correctAnswer: "Microsoft and Cloudera alternative to Parquet",
-    explanation: "ORC (Optimized Row Columnar) is a columnar file format created by Microsoft and Cloudera as an alternative to Parquet.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is orc file format?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "ORC (Optimized Row Columnar) is a columnar file format created by Microsoft and Cloudera as an alternative to Parquet."
   },
   {
     id: 11,
@@ -8262,8 +8274,7 @@ const questions$4 = [
       "Code-Specific Variables"
     ],
     correctAnswer: "Comma-Separated Values",
-    explanation: "CSV is a simple file format that stores tabular data in plain text, with values separated by commas.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does csv stand for?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "CSV is a simple file format that stores tabular data in plain text, with values separated by commas."
   },
   {
     id: 12,
@@ -8275,8 +8286,7 @@ const questions$4 = [
       "Avro"
     ],
     correctAnswer: "JSON",
-    explanation: "JSON (JavaScript Object Notation) is human-readable and can represent complex nested structures, though not as space-efficient as binary formats.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of best format for human-readable nested structures?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "JSON (JavaScript Object Notation) is human-readable and can represent complex nested structures, though not as space-efficient as binary formats."
   },
   {
     id: 13,
@@ -8288,8 +8298,7 @@ const questions$4 = [
       "Create schemas"
     ],
     correctAnswer: "Extract, transform, process, and load data",
-    explanation: "A data pipeline moves data from source to target while performing transformations, cleaning, aggregation, and other processing steps.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of purpose of a data pipeline?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A data pipeline moves data from source to target while performing transformations, cleaning, aggregation, and other processing steps."
   },
   {
     id: 14,
@@ -8301,8 +8310,7 @@ const questions$4 = [
       "Node.js"
     ],
     correctAnswer: "Apache Spark",
-    explanation: "Apache Spark is a unified analytics engine for large-scale data processing, with batch processing as its primary use case.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which is a batch processing framework?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Spark is a unified analytics engine for large-scale data processing, with batch processing as its primary use case."
   },
   {
     id: 15,
@@ -8314,8 +8322,7 @@ const questions$4 = [
       "Structured Question Logic"
     ],
     correctAnswer: "Structured Query Language",
-    explanation: "SQL is the standard language for defining, manipulating, and querying relational databases.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does sql stand for?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "SQL is the standard language for defining, manipulating, and querying relational databases."
   },
   {
     id: 16,
@@ -8327,8 +8334,7 @@ const questions$4 = [
       "ORDER BY"
     ],
     correctAnswer: "WHERE",
-    explanation: "The WHERE clause filters individual rows from the result set before any grouping or aggregation is performed.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which sql clause filters rows before aggregation?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The WHERE clause filters individual rows from the result set before any grouping or aggregation is performed."
   },
   {
     id: 17,
@@ -8340,8 +8346,7 @@ const questions$4 = [
       "FILTER"
     ],
     correctAnswer: "HAVING",
-    explanation: "The HAVING clause filters groups created by GROUP BY after aggregation has been performed.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which sql clause filters after aggregation?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The HAVING clause filters groups created by GROUP BY after aggregation has been performed."
   },
   {
     id: 18,
@@ -8353,8 +8358,7 @@ const questions$4 = [
       "All rows from right"
     ],
     correctAnswer: "All rows from left table and matched right",
-    explanation: "A LEFT JOIN returns all rows from the left table, with matched rows from the right table, or NULLs if no match.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does left join return?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A LEFT JOIN returns all rows from the left table, with matched rows from the right table, or NULLs if no match."
   },
   {
     id: 19,
@@ -8366,8 +8370,7 @@ const questions$4 = [
       "All rows from right"
     ],
     correctAnswer: "Only rows with matches in both",
-    explanation: "An INNER JOIN returns only rows from both tables where the join condition is met.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does inner join return?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "An INNER JOIN returns only rows from both tables where the join condition is met."
   },
   {
     id: 20,
@@ -8379,8 +8382,7 @@ const questions$4 = [
       "Building ML models"
     ],
     correctAnswer: "Defining structure and relationships of data",
-    explanation: "Data modeling involves defining the structure, relationships, and business rules for data, creating schemas that represent the data domain.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data modeling involves defining the structure, relationships, and business rules for data, creating schemas that represent the data domain."
   },
   {
     id: 21,
@@ -8392,8 +8394,7 @@ const questions$4 = [
       "Stores configuration"
     ],
     correctAnswer: "Stores quantitative data and foreign keys to dimensions",
-    explanation: "A fact table stores quantitative data (measures/facts) and foreign keys that reference dimension tables.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a fact table in dimensional modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A fact table stores quantitative data (measures/facts) and foreign keys that reference dimension tables."
   },
   {
     id: 22,
@@ -8405,8 +8406,7 @@ const questions$4 = [
       "Stores metadata"
     ],
     correctAnswer: "Stores descriptive attributes about entities",
-    explanation: "A dimension table stores descriptive attributes (dimensions) about entities like customers, products, dates, etc.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dimension table in dimensional modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A dimension table stores descriptive attributes (dimensions) about entities like customers, products, dates, etc."
   },
   {
     id: 23,
@@ -8418,8 +8418,7 @@ const questions$4 = [
       "Galaxy schema"
     ],
     correctAnswer: "Fact table in center with dimension tables radiating out",
-    explanation: "A star schema has a central fact table connected directly to multiple dimension tables, forming a star-like structure.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a star schema?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A star schema has a central fact table connected directly to multiple dimension tables, forming a star-like structure."
   },
   {
     id: 24,
@@ -8431,8 +8430,7 @@ const questions$4 = [
       "Simple star schema"
     ],
     correctAnswer: "Star schema with normalized dimensions",
-    explanation: "A snowflake schema is a star schema where dimension tables are normalized into multiple related tables, forming a snowflake pattern.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a snowflake schema?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A snowflake schema is a star schema where dimension tables are normalized into multiple related tables, forming a snowflake pattern."
   },
   {
     id: 25,
@@ -8444,8 +8442,7 @@ const questions$4 = [
       "Snowflake schema"
     ],
     correctAnswer: "Multiple fact tables sharing dimension tables",
-    explanation: "A galaxy schema (or fact constellation) has multiple fact tables that share some dimension tables, forming a galaxy-like structure.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a galaxy schema?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A galaxy schema (or fact constellation) has multiple fact tables that share some dimension tables, forming a galaxy-like structure."
   },
   {
     id: 26,
@@ -8457,8 +8454,7 @@ const questions$4 = [
       "Foreign key"
     ],
     correctAnswer: "Artificial primary key for dimension tables",
-    explanation: "A surrogate key is an artificial, system-generated primary key used in dimension tables, typically an integer.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a surrogate key in dimensional modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A surrogate key is an artificial, system-generated primary key used in dimension tables, typically an integer."
   },
   {
     id: 27,
@@ -8470,8 +8466,7 @@ const questions$4 = [
       "Foreign key"
     ],
     correctAnswer: "Business meaningful identifier",
-    explanation: "A natural key is a business meaningful identifier (like customer SSN, product SKU) that exists in the source system.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a natural key in dimensional modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A natural key is a business meaningful identifier (like customer SSN, product SKU) that exists in the source system."
   },
   {
     id: 28,
@@ -8483,8 +8478,7 @@ const questions$4 = [
       "Number of columns"
     ],
     correctAnswer: "Level of detail in a fact table",
-    explanation: "The grain (or granularity) defines the level of detail in a fact table (e.g., transaction-level, daily-level, monthly-level).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a grain in dimensional modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The grain (or granularity) defines the level of detail in a fact table (e.g., transaction-level, daily-level, monthly-level)."
   },
   {
     id: 29,
@@ -8496,8 +8490,7 @@ const questions$4 = [
       "Dimension with same data"
     ],
     correctAnswer: "Dimension used consistently across multiple fact tables",
-    explanation: "A conformed dimension is used consistently across multiple fact tables, ensuring the same meaning and content.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a conformed dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A conformed dimension is used consistently across multiple fact tables, ensuring the same meaning and content."
   },
   {
     id: 30,
@@ -8509,8 +8502,7 @@ const questions$4 = [
       "Temporary dimension"
     ],
     correctAnswer: "Group of random or miscellaneous attributes",
-    explanation: "A junk dimension groups together random or miscellaneous attributes (like flags, indicators) that don't logically belong in other dimensions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a junk dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A junk dimension groups together random or miscellaneous attributes (like flags, indicators) that don't logically belong in other dimensions."
   },
   {
     id: 31,
@@ -8522,8 +8514,7 @@ const questions$4 = [
       "Normalized dimension"
     ],
     correctAnswer: "Dimension stored in fact table as attribute",
-    explanation: "A degenerate dimension is a dimension that is stored in the fact table as an attribute rather than in a separate dimension table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a degenerate dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A degenerate dimension is a dimension that is stored in the fact table as an attribute rather than in a separate dimension table."
   },
   {
     id: 32,
@@ -8535,8 +8526,7 @@ const questions$4 = [
       "Resolves many-to-many relationships"
     ],
     correctAnswer: "Resolves multi-valued attributes in dimensions",
-    explanation: "A bridge table resolves multi-valued attributes in a dimension (e.g., a customer with multiple bank accounts) by creating a separate table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a bridge table?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A bridge table resolves multi-valued attributes in a dimension (e.g., a customer with multiple bank accounts) by creating a separate table."
   },
   {
     id: 33,
@@ -8548,8 +8538,7 @@ const questions$4 = [
       "Dimension with multiple columns"
     ],
     correctAnswer: "Same dimension used multiple times with different roles",
-    explanation: "A role-playing dimension is when the same dimension is used multiple times in a fact table with different roles (e.g., date as order date, ship date, delivery date).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a role-playing dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A role-playing dimension is when the same dimension is used multiple times in a fact table with different roles (e.g., date as order date, ship date, delivery date)."
   },
   {
     id: 34,
@@ -8561,8 +8550,7 @@ const questions$4 = [
       "Dimension with only numbers"
     ],
     correctAnswer: "Dimension that changes infrequently over time",
-    explanation: "A slowly changing dimension (SCD) stores and manages both current and historical data over time as dimension attributes change.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a slowly changing dimension (scd)?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A slowly changing dimension (SCD) stores and manages both current and historical data over time as dimension attributes change."
   },
   {
     id: 35,
@@ -8574,8 +8562,7 @@ const questions$4 = [
       "Store history separately"
     ],
     correctAnswer: "Overwrite old value with new value",
-    explanation: "Type 1 SCD overwrites the old value with the new value, maintaining only the current state without history.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is type 1 scd?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Type 1 SCD overwrites the old value with the new value, maintaining only the current state without history."
   },
   {
     id: 36,
@@ -8587,8 +8574,7 @@ const questions$4 = [
       "Delete old row"
     ],
     correctAnswer: "Create new row with new value, keep old row",
-    explanation: "Type 2 SCD creates a new row with the new value while keeping the old row, maintaining full history with effective dates.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is type 2 scd?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Type 2 SCD creates a new row with the new value while keeping the old row, maintaining full history with effective dates."
   },
   {
     id: 37,
@@ -8600,8 +8586,7 @@ const questions$4 = [
       "Store multiple previous values"
     ],
     correctAnswer: "Store current and one previous value in same row",
-    explanation: "Type 3 SCD stores both the current and one previous value in the same row, typically with columns like current_value and previous_value.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is type 3 scd?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Type 3 SCD stores both the current and one previous value in the same row, typically with columns like current_value and previous_value."
   },
   {
     id: 38,
@@ -8613,8 +8598,7 @@ const questions$4 = [
       "Track changes in dimension"
     ],
     correctAnswer: "Store history in separate table",
-    explanation: "Type 4 SCD stores the current values in the main dimension table and history in a separate history table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is type 4 scd?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Type 4 SCD stores the current values in the main dimension table and history in a separate history table."
   },
   {
     id: 39,
@@ -8626,8 +8610,7 @@ const questions$4 = [
       "Primary key"
     ],
     correctAnswer: "Numeric value that can be aggregated",
-    explanation: "A measure (or fact) in a fact table is a numeric value that can be aggregated, such as sales amount, quantity, or profit.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a measure in a fact table?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A measure (or fact) in a fact table is a numeric value that can be aggregated, such as sales amount, quantity, or profit."
   },
   {
     id: 40,
@@ -8639,8 +8622,7 @@ const questions$4 = [
       "Can be averaged"
     ],
     correctAnswer: "Can be summed across all dimensions",
-    explanation: "An additively additive measure (like sales amount) can be summed across all dimensions (time, geography, product).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is an additively additive measure?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "An additively additive measure (like sales amount) can be summed across all dimensions (time, geography, product)."
   },
   {
     id: 41,
@@ -8652,8 +8634,7 @@ const questions$4 = [
       "Can be averaged"
     ],
     correctAnswer: "Cannot be summed across dimensions",
-    explanation: "A non-additive measure (like average temperature, ratio) cannot be meaningfully summed across dimensions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a non-additive measure?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A non-additive measure (like average temperature, ratio) cannot be meaningfully summed across dimensions."
   },
   {
     id: 42,
@@ -8665,8 +8646,7 @@ const questions$4 = [
       "Can be averaged"
     ],
     correctAnswer: "Can be summed across some but not all dimensions",
-    explanation: "A semi-additive measure (like inventory balance) can be summed across some dimensions (product) but not others (time).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a semi-additive measure?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A semi-additive measure (like inventory balance) can be summed across some dimensions (product) but not others (time)."
   },
   {
     id: 43,
@@ -8678,8 +8658,7 @@ const questions$4 = [
       "Imported from external system"
     ],
     correctAnswer: "Calculated from other measures",
-    explanation: "A derived measure is calculated from other measures (e.g., profit = revenue - cost, margin = profit / revenue).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a derived measure?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A derived measure is calculated from other measures (e.g., profit = revenue - cost, margin = profit / revenue)."
   },
   {
     id: 44,
@@ -8691,8 +8670,7 @@ const questions$4 = [
       "Dimension table with facts"
     ],
     correctAnswer: "Fact table without measures, only foreign keys",
-    explanation: "A factless fact table contains only foreign keys to dimensions and no measures, used to track events or coverage (e.g., student attendance).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a factless fact table?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A factless fact table contains only foreign keys to dimensions and no measures, used to track events or coverage (e.g., student attendance)."
   },
   {
     id: 45,
@@ -8704,8 +8682,7 @@ const questions$4 = [
       "Stores changes"
     ],
     correctAnswer: "Stores state of dimension at regular intervals",
-    explanation: "A periodic snapshot fact table stores the state of a dimension (like inventory, account balance) at regular intervals (daily, monthly).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a periodic snapshot fact table?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A periodic snapshot fact table stores the state of a dimension (like inventory, account balance) at regular intervals (daily, monthly)."
   },
   {
     id: 46,
@@ -8717,8 +8694,7 @@ const questions$4 = [
       "Tracks events"
     ],
     correctAnswer: "Tracks progress through a process over time",
-    explanation: "An accumulating snapshot fact table tracks the progress of entities through a well-defined process (like order fulfillment) over time.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is an accumulating snapshot fact table?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "An accumulating snapshot fact table tracks the progress of entities through a well-defined process (like order fulfillment) over time."
   },
   {
     id: 47,
@@ -8730,8 +8706,7 @@ const questions$4 = [
       "Combines fact tables"
     ],
     correctAnswer: "Combines data from multiple sources at different grains",
-    explanation: "A consolidated fact table combines data from multiple sources or processes at different grains into a single table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a consolidated fact table?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A consolidated fact table combines data from multiple sources or processes at different grains into a single table."
   },
   {
     id: 48,
@@ -8743,8 +8718,7 @@ const questions$4 = [
       "Text format"
     ],
     correctAnswer: "Row-based binary format with schema evolution",
-    explanation: "Avro is a row-based binary serialization format that supports schema evolution, making it suitable for data that changes over time.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is avro format?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Avro is a row-based binary serialization format that supports schema evolution, making it suitable for data that changes over time."
   },
   {
     id: 49,
@@ -8756,8 +8730,7 @@ const questions$4 = [
       "CSV format"
     ],
     correctAnswer: "Binary serialization format by Google",
-    explanation: "Protocol Buffers is a language-neutral, platform-neutral binary serialization format developed by Google for efficient data interchange.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is protocol buffers (protobuf)?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Protocol Buffers is a language-neutral, platform-neutral binary serialization format developed by Google for efficient data interchange."
   },
   {
     id: 50,
@@ -8769,8 +8742,7 @@ const questions$4 = [
       "Constraint"
     ],
     correctAnswer: "Data structure that improves query performance",
-    explanation: "A database index is a data structure that improves the speed of data retrieval operations on a database table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a database index?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A database index is a data structure that improves the speed of data retrieval operations on a database table."
   },
   {
     id: 51,
@@ -8782,8 +8754,7 @@ const questions$4 = [
       "Constraint on a column"
     ],
     correctAnswer: "Unique identifier for each row in a table",
-    explanation: "A primary key is a column (or set of columns) that uniquely identifies each row in a table and cannot contain null values.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a primary key?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A primary key is a column (or set of columns) that uniquely identifies each row in a table and cannot contain null values."
   },
   {
     id: 52,
@@ -8795,8 +8766,7 @@ const questions$4 = [
       "Constraint on a column"
     ],
     correctAnswer: "Column that references primary key in another table",
-    explanation: "A foreign key is a column (or set of columns) in one table that references the primary key in another table, establishing a relationship.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a foreign key?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A foreign key is a column (or set of columns) in one table that references the primary key in another table, establishing a relationship."
   },
   {
     id: 53,
@@ -8808,8 +8778,7 @@ const questions$4 = [
       "Process of adding constraints"
     ],
     correctAnswer: "Process of organizing data to reduce redundancy",
-    explanation: "Normalization is the process of organizing data in a database to reduce redundancy and improve data integrity through a series of normal forms.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is normalization in databases?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Normalization is the process of organizing data in a database to reduce redundancy and improve data integrity through a series of normal forms."
   },
   {
     id: 54,
@@ -8821,8 +8790,7 @@ const questions$4 = [
       "Process of adding constraints"
     ],
     correctAnswer: "Process of combining tables to improve query performance",
-    explanation: "Denormalization is the process of combining tables and adding redundant data to improve query performance, typically at the cost of data integrity.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is denormalization in databases?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Denormalization is the process of combining tables and adding redundant data to improve query performance, typically at the cost of data integrity."
   },
   {
     id: 55,
@@ -8834,8 +8802,7 @@ const questions$4 = [
       "Snowflake has fewer tables"
     ],
     correctAnswer: "Star has denormalized dimensions, snowflake has normalized",
-    explanation: "Star schema has denormalized dimension tables directly connected to the fact table, while snowflake schema has normalized dimension tables split into multiple tables.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a star schema vs snowflake schema?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Star schema has denormalized dimension tables directly connected to the fact table, while snowflake schema has normalized dimension tables split into multiple tables."
   },
   {
     id: 56,
@@ -8847,8 +8814,7 @@ const questions$4 = [
       "Operational Analytics Processing"
     ],
     correctAnswer: "Online Analytical Processing for complex queries",
-    explanation: "OLAP (Online Analytical Processing) is a category of software tools that provide analysis of data for business decisions, typically involving complex queries and aggregations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is olap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "OLAP (Online Analytical Processing) is a category of software tools that provide analysis of data for business decisions, typically involving complex queries and aggregations."
   },
   {
     id: 57,
@@ -8860,8 +8826,7 @@ const questions$4 = [
       "Operational Transaction Processing"
     ],
     correctAnswer: "Online Transaction Processing for transactional workloads",
-    explanation: "OLTP (Online Transaction Processing) handles transactional workloads involving small, fast operations like inserts, updates, and deletes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is oltp?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "OLTP (Online Transaction Processing) handles transactional workloads involving small, fast operations like inserts, updates, and deletes."
   },
   {
     id: 58,
@@ -8873,8 +8838,7 @@ const questions$4 = [
       "Both for transactions"
     ],
     correctAnswer: "OLAP for analytics, OLTP for transactions",
-    explanation: "OLAP is optimized for analytical queries (complex, read-heavy), while OLTP is optimized for transactional operations (simple, write-heavy).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between olap and oltp?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "OLAP is optimized for analytical queries (complex, read-heavy), while OLTP is optimized for transactional operations (simple, write-heavy)."
   },
   {
     id: 59,
@@ -8886,8 +8850,7 @@ const questions$4 = [
       "Data storage system"
     ],
     correctAnswer: "Subset of data warehouse for specific business function",
-    explanation: "A data mart is a subset of a data warehouse designed for a specific business function, team, or department.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a data mart?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A data mart is a subset of a data warehouse designed for a specific business function, team, or department."
   },
   {
     id: 60,
@@ -8899,8 +8862,7 @@ const questions$4 = [
       "Fact with same measure"
     ],
     correctAnswer: "Fact used consistently across multiple data marts",
-    explanation: "A conformed fact is a fact that is used consistently across multiple data marts, ensuring the same meaning and calculation.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a conformed fact?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A conformed fact is a fact that is used consistently across multiple data marts, ensuring the same meaning and calculation."
   },
   {
     id: 61,
@@ -8912,8 +8874,7 @@ const questions$4 = [
       "Matrix showing data types"
     ],
     correctAnswer: "Matrix showing relationship between business processes and dimensions",
-    explanation: "A bus matrix is a matrix that shows the relationship between business processes (rows) and dimensions (columns), helping to identify conformed dimensions and facts.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a bus matrix in data warehousing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A bus matrix is a matrix that shows the relationship between business processes (rows) and dimensions (columns), helping to identify conformed dimensions and facts."
   },
   {
     id: 62,
@@ -8925,8 +8886,7 @@ const questions$4 = [
       "Store current and previous values"
     ],
     correctAnswer: "Combination of Type 1, 2, and 3",
-    explanation: "Type 6 SCD combines aspects of Type 1 (overwrite), Type 2 (track history), and Type 3 (store previous value) approaches.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a slowly changing dimension type 6?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Type 6 SCD combines aspects of Type 1 (overwrite), Type 2 (track history), and Type 3 (store previous value) approaches."
   },
   {
     id: 63,
@@ -8938,8 +8898,7 @@ const questions$4 = [
       "All of the above"
     ],
     correctAnswer: "All of the above",
-    explanation: "A fact table with only foreign keys and no measures is called a factless fact table, also known as an event tracking table or coverage table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a fact table with only foreign keys called?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A fact table with only foreign keys and no measures is called a factless fact table, also known as an event tracking table or coverage table."
   },
   {
     id: 64,
@@ -8951,8 +8910,7 @@ const questions$4 = [
       "Connect dimensions"
     ],
     correctAnswer: "Both A and B",
-    explanation: "A bridge table handles multi-valued attributes and resolves many-to-many relationships between facts and dimensions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a bridge table in dimensional modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A bridge table handles multi-valued attributes and resolves many-to-many relationships between facts and dimensions."
   },
   {
     id: 65,
@@ -8964,8 +8922,7 @@ const questions$4 = [
       "SCD for different fact tables"
     ],
     correctAnswer: "Different SCD types for different attributes",
-    explanation: "A heterogeneous SCD uses different slowly changing dimension types (Type 1, 2, 3, etc.) for different attributes within the same dimension.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a heterogeneous scd?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A heterogeneous SCD uses different slowly changing dimension types (Type 1, 2, 3, etc.) for different attributes within the same dimension."
   },
   {
     id: 66,
@@ -8977,8 +8934,7 @@ const questions$4 = [
       "Denormalized dimension"
     ],
     correctAnswer: "Separate dimension for frequently changing attributes",
-    explanation: "A mini-dimension is a separate dimension table created for attributes that change frequently, containing only the changing attributes with a foreign key back to the main dimension.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a mini-dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A mini-dimension is a separate dimension table created for attributes that change frequently, containing only the changing attributes with a foreign key back to the main dimension."
   },
   {
     id: 67,
@@ -8990,8 +8946,7 @@ const questions$4 = [
       "Dimension for timing"
     ],
     correctAnswer: "Dimension containing date and time attributes",
-    explanation: "A time dimension contains date and time attributes (day, month, year, quarter, day of week, etc.) used for time-based analysis.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a time dimension in data warehousing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A time dimension contains date and time attributes (day, month, year, quarter, day of week, etc.) used for time-based analysis."
   },
   {
     id: 68,
@@ -9003,8 +8958,7 @@ const questions$4 = [
       "All of the above"
     ],
     correctAnswer: "Date dimension used as order date and ship date",
-    explanation: "A role-playing dimension example is the date dimension used multiple times in a fact table with different roles (order date, ship date, delivery date).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a role-playing dimension example?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A role-playing dimension example is the date dimension used multiple times in a fact table with different roles (order date, ship date, delivery date)."
   },
   {
     id: 69,
@@ -9016,8 +8970,7 @@ const questions$4 = [
       "Simplify schema"
     ],
     correctAnswer: "Both A and B",
-    explanation: "A snowflake schema reduces data redundancy by normalizing dimension tables, which can improve query performance by reducing the data volume.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a snowflake schema?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A snowflake schema reduces data redundancy by normalizing dimension tables, which can improve query performance by reducing the data volume."
   },
   {
     id: 70,
@@ -9029,8 +8982,7 @@ const questions$4 = [
       "Date attributes"
     ],
     correctAnswer: "Flags and indicators grouped together",
-    explanation: "A junk dimension example would be grouping together various flags and indicators (like promotion flag, discount flag, priority flag) that don't logically belong in other dimensions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a junk dimension example?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A junk dimension example would be grouping together various flags and indicators (like promotion flag, discount flag, priority flag) that don't logically belong in other dimensions."
   },
   {
     id: 71,
@@ -9042,8 +8994,7 @@ const questions$4 = [
       "Date"
     ],
     correctAnswer: "Invoice number stored in fact table",
-    explanation: "A degenerate dimension example is an invoice number stored as an attribute in the fact table rather than in a separate dimension table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a degenerate dimension example?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A degenerate dimension example is an invoice number stored as an attribute in the fact table rather than in a separate dimension table."
   },
   {
     id: 72,
@@ -9055,8 +9006,7 @@ const questions$4 = [
       "All of the above"
     ],
     correctAnswer: "All of the above",
-    explanation: "Fact table grain examples include transaction-level (each row is a transaction), daily-level (each row is daily summary), and monthly-level (each row is monthly summary).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a fact table grain example?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Fact table grain examples include transaction-level (each row is a transaction), daily-level (each row is daily summary), and monthly-level (each row is monthly summary)."
   },
   {
     id: 73,
@@ -9068,8 +9018,7 @@ const questions$4 = [
       "All of the above"
     ],
     correctAnswer: "All of the above",
-    explanation: "Surrogate keys provide stable, integer keys for joins, replace potentially unstable natural keys, and help ensure data integrity in dimensional models.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of surrogate keys in dimensional modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Surrogate keys provide stable, integer keys for joins, replace potentially unstable natural keys, and help ensure data integrity in dimensional models."
   },
   {
     id: 74,
@@ -9081,8 +9030,7 @@ const questions$4 = [
       "Galaxy schema"
     ],
     correctAnswer: "Enterprise-wide dimensional model",
-    explanation: "A bus schema is an enterprise-wide dimensional model that integrates all business processes and dimensions across the organization.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a bus schema in data warehousing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A bus schema is an enterprise-wide dimensional model that integrates all business processes and dimensions across the organization."
   },
   {
     id: 75,
@@ -9094,8 +9042,7 @@ const questions$4 = [
       "All of the above"
     ],
     correctAnswer: "All of the above",
-    explanation: "Conformed dimension examples include date, customer, and product dimensions that are used consistently across multiple fact tables.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a conformed dimension example?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Conformed dimension examples include date, customer, and product dimensions that are used consistently across multiple fact tables."
   },
   {
     id: 76,
@@ -9107,8 +9054,7 @@ const questions$4 = [
       "All of the above"
     ],
     correctAnswer: "All of the above",
-    explanation: "A Star Join Schema (or Star Schema) is used for join operations, particularly joins between fact tables and dimension tables, forming star-shaped query patterns.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a star join schema?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A Star Join Schema (or Star Schema) is used for join operations, particularly joins between fact tables and dimension tables, forming star-shaped query patterns."
   },
   {
     id: 77,
@@ -9120,8 +9066,7 @@ const questions$4 = [
       "All of the above"
     ],
     correctAnswer: "All of the above",
-    explanation: "A Snowflake Join Schema (or Snowflake Schema) is used for join operations in normalized dimensions, forming snowflake-shaped query patterns.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a snowflake join schema?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A Snowflake Join Schema (or Snowflake Schema) is used for join operations in normalized dimensions, forming snowflake-shaped query patterns."
   },
   {
     id: 78,
@@ -9133,8 +9078,7 @@ const questions$4 = [
       "Type 3 and Type 4 combined"
     ],
     correctAnswer: "Type 1 and Type 4 combined",
-    explanation: "Type 5 SCD combines Type 1 (overwrite) for the current value and Type 4 (history in separate table) for tracking history.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a slowly changing dimension type 5?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Type 5 SCD combines Type 1 (overwrite) for the current value and Type 4 (history in separate table) for tracking history."
   },
   {
     id: 79,
@@ -9146,8 +9090,7 @@ const questions$4 = [
       "Denormalized dimension"
     ],
     correctAnswer: "Dimension with parent-child relationships",
-    explanation: "A hierarchical dimension contains parent-child relationships (like geographic hierarchy: country > region > city, or organizational hierarchy: company > department > employee).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a hierarchical dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A hierarchical dimension contains parent-child relationships (like geographic hierarchy: country > region > city, or organizational hierarchy: company > department > employee)."
   },
   {
     id: 80,
@@ -9159,8 +9102,7 @@ const questions$4 = [
       "Dimension with variable values"
     ],
     correctAnswer: "Dimension with fixed, unchanging values",
-    explanation: "A fixed dimension (or static dimension) contains values that are fixed and unchanging over time, like date or time dimensions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a fixed dimension in data warehousing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A fixed dimension (or static dimension) contains values that are fixed and unchanging over time, like date or time dimensions."
   },
   {
     id: 81,
@@ -9172,8 +9114,7 @@ const questions$4 = [
       "Dimension with single value"
     ],
     correctAnswer: "Dimension with changing values",
-    explanation: "A variable dimension (or changing dimension) contains values that change over time, requiring slowly changing dimension techniques.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a variable dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A variable dimension (or changing dimension) contains values that change over time, requiring slowly changing dimension techniques."
   },
   {
     id: 82,
@@ -9185,8 +9126,7 @@ const questions$4 = [
       "Static dimension"
     ],
     correctAnswer: "Very large dimension with many attributes",
-    explanation: "A monster dimension is a very large dimension with many attributes (e.g., 50+ columns), which can cause performance issues.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a monster dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A monster dimension is a very large dimension with many attributes (e.g., 50+ columns), which can cause performance issues."
   }
 ];
 const dataEngineeringBeginner = {
@@ -9211,8 +9151,7 @@ const questions$3 = [
       "Indexing data"
     ],
     correctAnswer: "Splitting data into smaller physical files for performance",
-    explanation: "Data partitioning splits large datasets into smaller files based on criteria like date, range, or hash, improving query performance through partition pruning.",
-    detailedAnswer: "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
+    explanation: "Data partitioning splits large datasets into smaller files based on criteria like date, range, or hash, improving query performance through partition pruning."
   },
   {
     id: 2,
@@ -9224,8 +9163,7 @@ const questions$3 = [
       "Optimizing partition sizes"
     ],
     correctAnswer: "Skipping non-relevant partitions",
-    explanation: "Partition pruning automatically skips reading partitions that do not contain relevant data for a query, improving performance.",
-    detailedAnswer: "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
+    explanation: "Partition pruning automatically skips reading partitions that do not contain relevant data for a query, improving performance."
   },
   {
     id: 3,
@@ -9237,8 +9175,7 @@ const questions$3 = [
       "Lake-cloud; Warehouse-on-prem"
     ],
     correctAnswer: "Lake-raw, schema-on-read; Warehouse-structured, schema-on-write",
-    explanation: "Data lakes store raw data with schema-on-read; data warehouses store processed, structured data with schema-on-write.",
-    detailedAnswer: "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
+    explanation: "Data lakes store raw data with schema-on-read; data warehouses store processed, structured data with schema-on-write."
   },
   {
     id: 4,
@@ -9250,8 +9187,7 @@ const questions$3 = [
       "Query execution area"
     ],
     correctAnswer: "Temporary hold for raw data before transformation",
-    explanation: "A staging area temporarily holds raw extracted data before it undergoes transformation, cleaning, and integration.",
-    detailedAnswer: "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
+    explanation: "A staging area temporarily holds raw extracted data before it undergoes transformation, cleaning, and integration."
   },
   {
     id: 5,
@@ -9263,8 +9199,7 @@ const questions$3 = [
       "Physical storage model"
     ],
     correctAnswer: "Facts and dimensions for analytics",
-    explanation: "Dimensional modeling organizes data into facts (measures) and dimensions (descriptive attributes) for efficient analytical querying.",
-    detailedAnswer: "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
+    explanation: "Dimensional modeling organizes data into facts (measures) and dimensions (descriptive attributes) for efficient analytical querying."
   },
   {
     id: 6,
@@ -9276,8 +9211,7 @@ const questions$3 = [
       "OLTP-read; OLAP-write"
     ],
     correctAnswer: "OLTP-transactional; OLAP-analytical",
-    explanation: "OLTP handles transactional workloads (small, fast operations); OLAP handles analytical workloads (complex queries, aggregations).",
-    detailedAnswer: "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
+    explanation: "OLTP handles transactional workloads (small, fast operations); OLAP handles analytical workloads (complex queries, aggregations)."
   },
   {
     id: 7,
@@ -9289,8 +9223,7 @@ const questions$3 = [
       "Temporary table"
     ],
     correctAnswer: "Stores query results physically",
-    explanation: "A materialized view stores the pre-computed results of a query physically, allowing for faster query performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a materialized view?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A materialized view stores the pre-computed results of a query physically, allowing for faster query performance."
   },
   {
     id: 8,
@@ -9302,8 +9235,7 @@ const questions$3 = [
       "Execute, Load, Transform"
     ],
     correctAnswer: "Extract, Load, Transform",
-    explanation: "ELT loads raw data first into the target system, then performs transformations within that system.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is elt?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "ELT loads raw data first into the target system, then performs transformations within that system."
   },
   {
     id: 9,
@@ -9315,8 +9247,7 @@ const questions$3 = [
       "Data storage"
     ],
     correctAnswer: "Orchestrating data pipelines",
-    explanation: "Apache Airflow is a platform for programmatically authoring, scheduling, and monitoring workflows and data pipelines.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is apache airflow used for?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Airflow is a platform for programmatically authoring, scheduling, and monitoring workflows and data pipelines."
   },
   {
     id: 10,
@@ -9328,8 +9259,7 @@ const questions$3 = [
       "Database Abstraction Layer"
     ],
     correctAnswer: "Directed Acyclic Graph of tasks",
-    explanation: "In Airflow, a DAG is a collection of tasks with dependencies defined between them, represented as a directed acyclic graph.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dag in airflow?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "In Airflow, a DAG is a collection of tasks with dependencies defined between them, represented as a directed acyclic graph."
   },
   {
     id: 11,
@@ -9341,8 +9271,7 @@ const questions$3 = [
       "Encryption keys"
     ],
     correctAnswer: "History of data transformations",
-    explanation: "Data lineage tracks the flow of data from source to destination, including all transformations, providing transparency into data origins and movements.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data lineage?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data lineage tracks the flow of data from source to destination, including all transformations, providing transparency into data origins and movements."
   },
   {
     id: 12,
@@ -9354,8 +9283,7 @@ const questions$3 = [
       "Collection of data sources"
     ],
     correctAnswer: "Centralized metadata repository",
-    explanation: "A data catalog provides a centralized inventory of data assets with metadata, making them discoverable and understandable.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a data catalog?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A data catalog provides a centralized inventory of data assets with metadata, making them discoverable and understandable."
   },
   {
     id: 13,
@@ -9367,8 +9295,7 @@ const questions$3 = [
       "Dimension with only numbers"
     ],
     correctAnswer: "Dimension that changes infrequently",
-    explanation: "SCD (Slowly Changing Dimension) stores and manages both current and historical data over time as attributes change.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is scd?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "SCD (Slowly Changing Dimension) stores and manages both current and historical data over time as attributes change."
   },
   {
     id: 14,
@@ -9380,8 +9307,7 @@ const questions$3 = [
       "Stores history separately"
     ],
     correctAnswer: "Tracks full history with new rows",
-    explanation: "Type 2 SCD tracks full history by creating new rows with effective dates when attributes change, allowing historical analysis.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is type 2 scd?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Type 2 SCD tracks full history by creating new rows with effective dates when attributes change, allowing historical analysis."
   },
   {
     id: 15,
@@ -9393,8 +9319,7 @@ const questions$3 = [
       "Deleting old data"
     ],
     correctAnswer: "Ensuring data quality, security, compliance",
-    explanation: "Data governance is the overall management of data availability, usability, integrity, and security, ensuring compliance with policies and regulations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data governance?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data governance is the overall management of data availability, usability, integrity, and security, ensuring compliance with policies and regulations."
   },
   {
     id: 16,
@@ -9406,8 +9331,7 @@ const questions$3 = [
       "Complexity of data"
     ],
     correctAnswer: "How well data meets intended use",
-    explanation: "Data quality is the measure of how well data meets the needs of its intended use, typically measured by dimensions like accuracy, completeness, consistency, timeliness, validity, and uniqueness.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data quality?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data quality is the measure of how well data meets the needs of its intended use, typically measured by dimensions like accuracy, completeness, consistency, timeliness, validity, and uniqueness."
   },
   {
     id: 17,
@@ -9419,8 +9343,7 @@ const questions$3 = [
       "Visualization tool"
     ],
     correctAnswer: "Subset of data warehouse for specific function",
-    explanation: "A data mart is a subset of a data warehouse designed for a specific business function, team, or department.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a data mart?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A data mart is a subset of a data warehouse designed for a specific business function, team, or department."
   },
   {
     id: 18,
@@ -9432,8 +9355,7 @@ const questions$3 = [
       "Read-only dimension"
     ],
     correctAnswer: "Used consistently across fact tables",
-    explanation: "A conformed dimension has the same meaning and content when it appears in different fact tables, ensuring consistency.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a conformed dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A conformed dimension has the same meaning and content when it appears in different fact tables, ensuring consistency."
   },
   {
     id: 19,
@@ -9445,8 +9367,7 @@ const questions$3 = [
       "Null-only dimension"
     ],
     correctAnswer: "Random or miscellaneous attributes",
-    explanation: "A junk dimension contains attributes that do not logically belong with other attributes in existing dimensions, like flags or indicators.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a junk dimension?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A junk dimension contains attributes that do not logically belong with other attributes in existing dimensions, like flags or indicators."
   },
   {
     id: 20,
@@ -9458,8 +9379,7 @@ const questions$3 = [
       "Store only recent data"
     ],
     correctAnswer: "Scalable, agile data warehouse architecture",
-    explanation: "Data Vault is a database modeling approach for highly scalable, agile data warehouses with hubs, links, and satellites.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data vault modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data Vault is a database modeling approach for highly scalable, agile data warehouses with hubs, links, and satellites."
   },
   {
     id: 21,
@@ -9471,8 +9391,7 @@ const questions$3 = [
       "Connection table"
     ],
     correctAnswer: "Core table containing business keys",
-    explanation: "A hub in Data Vault is a core table that contains the business keys (primary keys from source systems) for a business entity.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a hub in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A hub in Data Vault is a core table that contains the business keys (primary keys from source systems) for a business entity."
   },
   {
     id: 22,
@@ -9484,8 +9403,7 @@ const questions$3 = [
       "Connection between satellites"
     ],
     correctAnswer: "Table representing relationships between hubs",
-    explanation: "A link in Data Vault is a table that represents relationships (transactions or associations) between hubs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a link in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A link in Data Vault is a table that represents relationships (transactions or associations) between hubs."
   },
   {
     id: 23,
@@ -9497,8 +9415,7 @@ const questions$3 = [
       "Attribute table"
     ],
     correctAnswer: "Table containing descriptive attributes for a hub or link",
-    explanation: "A satellite in Data Vault contains descriptive attributes (context) for a hub or link, with a foreign key to the hub or link.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a satellite in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A satellite in Data Vault contains descriptive attributes (context) for a hub or link, with a foreign key to the hub or link."
   },
   {
     id: 24,
@@ -9510,8 +9427,7 @@ const questions$3 = [
       "One-to-many: one satellite, many hubs"
     ],
     correctAnswer: "One-to-many: one hub, many satellites",
-    explanation: "In Data Vault, the relationship between hubs and satellites is one-to-many: one hub can have many satellites with different attributes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a hub-satellite relationship in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "In Data Vault, the relationship between hubs and satellites is one-to-many: one hub can have many satellites with different attributes."
   },
   {
     id: 25,
@@ -9523,8 +9439,7 @@ const questions$3 = [
       "Index data"
     ],
     correctAnswer: "Provide consistent, stable keys for joins",
-    explanation: "Data Vault uses hash keys (MD5 or SHA-256 hashes of business keys) to provide consistent, stable keys for joins and relationships.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of hashes in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data Vault uses hash keys (MD5 or SHA-256 hashes of business keys) to provide consistent, stable keys for joins and relationships."
   },
   {
     id: 26,
@@ -9536,8 +9451,7 @@ const questions$3 = [
       "Link with same hubs"
     ],
     correctAnswer: "Link indicating same business entity with different keys",
-    explanation: "A same-as link in Data Vault indicates that different business keys refer to the same business entity.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a same-as link in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A same-as link in Data Vault indicates that different business keys refer to the same business entity."
   },
   {
     id: 27,
@@ -9549,8 +9463,7 @@ const questions$3 = [
       "User data"
     ],
     correctAnswer: "Predefined, static data like codes and descriptions",
-    explanation: "A reference table in Data Vault contains predefined, static data like codes, descriptions, or lookup values.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a reference table in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A reference table in Data Vault contains predefined, static data like codes, descriptions, or lookup values."
   },
   {
     id: 28,
@@ -9562,8 +9475,7 @@ const questions$3 = [
       "Both are the same"
     ],
     correctAnswer: "Data Vault is agile and adaptable, dimensional is rigid",
-    explanation: "Data Vault is designed to be agile and adaptable to changes in source systems, while traditional dimensional modeling can be rigid and require significant rework for changes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between data vault and dimensional modeling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data Vault is designed to be agile and adaptable to changes in source systems, while traditional dimensional modeling can be rigid and require significant rework for changes."
   },
   {
     id: 29,
@@ -9575,8 +9487,7 @@ const questions$3 = [
       "Point-In-Time hub"
     ],
     correctAnswer: "Point-In-Time table for querying satellite data as of a point in time",
-    explanation: "A PIT (Point-In-Time) table in Data Vault enables querying satellite data as it was at a specific point in time, using effective dates.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a pit table in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A PIT (Point-In-Time) table in Data Vault enables querying satellite data as it was at a specific point in time, using effective dates."
   },
   {
     id: 30,
@@ -9588,8 +9499,7 @@ const questions$3 = [
       "Resolves many-to-many relationships"
     ],
     correctAnswer: "Used for multi-valued attributes",
-    explanation: "A bridge table in Data Vault (similar to traditional modeling) is used for handling multi-valued attributes that cannot be stored directly in satellites.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a bridge table in data vault?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A bridge table in Data Vault (similar to traditional modeling) is used for handling multi-valued attributes that cannot be stored directly in satellites."
   },
   {
     id: 31,
@@ -9601,8 +9511,7 @@ const questions$3 = [
       "Automating data storage"
     ],
     correctAnswer: "Automating design, development, and maintenance of data warehouses",
-    explanation: "Data warehousing automation involves using tools and frameworks to automate the design, development, testing, deployment, and maintenance of data warehouses.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data warehousing automation?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data warehousing automation involves using tools and frameworks to automate the design, development, testing, deployment, and maintenance of data warehouses."
   },
   {
     id: 32,
@@ -9614,8 +9523,7 @@ const questions$3 = [
       "Data visualization tool"
     ],
     correctAnswer: "Data warehousing automation tool",
-    explanation: "WhereScape is a data warehousing automation tool that automates the design, development, and maintenance of data warehouses.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is wherescape?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "WhereScape is a data warehousing automation tool that automates the design, development, and maintenance of data warehouses."
   },
   {
     id: 33,
@@ -9627,8 +9535,7 @@ const questions$3 = [
       "Agile approach"
     ],
     correctAnswer: "Bottom-up approach to data warehousing",
-    explanation: "The Kimball methodology is a bottom-up approach to data warehousing that focuses on dimensional modeling and building data marts first, then integrating them into a bus architecture.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the kimball methodology?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Kimball methodology is a bottom-up approach to data warehousing that focuses on dimensional modeling and building data marts first, then integrating them into a bus architecture."
   },
   {
     id: 34,
@@ -9640,8 +9547,7 @@ const questions$3 = [
       "Agile approach"
     ],
     correctAnswer: "Top-down approach to data warehousing",
-    explanation: "The Inmon methodology is a top-down approach to data warehousing that starts with an enterprise data model and builds a centralized data warehouse.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the inmon methodology?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Inmon methodology is a top-down approach to data warehousing that starts with an enterprise data model and builds a centralized data warehouse."
   },
   {
     id: 35,
@@ -9653,8 +9559,7 @@ const questions$3 = [
       "Both are the same"
     ],
     correctAnswer: "Kimball-bottom-up with data marts, Inmon-top-down with EDW",
-    explanation: "Kimball uses a bottom-up approach building data marts and integrating them, while Inmon uses a top-down approach building an enterprise data warehouse (EDW) first.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between kimball and inmon methodologies?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Kimball uses a bottom-up approach building data marts and integrating them, while Inmon uses a top-down approach building an enterprise data warehouse (EDW) first."
   },
   {
     id: 36,
@@ -9666,8 +9571,7 @@ const questions$3 = [
       "Model for star schemas"
     ],
     correctAnswer: "Third normal form for relational databases",
-    explanation: "3NF (Third Normal Form) is a normalization level in relational database design where tables are free from transitive dependencies.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a 3nf model?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "3NF (Third Normal Form) is a normalization level in relational database design where tables are free from transitive dependencies."
   },
   {
     id: 37,
@@ -9679,8 +9583,7 @@ const questions$3 = [
       "Galaxy schema"
     ],
     correctAnswer: "Enterprise-wide dimensional model with conformed dimensions",
-    explanation: "A bus schema in dimensional modeling is an enterprise-wide model that uses conformed dimensions to integrate data across business processes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dimensional model bus schema?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A bus schema in dimensional modeling is an enterprise-wide model that uses conformed dimensions to integrate data across business processes."
   },
   {
     id: 38,
@@ -9692,8 +9595,7 @@ const questions$3 = [
       "Sort data"
     ],
     correctAnswer: "Navigate from summary to detailed data",
-    explanation: "Drill-down in OLAP allows users to navigate from summary (aggregated) data to more detailed data (e.g., from yearly to monthly to daily).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a drill-down in olap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Drill-down in OLAP allows users to navigate from summary (aggregated) data to more detailed data (e.g., from yearly to monthly to daily)."
   },
   {
     id: 39,
@@ -9705,8 +9607,7 @@ const questions$3 = [
       "Sort data"
     ],
     correctAnswer: "Navigate from detailed to summary data",
-    explanation: "Roll-up in OLAP allows users to navigate from detailed data to summary (aggregated) data (e.g., from daily to monthly to yearly).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a roll-up in olap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Roll-up in OLAP allows users to navigate from detailed data to summary (aggregated) data (e.g., from daily to monthly to yearly)."
   },
   {
     id: 40,
@@ -9718,8 +9619,7 @@ const questions$3 = [
       "Selecting by time"
     ],
     correctAnswer: "Selecting a subset of data by fixing one dimension",
-    explanation: "Slicing in OLAP is selecting a subset of data by fixing one dimension to a specific value (e.g., selecting data for a specific region).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is slicing in olap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Slicing in OLAP is selecting a subset of data by fixing one dimension to a specific value (e.g., selecting data for a specific region)."
   },
   {
     id: 41,
@@ -9731,8 +9631,7 @@ const questions$3 = [
       "Selecting by time"
     ],
     correctAnswer: "Selecting a subset of data by fixing multiple dimensions",
-    explanation: "Dicing in OLAP is selecting a subset of data by fixing multiple dimensions to specific values (e.g., selecting data for a specific region and product).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is dicing in olap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Dicing in OLAP is selecting a subset of data by fixing multiple dimensions to specific values (e.g., selecting data for a specific region and product)."
   },
   {
     id: 42,
@@ -9744,8 +9643,7 @@ const questions$3 = [
       "Grouping data"
     ],
     correctAnswer: "Rotating axes to view data from different perspectives",
-    explanation: "Pivoting in OLAP involves rotating the axes (rows and columns) to view data from different perspectives, like swapping rows and columns in a crosstab report.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is pivoting in olap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Pivoting in OLAP involves rotating the axes (rows and columns) to view data from different perspectives, like swapping rows and columns in a crosstab report."
   },
   {
     id: 43,
@@ -9757,8 +9655,7 @@ const questions$3 = [
       "OLAP using file systems"
     ],
     correctAnswer: "Relational OLAP using relational databases",
-    explanation: "ROLAP (Relational OLAP) is an OLAP implementation that uses relational databases to store and query multidimensional data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a rolap system?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "ROLAP (Relational OLAP) is an OLAP implementation that uses relational databases to store and query multidimensional data."
   },
   {
     id: 44,
@@ -9770,8 +9667,7 @@ const questions$3 = [
       "OLAP using file systems"
     ],
     correctAnswer: "Multidimensional OLAP using specialized databases",
-    explanation: "MOLAP (Multidimensional OLAP) is an OLAP implementation that uses specialized multidimensional databases optimized for OLAP queries.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a molap system?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "MOLAP (Multidimensional OLAP) is an OLAP implementation that uses specialized multidimensional databases optimized for OLAP queries."
   },
   {
     id: 45,
@@ -9783,8 +9679,7 @@ const questions$3 = [
       "Both A and C"
     ],
     correctAnswer: "Both A and C",
-    explanation: "HOLAP (Hybrid OLAP) combines aspects of ROLAP and MOLAP, using both relational and multidimensional databases for different data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a holap system?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "HOLAP (Hybrid OLAP) combines aspects of ROLAP and MOLAP, using both relational and multidimensional databases for different data."
   },
   {
     id: 46,
@@ -9796,8 +9691,7 @@ const questions$3 = [
       "ETL process"
     ],
     correctAnswer: "Multidimensional dataset for analysis",
-    explanation: "A cube in OLAP is a multidimensional dataset that allows for fast analysis of data from multiple perspectives (dimensions).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a cube in olap?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A cube in OLAP is a multidimensional dataset that allows for fast analysis of data from multiple perspectives (dimensions)."
   },
   {
     id: 47,
@@ -9809,8 +9703,7 @@ const questions$3 = [
       "Volume of data"
     ],
     correctAnswer: "Position in a hierarchy like year, quarter, month, day",
-    explanation: "A level in a dimensional hierarchy represents a position in the hierarchy (e.g., year > quarter > month > day in a time dimension).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a level in dimensional hierarchy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A level in a dimensional hierarchy represents a position in the hierarchy (e.g., year > quarter > month > day in a time dimension)."
   },
   {
     id: 48,
@@ -9822,8 +9715,7 @@ const questions$3 = [
       "Name of dimension"
     ],
     correctAnswer: "Specific value at a level like January, February",
-    explanation: "A member in a dimensional hierarchy is a specific value at a particular level (e.g., January, February at the month level).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a member in dimensional hierarchy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A member in a dimensional hierarchy is a specific value at a particular level (e.g., January, February at the month level)."
   },
   {
     id: 49,
@@ -9835,8 +9727,7 @@ const questions$3 = [
       "Hierarchy with no children"
     ],
     correctAnswer: "Hierarchy where each member can have multiple parents and children",
-    explanation: "A parent-child hierarchy is a flexible hierarchy where each member can have multiple parents and children, allowing for complex relationships.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a parent-child hierarchy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A parent-child hierarchy is a flexible hierarchy where each member can have multiple parents and children, allowing for complex relationships."
   },
   {
     id: 50,
@@ -9848,8 +9739,7 @@ const questions$3 = [
       "Hierarchy with no levels"
     ],
     correctAnswer: "Hierarchy with inconsistent levels like geography",
-    explanation: "A ragged hierarchy is one where the levels are inconsistent (e.g., geography: Country > State > City, but some countries don't have states).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a ragged hierarchy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A ragged hierarchy is one where the levels are inconsistent (e.g., geography: Country > State > City, but some countries don't have states)."
   },
   {
     id: 51,
@@ -9861,8 +9751,7 @@ const questions$3 = [
       "Hierarchy with no levels"
     ],
     correctAnswer: "Hierarchy with consistent levels across all branches",
-    explanation: "A balanced hierarchy has consistent levels across all branches (e.g., year > quarter > month > day for all dates).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a balanced hierarchy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A balanced hierarchy has consistent levels across all branches (e.g., year > quarter > month > day for all dates)."
   },
   {
     id: 52,
@@ -9874,8 +9763,7 @@ const questions$3 = [
       "Hierarchy with no levels"
     ],
     correctAnswer: "Hierarchy where levels can be skipped",
-    explanation: "A skip-level hierarchy allows querying at non-consecutive levels (e.g., going from year directly to day, skipping quarter and month).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a skip-level hierarchy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A skip-level hierarchy allows querying at non-consecutive levels (e.g., going from year directly to day, skipping quarter and month)."
   },
   {
     id: 53,
@@ -9887,8 +9775,7 @@ const questions$3 = [
       "Dimension with fixed hierarchy"
     ],
     correctAnswer: "Dimension with multiple hierarchies like geography and sales",
-    explanation: "A multiple hierarchy is a dimension that has more than one hierarchy (e.g., geography hierarchy and sales hierarchy in a customer dimension).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a multiple hierarchy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A multiple hierarchy is a dimension that has more than one hierarchy (e.g., geography hierarchy and sales hierarchy in a customer dimension)."
   },
   {
     id: 54,
@@ -9900,8 +9787,7 @@ const questions$3 = [
       "Hierarchy with no levels"
     ],
     correctAnswer: "Hierarchy where members can be parents of themselves",
-    explanation: "A recursive hierarchy is one where members can be parents of themselves (directly or indirectly), creating cycles in the hierarchy.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a recursive hierarchy?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A recursive hierarchy is one where members can be parents of themselves (directly or indirectly), creating cycles in the hierarchy."
   },
   {
     id: 55,
@@ -9913,8 +9799,7 @@ const questions$3 = [
       "Changing database vendor"
     ],
     correctAnswer: "Optimizing queries, indexes, and data structures",
-    explanation: "Data warehouse performance tuning involves optimizing queries, creating appropriate indexes, partitioning data, and designing efficient data structures.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data warehouse performance tuning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data warehouse performance tuning involves optimizing queries, creating appropriate indexes, partitioning data, and designing efficient data structures."
   },
   {
     id: 56,
@@ -9926,8 +9811,7 @@ const questions$3 = [
       "Changing database schema"
     ],
     correctAnswer: "Improving query execution plans",
-    explanation: "Query optimization involves analyzing and improving query execution plans, using appropriate join strategies, and leveraging database optimizer features.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is query optimization in data warehouses?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Query optimization involves analyzing and improving query execution plans, using appropriate join strategies, and leveraging database optimizer features."
   },
   {
     id: 57,
@@ -9939,8 +9823,7 @@ const questions$3 = [
       "Using only primary keys"
     ],
     correctAnswer: "Choosing appropriate indexes for query performance",
-    explanation: "Indexing strategy involves carefully choosing which columns to index, the type of indexes (B-tree, bitmap, hash), and balancing the overhead of index maintenance with query performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is indexing strategy in data warehouses?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Indexing strategy involves carefully choosing which columns to index, the type of indexes (B-tree, bitmap, hash), and balancing the overhead of index maintenance with query performance."
   },
   {
     id: 58,
@@ -9952,8 +9835,7 @@ const questions$3 = [
       "Index using sorted lists"
     ],
     correctAnswer: "Index using bit arrays for low-cardinality columns",
-    explanation: "Bitmap indexing uses bit arrays to represent the presence or absence of values in columns, which is efficient for low-cardinality columns with many repeated values.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is bitmap indexing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Bitmap indexing uses bit arrays to represent the presence or absence of values in columns, which is efficient for low-cardinality columns with many repeated values."
   },
   {
     id: 59,
@@ -9965,8 +9847,7 @@ const questions$3 = [
       "Hash tree"
     ],
     correctAnswer: "Balanced tree structure for efficient range queries",
-    explanation: "B-tree indexing uses a balanced tree structure that is efficient for range queries, equality queries, and sorting.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is b-tree indexing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "B-tree indexing uses a balanced tree structure that is efficient for range queries, equality queries, and sorting."
   },
   {
     id: 60,
@@ -9978,8 +9859,7 @@ const questions$3 = [
       "Index using sorted lists"
     ],
     correctAnswer: "Index using hash values for fast equality queries",
-    explanation: "Hash indexing uses hash values to map keys to storage locations, providing fast equality queries but not efficient for range queries.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is hash indexing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Hash indexing uses hash values to map keys to storage locations, providing fast equality queries but not efficient for range queries."
   },
   {
     id: 61,
@@ -9991,8 +9871,7 @@ const questions$3 = [
       "Index that covers all databases"
     ],
     correctAnswer: "Index that contains all columns needed for a query",
-    explanation: "A covering index contains all the columns needed for a query, allowing the query to be satisfied entirely from the index without accessing the underlying table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a covering index?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A covering index contains all the columns needed for a query, allowing the query to be satisfied entirely from the index without accessing the underlying table."
   },
   {
     id: 62,
@@ -10004,8 +9883,7 @@ const questions$3 = [
       "Query without table access"
     ],
     correctAnswer: "Query satisfied entirely from index",
-    explanation: "An index-only scan (or index-only query) is when a query can be satisfied entirely from the index without accessing the underlying table data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is index-only scan?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "An index-only scan (or index-only query) is when a query can be satisfied entirely from the index without accessing the underlying table data."
   },
   {
     id: 63,
@@ -10017,8 +9895,7 @@ const questions$3 = [
       "Index on computed column"
     ],
     correctAnswer: "Index on multiple columns",
-    explanation: "A composite index (or multi-column index) is an index on multiple columns, useful for queries that filter or sort on multiple columns.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a composite index?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A composite index (or multi-column index) is an index on multiple columns, useful for queries that filter or sort on multiple columns."
   },
   {
     id: 64,
@@ -10030,8 +9907,7 @@ const questions$3 = [
       "Encrypt tables"
     ],
     correctAnswer: "Divide large tables into smaller, manageable pieces",
-    explanation: "Data partitioning divides large tables into smaller, more manageable pieces based on criteria like date ranges, improving query performance and maintenance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of data partitioning in data warehouses?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data partitioning divides large tables into smaller, more manageable pieces based on criteria like date ranges, improving query performance and maintenance."
   },
   {
     id: 65,
@@ -10043,8 +9919,7 @@ const questions$3 = [
       "Partition based on round-robin"
     ],
     correctAnswer: "Partition based on value ranges",
-    explanation: "Range partitioning divides data into partitions based on value ranges (e.g., date ranges, numeric ranges).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is range partitioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Range partitioning divides data into partitions based on value ranges (e.g., date ranges, numeric ranges)."
   },
   {
     id: 66,
@@ -10056,8 +9931,7 @@ const questions$3 = [
       "Partition based on round-robin"
     ],
     correctAnswer: "Partition based on hash values of keys",
-    explanation: "Hash partitioning divides data into partitions based on hash values of partition keys, distributing data evenly across partitions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is hash partitioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Hash partitioning divides data into partitions based on hash values of partition keys, distributing data evenly across partitions."
   },
   {
     id: 67,
@@ -10069,8 +9943,7 @@ const questions$3 = [
       "Partition based on round-robin"
     ],
     correctAnswer: "Partition based on discrete list of values",
-    explanation: "List partitioning divides data into partitions based on a discrete list of values (e.g., partitioning by region: North, South, East, West).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is list partitioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "List partitioning divides data into partitions based on a discrete list of values (e.g., partitioning by region: North, South, East, West)."
   },
   {
     id: 68,
@@ -10082,8 +9955,7 @@ const questions$3 = [
       "Partition based on list of values"
     ],
     correctAnswer: "Distribute data evenly across partitions",
-    explanation: "Round-robin partitioning distributes data evenly across partitions in a circular, round-robin fashion.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is round-robin partitioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Round-robin partitioning distributes data evenly across partitions in a circular, round-robin fashion."
   },
   {
     id: 69,
@@ -10095,8 +9967,7 @@ const questions$3 = [
       "All of the above"
     ],
     correctAnswer: "All of the above",
-    explanation: "Composite partitioning combines multiple partitioning strategies (e.g., range-hash partitioning, list-hash partitioning) to achieve better distribution and performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is composite partitioning?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Composite partitioning combines multiple partitioning strategies (e.g., range-hash partitioning, list-hash partitioning) to achieve better distribution and performance."
   },
   {
     id: 70,
@@ -10108,8 +9979,7 @@ const questions$3 = [
       "Indexing data"
     ],
     correctAnswer: "Physically co-locating related data",
-    explanation: "Data clustering physically co-locates related data (e.g., data with the same partitioning key) to improve query performance by reducing I/O.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data clustering in data warehouses?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data clustering physically co-locates related data (e.g., data with the same partitioning key) to improve query performance by reducing I/O."
   },
   {
     id: 71,
@@ -10121,8 +9991,7 @@ const questions$3 = [
       "Caching metadata"
     ],
     correctAnswer: "Caching query results to avoid recomputation",
-    explanation: "Query caching stores the results of frequently executed queries, allowing subsequent identical queries to retrieve results from cache instead of recomputing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is query caching in data warehouses?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Query caching stores the results of frequently executed queries, allowing subsequent identical queries to retrieve results from cache instead of recomputing."
   },
   {
     id: 72,
@@ -10134,8 +10003,7 @@ const questions$3 = [
       "Querying materialized view"
     ],
     correctAnswer: "Updating materialized view with latest data",
-    explanation: "Materialized view refresh is the process of updating a materialized view with the latest data from the underlying tables, which can be done on a schedule or on demand.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is materialized view refresh?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Materialized view refresh is the process of updating a materialized view with the latest data from the underlying tables, which can be done on a schedule or on demand."
   },
   {
     id: 73,
@@ -10147,8 +10015,7 @@ const questions$3 = [
       "Refresh on demand"
     ],
     correctAnswer: "Refresh only changed data since last refresh",
-    explanation: "Incremental refresh updates a materialized view or data warehouse with only the data that has changed since the last refresh, improving efficiency.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is incremental refresh?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Incremental refresh updates a materialized view or data warehouse with only the data that has changed since the last refresh, improving efficiency."
   },
   {
     id: 74,
@@ -10160,8 +10027,7 @@ const questions$3 = [
       "Refresh on demand"
     ],
     correctAnswer: "Refresh all data in materialized view",
-    explanation: "Full refresh rebuilds a materialized view from scratch, refreshing all data to ensure consistency with the underlying tables.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is full refresh?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Full refresh rebuilds a materialized view from scratch, refreshing all data to ensure consistency with the underlying tables."
   },
   {
     id: 75,
@@ -10173,8 +10039,7 @@ const questions$3 = [
       "Refresh on demand"
     ],
     correctAnswer: "Refresh materialized view incrementally using change logs",
-    explanation: "Fast refresh (or fast incremental refresh) updates a materialized view incrementally using change logs or triggers, providing near real-time updates.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is fast refresh in materialized views?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Fast refresh (or fast incremental refresh) updates a materialized view incrementally using change logs or triggers, providing near real-time updates."
   },
   {
     id: 76,
@@ -10186,8 +10051,7 @@ const questions$3 = [
       "On-demand refresh"
     ],
     correctAnswer: "Full rebuild of materialized view",
-    explanation: "Complete refresh (or full rebuild) recreates the materialized view from scratch, reading all data from the underlying tables.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is complete refresh in materialized views?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Complete refresh (or full rebuild) recreates the materialized view from scratch, reading all data from the underlying tables."
   },
   {
     id: 77,
@@ -10199,8 +10063,7 @@ const questions$3 = [
       "All of the above"
     ],
     correctAnswer: "All of the above",
-    explanation: "Data warehouse metadata includes information about data (schemas, definitions, lineage), storage (locations, formats), and processing (ETL jobs, schedules, dependencies).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data warehouse metadata?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data warehouse metadata includes information about data (schemas, definitions, lineage), storage (locations, formats), and processing (ETL jobs, schedules, dependencies)."
   },
   {
     id: 78,
@@ -10212,8 +10075,7 @@ const questions$3 = [
       "Analyze data"
     ],
     correctAnswer: "Document data elements and their meanings",
-    explanation: "A data dictionary documents data elements (tables, columns, fields) and their meanings, definitions, formats, and business rules.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a data dictionary?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A data dictionary documents data elements (tables, columns, fields) and their meanings, definitions, formats, and business rules."
   },
   {
     id: 79,
@@ -10225,8 +10087,7 @@ const questions$3 = [
       "Querying data"
     ],
     correctAnswer: "Analyzing data to understand its structure, content, and quality",
-    explanation: "Data profiling involves analyzing data to understand its structure, content, relationships, and quality characteristics (completeness, uniqueness, patterns, etc.).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data profiling?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data profiling involves analyzing data to understand its structure, content, relationships, and quality characteristics (completeness, uniqueness, patterns, etc.)."
   },
   {
     id: 80,
@@ -10238,8 +10099,7 @@ const questions$3 = [
       "Querying data"
     ],
     correctAnswer: "Identifying and correcting errors in data",
-    explanation: "Data cleansing (or data cleaning) involves identifying and correcting errors, inconsistencies, and inaccuracies in data to improve quality.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data cleansing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data cleansing (or data cleaning) involves identifying and correcting errors, inconsistencies, and inaccuracies in data to improve quality."
   },
   {
     id: 81,
@@ -10251,8 +10111,7 @@ const questions$3 = [
       "Querying data"
     ],
     correctAnswer: "Adding value to data by augmenting it with additional information",
-    explanation: "Data enrichment adds value to data by augmenting it with additional information from external sources (e.g., adding geographic data to customer addresses).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data enrichment?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data enrichment adds value to data by augmenting it with additional information from external sources (e.g., adding geographic data to customer addresses)."
   },
   {
     id: 82,
@@ -10264,8 +10123,7 @@ const questions$3 = [
       "Querying data"
     ],
     correctAnswer: "Combining data from multiple sources",
-    explanation: "Data integration involves combining data from multiple sources into a unified, consistent format for analysis and reporting.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data integration?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data integration involves combining data from multiple sources into a unified, consistent format for analysis and reporting."
   },
   {
     id: 83,
@@ -10277,8 +10135,7 @@ const questions$3 = [
       "Querying data"
     ],
     correctAnswer: "Combining data from multiple sources into a single system",
-    explanation: "Data consolidation combines data from multiple sources into a single, centralized system (like a data warehouse or data lake).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data consolidation?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data consolidation combines data from multiple sources into a single, centralized system (like a data warehouse or data lake)."
   },
   {
     id: 84,
@@ -10290,8 +10147,7 @@ const questions$3 = [
       "Storing data"
     ],
     correctAnswer: "Querying data from multiple sources without consolidating",
-    explanation: "Data federation (or virtual integration) allows querying data from multiple sources as if it were in a single location, without physically consolidating the data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data federation?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data federation (or virtual integration) allows querying data from multiple sources as if it were in a single location, without physically consolidating the data."
   },
   {
     id: 85,
@@ -10303,8 +10159,7 @@ const questions$3 = [
       "Querying data virtually"
     ],
     correctAnswer: "Creating virtual views of data from multiple sources",
-    explanation: "Data virtualization creates virtual views of data from multiple sources, allowing users to access and query data without knowing its physical location or format.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data virtualization?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data virtualization creates virtual views of data from multiple sources, allowing users to access and query data without knowing its physical location or format."
   }
 ];
 const dataEngineeringMidLevel = {
@@ -10329,8 +10184,7 @@ const questions$2 = [
       "Data visualization tool"
     ],
     correctAnswer: "High-throughput distributed event streaming platform",
-    explanation: "Kafka is a distributed event streaming platform designed for high-throughput, fault-tolerant, low-latency event processing.",
-    detailedAnswer: "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
+    explanation: "Kafka is a distributed event streaming platform designed for high-throughput, fault-tolerant, low-latency event processing."
   },
   {
     id: 2,
@@ -10342,8 +10196,7 @@ const questions$2 = [
       "Backup location"
     ],
     correctAnswer: "Category or feed name to which events are published",
-    explanation: "A Kafka topic is a category or feed name to which events are published by producers.",
-    detailedAnswer: "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
+    explanation: "A Kafka topic is a category or feed name to which events are published by producers."
   },
   {
     id: 3,
@@ -10355,8 +10208,7 @@ const questions$2 = [
       "Backup copy"
     ],
     correctAnswer: "Ordered, immutable sequence of events within a topic",
-    explanation: "A partition is an ordered, immutable sequence of events within a topic. Each topic is split into partitions for scalability.",
-    detailedAnswer: "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
+    explanation: "A partition is an ordered, immutable sequence of events within a topic. Each topic is split into partitions for scalability."
   },
   {
     id: 4,
@@ -10368,8 +10220,7 @@ const questions$2 = [
       "Database server"
     ],
     correctAnswer: "Server that stores topic partitions and serves client requests",
-    explanation: "A Kafka broker is a server that stores topic partitions and serves client requests.",
-    detailedAnswer: "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
+    explanation: "A Kafka broker is a server that stores topic partitions and serves client requests."
   },
   {
     id: 5,
@@ -10381,8 +10232,7 @@ const questions$2 = [
       "Serve requests"
     ],
     correctAnswer: "Maintain cluster metadata and coordinate brokers",
-    explanation: "ZooKeeper maintained cluster metadata and coordinated between brokers in traditional Kafka clusters.",
-    detailedAnswer: "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
+    explanation: "ZooKeeper maintained cluster metadata and coordinated between brokers in traditional Kafka clusters."
   },
   {
     id: 6,
@@ -10394,8 +10244,7 @@ const questions$2 = [
       "Database client"
     ],
     correctAnswer: "Client application that publishes events to topics",
-    explanation: "A Kafka producer is a client application that publishes (writes) events to Kafka topics.",
-    detailedAnswer: "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
+    explanation: "A Kafka producer is a client application that publishes (writes) events to Kafka topics."
   },
   {
     id: 7,
@@ -10407,8 +10256,7 @@ const questions$2 = [
       "Database client"
     ],
     correctAnswer: "Client application that subscribes to and reads events",
-    explanation: "A Kafka consumer is a client application that subscribes to and reads events from Kafka topics.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A Kafka consumer is a client application that subscribes to and reads events from Kafka topics."
   },
   {
     id: 8,
@@ -10420,8 +10268,7 @@ const questions$2 = [
       "Group of topics"
     ],
     correctAnswer: "Group of consumers that collectively read from a topic",
-    explanation: "A consumer group is a group of consumer instances that collectively read from a topic, with each partition read by only one consumer.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a consumer group?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A consumer group is a group of consumer instances that collectively read from a topic, with each partition read by only one consumer."
   },
   {
     id: 9,
@@ -10433,8 +10280,7 @@ const questions$2 = [
       "Track health"
     ],
     correctAnswer: "Track the reading position in each partition",
-    explanation: "Kafka tracks the offset of the last event read by each consumer group for each partition, allowing consumers to resume from where they left off.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what are consumer group offsets?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Kafka tracks the offset of the last event read by each consumer group for each partition, allowing consumers to resume from where they left off."
   },
   {
     id: 10,
@@ -10446,8 +10292,7 @@ const questions$2 = [
       "Testing framework"
     ],
     correctAnswer: "Framework for integrating Kafka with external systems",
-    explanation: "Kafka Connect is a framework for building data pipelines that integrate Kafka with external systems using connectors.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kafka connect?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Kafka Connect is a framework for building data pipelines that integrate Kafka with external systems using connectors."
   },
   {
     id: 11,
@@ -10459,8 +10304,7 @@ const questions$2 = [
       "Processes data"
     ],
     correctAnswer: "Ingests data from external systems into Kafka",
-    explanation: "A source connector imports data from external systems (databases, files, etc.) into Kafka topics.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a source connector in kafka connect?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A source connector imports data from external systems (databases, files, etc.) into Kafka topics."
   },
   {
     id: 12,
@@ -10472,8 +10316,7 @@ const questions$2 = [
       "Processes data"
     ],
     correctAnswer: "Exports data from Kafka to external systems",
-    explanation: "A sink connector exports data from Kafka topics to external systems (databases, storage, etc.).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a sink connector in kafka connect?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A sink connector exports data from Kafka topics to external systems (databases, storage, etc.)."
   },
   {
     id: 13,
@@ -10485,8 +10328,7 @@ const questions$2 = [
       "Visualization tool"
     ],
     correctAnswer: "Client library for building stream processing applications",
-    explanation: "Kafka Streams is a client library for building stream processing applications and microservices that process data in Kafka topics.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kafka streams?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Kafka Streams is a client library for building stream processing applications and microservices that process data in Kafka topics."
   },
   {
     id: 14,
@@ -10498,8 +10340,7 @@ const questions$2 = [
       "ETL tool"
     ],
     correctAnswer: "Streaming SQL engine for Kafka",
-    explanation: "KSQL is a streaming SQL engine that allows you to query, transform, and process data in Kafka using SQL-like syntax.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is ksql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "KSQL is a streaming SQL engine that allows you to query, transform, and process data in Kafka using SQL-like syntax."
   },
   {
     id: 15,
@@ -10511,8 +10352,7 @@ const questions$2 = [
       "Validate consumers"
     ],
     correctAnswer: "Manage and enforce schemas for Kafka messages",
-    explanation: "Schema Registry manages and enforces schemas for Kafka messages, enabling schema evolution and compatibility checking.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of kafka schema registry?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Schema Registry manages and enforces schemas for Kafka messages, enabling schema evolution and compatibility checking."
   },
   {
     id: 16,
@@ -10524,8 +10364,7 @@ const questions$2 = [
       "XML format"
     ],
     correctAnswer: "Binary serialization format with schema",
-    explanation: "Avro is a binary serialization format that includes schema information, enabling efficient serialization and deserialization with schema evolution.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is avro format in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Avro is a binary serialization format that includes schema information, enabling efficient serialization and deserialization with schema evolution."
   },
   {
     id: 17,
@@ -10537,8 +10376,7 @@ const questions$2 = [
       "ID of producer"
     ],
     correctAnswer: "Sequential ID of an event within a partition",
-    explanation: "An offset is a sequential ID assigned to each event within a partition, starting at 0 and incrementing by 1 for each new event.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the offset in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "An offset is a sequential ID assigned to each event within a partition, starting at 0 and incrementing by 1 for each new event."
   },
   {
     id: 18,
@@ -10550,8 +10388,7 @@ const questions$2 = [
       "Cluster manager"
     ],
     correctAnswer: "Broker responsible for all reads and writes to a partition",
-    explanation: "The leader is the broker responsible for all reads and writes to a partition. Followers replicate from the leader.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the leader of a kafka partition?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The leader is the broker responsible for all reads and writes to a partition. Followers replicate from the leader."
   },
   {
     id: 19,
@@ -10563,8 +10400,7 @@ const questions$2 = [
       "Standby broker"
     ],
     correctAnswer: "Broker that replicates partition data from leader",
-    explanation: "A follower is a broker that replicates partition data from the leader to maintain redundancy and fault tolerance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a follower in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A follower is a broker that replicates partition data from the leader to maintain redundancy and fault tolerance."
   },
   {
     id: 20,
@@ -10576,8 +10412,7 @@ const questions$2 = [
       "Integrated Service Router"
     ],
     correctAnswer: "In-Sync Replicas - set of brokers that are in sync with leader",
-    explanation: "ISR (In-Sync Replicas) is the set of brokers that are currently in sync with the partition leader and eligible to be elected as leader.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is isr in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "ISR (In-Sync Replicas) is the set of brokers that are currently in sync with the partition leader and eligible to be elected as leader."
   },
   {
     id: 21,
@@ -10589,8 +10424,7 @@ const questions$2 = [
       "Number of partitions"
     ],
     correctAnswer: "Number of copies of each partition across brokers",
-    explanation: "The replication factor determines how many copies of each partition are maintained across different brokers for fault tolerance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the replication factor in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The replication factor determines how many copies of each partition are maintained across different brokers for fault tolerance."
   },
   {
     id: 22,
@@ -10602,8 +10436,7 @@ const questions$2 = [
       "Minimum number of partitions"
     ],
     correctAnswer: "Minimum number of in-sync replicas required for producer writes",
-    explanation: "minimum.insync.replicas specifies the minimum number of in-sync replicas required for a producer to successfully write to a partition, ensuring durability.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the minimum.insync.replicas setting?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "minimum.insync.replicas specifies the minimum number of in-sync replicas required for a producer to successfully write to a partition, ensuring durability."
   },
   {
     id: 23,
@@ -10615,8 +10448,7 @@ const questions$2 = [
       "Allow automatic leader election"
     ],
     correctAnswer: "Allow leader election from out-of-sync replicas",
-    explanation: "When enabled, unclean.leader.election.enable allows a broker that is not in the ISR to be elected as leader, potentially causing data loss.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is unclean.leader.election.enable?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "When enabled, unclean.leader.election.enable allows a broker that is not in the ISR to be elected as leader, potentially causing data loss."
   },
   {
     id: 24,
@@ -10628,8 +10460,7 @@ const questions$2 = [
       "Number of topics"
     ],
     correctAnswer: "Number of broker acknowledgments required",
-    explanation: "acks setting in producer determines how many broker acknowledgments are required: 0 (no ack), 1 (leader ack), or all (all in-sync replicas).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is acks in kafka producer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "acks setting in producer determines how many broker acknowledgments are required: 0 (no ack), 1 (leader ack), or all (all in-sync replicas)."
   },
   {
     id: 25,
@@ -10641,8 +10472,7 @@ const questions$2 = [
       "Producer that always succeeds"
     ],
     correctAnswer: "Producer that prevents duplicate sends of same message",
-    explanation: "An idempotent producer ensures that each message is delivered exactly once, even if it's retried, preventing duplicates.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is idempotent producer in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "An idempotent producer ensures that each message is delivered exactly once, even if it's retried, preventing duplicates."
   },
   {
     id: 26,
@@ -10654,8 +10484,7 @@ const questions$2 = [
       "Producer that supports rollbacks"
     ],
     correctAnswer: "Producer that can send messages to multiple partitions atomically",
-    explanation: "A transactional producer can send messages to multiple partitions and topics atomically, ensuring all messages are committed or none are.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is transactional producer in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A transactional producer can send messages to multiple partitions and topics atomically, ensuring all messages are committed or none are."
   },
   {
     id: 27,
@@ -10667,8 +10496,7 @@ const questions$2 = [
       "Processing delay"
     ],
     correctAnswer: "Difference between latest offset and consumer offset",
-    explanation: "Consumer lag is the difference between the latest offset in a partition and the current offset of the consumer group, indicating how far behind the consumer is.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is consumer lag?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Consumer lag is the difference between the latest offset in a partition and the current offset of the consumer group, indicating how far behind the consumer is."
   },
   {
     id: 28,
@@ -10680,8 +10508,7 @@ const questions$2 = [
       "Refresh metadata"
     ],
     correctAnswer: "Reassign partitions to consumers when group membership changes",
-    explanation: "Rebalancing reassigns partition ownership among consumers in a group when consumers join, leave, or when partitions are added/removed.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of consumer groups rebalancing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Rebalancing reassigns partition ownership among consumers in a group when consumers join, leave, or when partitions are added/removed."
   },
   {
     id: 29,
@@ -10693,8 +10520,7 @@ const questions$2 = [
       "Interval for committing"
     ],
     correctAnswer: "Interval at which consumer sends heartbeats",
-    explanation: "heartbeat.interval.ms is the interval at which the consumer sends heartbeats to the group coordinator to indicate it's alive.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is heartbeat.interval.ms in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "heartbeat.interval.ms is the interval at which the consumer sends heartbeats to the group coordinator to indicate it's alive."
   },
   {
     id: 30,
@@ -10706,8 +10532,7 @@ const questions$2 = [
       "Time for connecting"
     ],
     correctAnswer: "Maximum time between heartbeats before consumer is considered dead",
-    explanation: "session.timeout.ms is the maximum time between heartbeats before a consumer is considered dead and triggers rebalancing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is session.timeout.ms in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "session.timeout.ms is the maximum time between heartbeats before a consumer is considered dead and triggers rebalancing."
   },
   {
     id: 31,
@@ -10719,8 +10544,7 @@ const questions$2 = [
       "Maximum fetch size"
     ],
     correctAnswer: "Maximum number of records returned in a single poll",
-    explanation: "max.poll.records limits the maximum number of records returned in a single call to poll(), controlling batch size.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is max.poll.records in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "max.poll.records limits the maximum number of records returned in a single call to poll(), controlling batch size."
   },
   {
     id: 32,
@@ -10732,8 +10556,7 @@ const questions$2 = [
       "Auto reconnect"
     ],
     correctAnswer: "What to do when offset is out of range",
-    explanation: "auto.offset.reset determines what to do when there's no initial offset or the offset is out of range: earliest, latest, or none.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is auto.offset.reset in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "auto.offset.reset determines what to do when there's no initial offset or the offset is out of range: earliest, latest, or none."
   },
   {
     id: 33,
@@ -10745,8 +10568,7 @@ const questions$2 = [
       "Auto acknowledge"
     ],
     correctAnswer: "Whether to automatically commit offsets",
-    explanation: "enable.auto.commit controls whether offsets are automatically committed (true) or manually committed by the application (false).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is enable.auto.commit in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "enable.auto.commit controls whether offsets are automatically committed (true) or manually committed by the application (false)."
   },
   {
     id: 34,
@@ -10758,8 +10580,7 @@ const questions$2 = [
       "Synchronously acknowledge"
     ],
     correctAnswer: "Synchronously commit offsets",
-    explanation: "commitSync() synchronously commits offsets to Kafka, blocking until the commit is acknowledged by the broker.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is commitsync in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "commitSync() synchronously commits offsets to Kafka, blocking until the commit is acknowledged by the broker."
   },
   {
     id: 35,
@@ -10771,8 +10592,7 @@ const questions$2 = [
       "Asynchronously acknowledge"
     ],
     correctAnswer: "Asynchronously commit offsets",
-    explanation: "commitAsync() asynchronously commits offsets to Kafka, returning immediately and allowing the application to continue processing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is commitasync in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "commitAsync() asynchronously commits offsets to Kafka, returning immediately and allowing the application to continue processing."
   },
   {
     id: 36,
@@ -10784,8 +10604,7 @@ const questions$2 = [
       "Filter messages"
     ],
     correctAnswer: "Manually set offset for a partition",
-    explanation: "seek() allows manually setting the offset for a specific partition, enabling replay or skipping of messages.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is seek in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "seek() allows manually setting the offset for a specific partition, enabling replay or skipping of messages."
   },
   {
     id: 37,
@@ -10797,8 +10616,7 @@ const questions$2 = [
       "Message queue"
     ],
     correctAnswer: "Stateful stream processing framework",
-    explanation: "Apache Flink is a stateful stream processing framework for distributed, high-performance, exactly-once processing of unbounded data streams.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is apache flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Flink is a stateful stream processing framework for distributed, high-performance, exactly-once processing of unbounded data streams."
   },
   {
     id: 38,
@@ -10810,8 +10628,7 @@ const questions$2 = [
       "Storage system"
     ],
     correctAnswer: "Representation of a stream of data",
-    explanation: "A DataStream in Flink is a representation of a stream of data that can be transformed using various operations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a datastream in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A DataStream in Flink is a representation of a stream of data that can be transformed using various operations."
   },
   {
     id: 39,
@@ -10823,8 +10640,7 @@ const questions$2 = [
       "Storage system"
     ],
     correctAnswer: "Representation of a finite dataset",
-    explanation: "A DataSet in Flink is a representation of a finite, bounded dataset that can be processed in batch mode.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dataset in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A DataSet in Flink is a representation of a finite, bounded dataset that can be processed in batch mode."
   },
   {
     id: 40,
@@ -10836,8 +10652,7 @@ const questions$2 = [
       "Storage system"
     ],
     correctAnswer: "Relational table abstraction for streams and batches",
-    explanation: "In Flink's Table API, a Table is a relational abstraction that can represent both streaming and batch data, enabling SQL-like operations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a table in flink table api?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "In Flink's Table API, a Table is a relational abstraction that can represent both streaming and batch data, enabling SQL-like operations."
   },
   {
     id: 41,
@@ -10849,8 +10664,7 @@ const questions$2 = [
       "Query Kafka"
     ],
     correctAnswer: "Query streams and batches using SQL",
-    explanation: "Flink's SQL API allows you to query both streaming and batch data using standard SQL syntax.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is sql api in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Flink's SQL API allows you to query both streaming and batch data using standard SQL syntax."
   },
   {
     id: 42,
@@ -10862,8 +10676,7 @@ const questions$2 = [
       "Time when event is stored"
     ],
     correctAnswer: "Time when event actually occurred",
-    explanation: "Event time in Flink is the time when the event actually occurred (typically embedded in the event data), as opposed to processing time or ingestion time.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is flink's event time?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Event time in Flink is the time when the event actually occurred (typically embedded in the event data), as opposed to processing time or ingestion time."
   },
   {
     id: 43,
@@ -10875,8 +10688,7 @@ const questions$2 = [
       "Time marker"
     ],
     correctAnswer: "Estimate of event time progress",
-    explanation: "A watermark in Flink is an estimate of event time progress, used to trigger window computations and handle late data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is watermark in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A watermark in Flink is an estimate of event time progress, used to trigger window computations and handle late data."
   },
   {
     id: 44,
@@ -10888,8 +10700,7 @@ const questions$2 = [
       "Time period"
     ],
     correctAnswer: "Finite set of events grouped together",
-    explanation: "A window in Flink is a finite set of events grouped together based on time or count, used for aggregations and computations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A window in Flink is a finite set of events grouped together based on time or count, used for aggregations and computations."
   },
   {
     id: 45,
@@ -10901,8 +10712,7 @@ const questions$2 = [
       "Session windows"
     ],
     correctAnswer: "Fixed-size, non-overlapping windows",
-    explanation: "Tumbling windows are fixed-size, non-overlapping windows where events are assigned to exactly one window.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a tumbling window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Tumbling windows are fixed-size, non-overlapping windows where events are assigned to exactly one window."
   },
   {
     id: 46,
@@ -10914,8 +10724,7 @@ const questions$2 = [
       "Global windows"
     ],
     correctAnswer: "Fixed-size, overlapping windows",
-    explanation: "Sliding windows are fixed-size windows that overlap with each other, allowing events to belong to multiple windows.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a sliding window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Sliding windows are fixed-size windows that overlap with each other, allowing events to belong to multiple windows."
   },
   {
     id: 47,
@@ -10927,8 +10736,7 @@ const questions$2 = [
       "Tumbling windows"
     ],
     correctAnswer: "Windows based on activity gaps",
-    explanation: "Session windows group events into sessions based on gaps of inactivity (e.g., user sessions that end after a period of inactivity).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a session window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Session windows group events into sessions based on gaps of inactivity (e.g., user sessions that end after a period of inactivity)."
   },
   {
     id: 48,
@@ -10940,8 +10748,7 @@ const questions$2 = [
       "Session windows"
     ],
     correctAnswer: "Single window containing all events",
-    explanation: "A global window contains all events in the stream, typically used with custom triggers for aggregation.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a global window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A global window contains all events in the stream, typically used with custom triggers for aggregation."
   },
   {
     id: 49,
@@ -10953,8 +10760,7 @@ const questions$2 = [
       "Triggers state"
     ],
     correctAnswer: "Determines when a window is evaluated",
-    explanation: "A trigger in Flink determines when a window is evaluated and results are emitted, based on time or event counts.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a trigger in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A trigger in Flink determines when a window is evaluated and results are emitted, based on time or event counts."
   },
   {
     id: 50,
@@ -10966,8 +10772,7 @@ const questions$2 = [
       "Network state"
     ],
     correctAnswer: "Data maintained during stream processing",
-    explanation: "State in Flink is data that is maintained and updated during stream processing, such as counts, aggregations, or user sessions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is state in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "State in Flink is data that is maintained and updated during stream processing, such as counts, aggregations, or user sessions."
   },
   {
     id: 51,
@@ -10979,8 +10784,7 @@ const questions$2 = [
       "Shared state"
     ],
     correctAnswer: "State scoped to a key",
-    explanation: "Keyed State in Flink is state that is scoped to a specific key, accessible only when processing events with that key.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is keyed state in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Keyed State in Flink is state that is scoped to a specific key, accessible only when processing events with that key."
   },
   {
     id: 52,
@@ -10992,8 +10796,7 @@ const questions$2 = [
       "State per partition"
     ],
     correctAnswer: "State scoped to an operator",
-    explanation: "Operator State in Flink is state that is scoped to a specific operator (e.g., Kafka consumer state), independent of keys.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is operator state in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Operator State in Flink is state that is scoped to a specific operator (e.g., Kafka consumer state), independent of keys."
   },
   {
     id: 53,
@@ -11005,8 +10808,7 @@ const questions$2 = [
       "Network layer"
     ],
     correctAnswer: "Where state is stored and how it's checkpointed",
-    explanation: "A state backend in Flink determines where state is stored (memory, filesystem, RocksDB) and how it's checkpointed.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a state backend in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A state backend in Flink determines where state is stored (memory, filesystem, RocksDB) and how it's checkpointed."
   },
   {
     id: 54,
@@ -11018,8 +10820,7 @@ const questions$2 = [
       "Stores state in memory-mapped files"
     ],
     correctAnswer: "Stores state in heap memory",
-    explanation: "MemoryStateBackend stores state in Java heap memory, suitable for development and small state workloads.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is memorystatebackend in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "MemoryStateBackend stores state in Java heap memory, suitable for development and small state workloads."
   },
   {
     id: 55,
@@ -11031,8 +10832,7 @@ const questions$2 = [
       "Stores state in database"
     ],
     correctAnswer: "Stores state in RocksDB (on disk)",
-    explanation: "RocksDBStateBackend stores state in RocksDB, an embedded key-value store on disk, suitable for large state that doesn't fit in memory.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is rocksdbstatebackend in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "RocksDBStateBackend stores state in RocksDB, an embedded key-value store on disk, suitable for large state that doesn't fit in memory."
   },
   {
     id: 56,
@@ -11044,8 +10844,7 @@ const questions$2 = [
       "Stores state in memory-mapped files"
     ],
     correctAnswer: "Stores state in memory and checkpoints to filesystem",
-    explanation: "FsStateBackend stores state in memory and checkpoints to a filesystem (local or distributed), providing a balance between performance and scalability.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is fsstatebackend in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "FsStateBackend stores state in memory and checkpoints to a filesystem (local or distributed), providing a balance between performance and scalability."
   },
   {
     id: 57,
@@ -11057,8 +10856,7 @@ const questions$2 = [
       "State recovery"
     ],
     correctAnswer: "Periodic snapshots of state for fault tolerance",
-    explanation: "Checkpointing in Flink creates periodic snapshots of state and offsets, enabling fault tolerance and exactly-once processing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is checkpointing in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Checkpointing in Flink creates periodic snapshots of state and offsets, enabling fault tolerance and exactly-once processing."
   },
   {
     id: 58,
@@ -11070,8 +10868,7 @@ const questions$2 = [
       "Recovery point"
     ],
     correctAnswer: "Manual checkpoint that can be restored",
-    explanation: "A savepoint in Flink is a manual checkpoint that can be restored later, useful for planned upgrades or state changes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a savepoint in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A savepoint in Flink is a manual checkpoint that can be restored later, useful for planned upgrades or state changes."
   },
   {
     id: 59,
@@ -11083,8 +10880,7 @@ const questions$2 = [
       "No failures"
     ],
     correctAnswer: "Each event is processed exactly once, even with failures",
-    explanation: "Exactly-once processing in Flink ensures that each event is processed exactly once, even in the presence of failures, using checkpointing and transactional sinks.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is exactly-once processing in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Exactly-once processing in Flink ensures that each event is processed exactly once, even in the presence of failures, using checkpointing and transactional sinks."
   },
   {
     id: 60,
@@ -11096,8 +10892,7 @@ const questions$2 = [
       "Visualization tool"
     ],
     correctAnswer: "Micro-batch stream processing framework",
-    explanation: "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine."
   },
   {
     id: 61,
@@ -11109,8 +10904,7 @@ const questions$2 = [
       "Distributed Stream"
     ],
     correctAnswer: "Discretized Stream - sequence of RDDs",
-    explanation: "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dstream in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval."
   },
   {
     id: 62,
@@ -11122,8 +10916,7 @@ const questions$2 = [
       "Graph-based stream processing"
     ],
     correctAnswer: "High-level API for stream processing built on DataFrame API",
-    explanation: "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is structured streaming in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics."
   },
   {
     id: 63,
@@ -11135,8 +10928,7 @@ const questions$2 = [
       "Graph data structure"
     ],
     correctAnswer: "Distributed collection of data organized into named columns",
-    explanation: "A DataFrame is a distributed collection of data organized into named columns, used in both batch and streaming processing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dataframe in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A DataFrame is a distributed collection of data organized into named columns, used in both batch and streaming processing."
   },
   {
     id: 64,
@@ -11148,8 +10940,7 @@ const questions$2 = [
       "Interval between batches"
     ],
     correctAnswer: "Time interval for micro-batch processing",
-    explanation: "The batch interval determines how often Spark Streaming creates micro-batches of data for processing (e.g., 1 second, 5 seconds).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the batch interval in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The batch interval determines how often Spark Streaming creates micro-batches of data for processing (e.g., 1 second, 5 seconds)."
   },
   {
     id: 65,
@@ -11161,8 +10952,7 @@ const questions$2 = [
       "Component that exports data"
     ],
     correctAnswer: "Component that ingests data from external sources",
-    explanation: "A receiver in Spark Streaming is a component that ingests data from external sources (Kafka, Flume, Kinesis, etc.) into Spark.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a receiver in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A receiver in Spark Streaming is a component that ingests data from external sources (Kafka, Flume, Kinesis, etc.) into Spark."
   },
   {
     id: 66,
@@ -11174,8 +10964,7 @@ const questions$2 = [
       "Kafka consumer in Spark"
     ],
     correctAnswer: "Query Kafka directly without receivers",
-    explanation: "The Direct Approach (Kafka Direct Stream) allows Spark to query Kafka directly without using receivers, improving reliability and parallelism.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is direct approach (kafka direct stream) in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Direct Approach (Kafka Direct Stream) allows Spark to query Kafka directly without using receivers, improving reliability and parallelism."
   },
   {
     id: 67,
@@ -11187,8 +10976,7 @@ const questions$2 = [
       "State processing"
     ],
     correctAnswer: "Stateful transformation maintaining state across batches",
-    explanation: "mapWithState is a stateful transformation in Spark Streaming that maintains state across batches, useful for maintaining aggregations or sessions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is mapwithstate in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "mapWithState is a stateful transformation in Spark Streaming that maintains state across batches, useful for maintaining aggregations or sessions."
   },
   {
     id: 68,
@@ -11200,8 +10988,7 @@ const questions$2 = [
       "State transformation"
     ],
     correctAnswer: "Stateful aggregation maintaining state across batches",
-    explanation: "updateStateByKey is a stateful aggregation in Spark Streaming that maintains and updates state for each key across batches.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is updatestatebykey in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "updateStateByKey is a stateful aggregation in Spark Streaming that maintains and updates state for each key across batches."
   },
   {
     id: 69,
@@ -11213,8 +11000,7 @@ const questions$2 = [
       "State recovery"
     ],
     correctAnswer: "Save state to fault-tolerant storage",
-    explanation: "Checkpointing in Spark Streaming saves state and RDDs to fault-tolerant storage (HDFS, S3) to enable recovery from failures.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is checkpointing in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Checkpointing in Spark Streaming saves state and RDDs to fault-tolerant storage (HDFS, S3) to enable recovery from failures."
   },
   {
     id: 70,
@@ -11226,8 +11012,7 @@ const questions$2 = [
       "Transformation operations"
     ],
     correctAnswer: "Operations that produce output to external systems",
-    explanation: "Output operations in Spark Streaming produce results to external systems (databases, files, dashboards) like print(), saveAsTextFiles(), foreachRDD().",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is output operations in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Output operations in Spark Streaming produce results to external systems (databases, files, dashboards) like print(), saveAsTextFiles(), foreachRDD()."
   },
   {
     id: 71,
@@ -11239,8 +11024,7 @@ const questions$2 = [
       "Apply to each partition"
     ],
     correctAnswer: "Apply function to each RDD in a DStream",
-    explanation: "foreachRDD applies a function to each RDD in a DStream as it's generated, useful for writing data to external systems.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is foreachrdd in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "foreachRDD applies a function to each RDD in a DStream as it's generated, useful for writing data to external systems."
   },
   {
     id: 72,
@@ -11252,8 +11036,7 @@ const questions$2 = [
       "Map transformation"
     ],
     correctAnswer: "Apply RDD-to-RDD transformation to each batch",
-    explanation: "transform applies an arbitrary RDD-to-RDD transformation to each batch in a DStream, providing flexibility for complex operations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is transform in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "transform applies an arbitrary RDD-to-RDD transformation to each batch in a DStream, providing flexibility for complex operations."
   },
   {
     id: 73,
@@ -11265,8 +11048,7 @@ const questions$2 = [
       "Both use true streaming"
     ],
     correctAnswer: "Spark uses micro-batches, Flink uses true streaming",
-    explanation: "The key difference is their processing model: Spark Streaming uses micro-batch processing, while Flink uses true streaming with event-by-event processing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between spark streaming and flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The key difference is their processing model: Spark Streaming uses micro-batch processing, while Flink uses true streaming with event-by-event processing."
   },
   {
     id: 74,
@@ -11278,8 +11060,7 @@ const questions$2 = [
       "Both are the same"
     ],
     correctAnswer: "Kafka Streams is Java library, KSQL is SQL interface",
-    explanation: "Kafka Streams is a Java library for building stream processing applications, while KSQL is a SQL interface for querying and processing Kafka data using SQL-like syntax.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is kafka streams vs ksql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Kafka Streams is a Java library for building stream processing applications, while KSQL is a SQL interface for querying and processing Kafka data using SQL-like syntax."
   },
   {
     id: 75,
@@ -11291,8 +11072,7 @@ const questions$2 = [
       "Batch processing framework"
     ],
     correctAnswer: "Multi-tenancy pub-sub messaging system",
-    explanation: "Apache Pulsar is a multi-tenancy, high-performance pub-sub messaging system that also supports queueing, streaming, and other patterns.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is apache pulsar?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Pulsar is a multi-tenancy, high-performance pub-sub messaging system that also supports queueing, streaming, and other patterns."
   },
   {
     id: 76,
@@ -11304,8 +11084,7 @@ const questions$2 = [
       "Kafka doesn't support streaming"
     ],
     correctAnswer: "Pulsar has multi-tenancy built-in, Kafka added it later",
-    explanation: "Pulsar was designed with multi-tenancy as a first-class feature from the beginning, while Kafka added multi-tenancy support later through namespaces.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between kafka and pulsar?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Pulsar was designed with multi-tenancy as a first-class feature from the beginning, while Kafka added multi-tenancy support later through namespaces."
   },
   {
     id: 77,
@@ -11317,8 +11096,7 @@ const questions$2 = [
       "ETL tool"
     ],
     correctAnswer: "Unified programming model for batch and streaming",
-    explanation: "Apache Beam is a unified, portable programming model for defining both batch and streaming data processing pipelines.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is apache beam?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Beam is a unified, portable programming model for defining both batch and streaming data processing pipelines."
   },
   {
     id: 78,
@@ -11330,8 +11108,7 @@ const questions$2 = [
       "Execution backend"
     ],
     correctAnswer: "Execution engine that runs Beam pipelines",
-    explanation: "A runner in Beam is an execution engine that runs Beam pipelines, such as Spark Runner, Flink Runner, or Google Dataflow Runner.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a runner in apache beam?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A runner in Beam is an execution engine that runs Beam pipelines, such as Spark Runner, Flink Runner, or Google Dataflow Runner."
   },
   {
     id: 79,
@@ -11343,8 +11120,7 @@ const questions$2 = [
       "Filtering events"
     ],
     correctAnswer: "Grouping events into finite windows for processing",
-    explanation: "Windowing in streaming divides the continuous stream of events into finite, processable chunks (windows) based on time or count.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is windowing in streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Windowing in streaming divides the continuous stream of events into finite, processable chunks (windows) based on time or count."
   },
   {
     id: 80,
@@ -11356,8 +11132,7 @@ const questions$2 = [
       "Different time zones"
     ],
     correctAnswer: "Event time when event occurred, processing time when processed",
-    explanation: "Event time is when the event actually occurred (embedded in event data), while processing time is when the event is processed by the system.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is event time vs processing time?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Event time is when the event actually occurred (embedded in event data), while processing time is when the event is processed by the system."
   },
   {
     id: 81,
@@ -11369,8 +11144,7 @@ const questions$2 = [
       "Events that are delayed"
     ],
     correctAnswer: "Events that arrive after their event time",
-    explanation: "Late data refers to events that arrive at the processing system after their event time has already passed, which can be handled using watermarks and allowed lateness.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is late data in streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Late data refers to events that arrive at the processing system after their event time has already passed, which can be handled using watermarks and allowed lateness."
   },
   {
     id: 82,
@@ -11382,8 +11156,7 @@ const questions$2 = [
       "Time to accept late data"
     ],
     correctAnswer: "Maximum time to wait for late data",
-    explanation: "Allowed lateness is the maximum amount of time a streaming system will wait for late data to arrive before considering it as late and potentially discarding it.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is allowed lateness in streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Allowed lateness is the maximum amount of time a streaming system will wait for late data to arrive before considering it as late and potentially discarding it."
   }
 ];
 const dataStreaming = {
@@ -11408,8 +11181,7 @@ const questions$1 = [
       "Visualization tool"
     ],
     correctAnswer: "Centralized repository for raw data in native format",
-    explanation: "A data lake is a centralized repository that holds raw data in its native format, supporting structured, semi-structured, and unstructured data.",
-    detailedAnswer: "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
+    explanation: "A data lake is a centralized repository that holds raw data in its native format, supporting structured, semi-structured, and unstructured data."
   },
   {
     id: 2,
@@ -11421,8 +11193,7 @@ const questions$1 = [
       "No schema"
     ],
     correctAnswer: "Schema applied when reading data",
-    explanation: "Schema-on-read applies the schema when data is read from the lake, not when it is written, allowing flexible data ingestion.",
-    detailedAnswer: "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
+    explanation: "Schema-on-read applies the schema when data is read from the lake, not when it is written, allowing flexible data ingestion."
   },
   {
     id: 3,
@@ -11434,8 +11205,7 @@ const questions$1 = [
       "No schema"
     ],
     correctAnswer: "Schema applied when writing data",
-    explanation: "Schema-on-write applies schema and data validation when data is written to the system, ensuring data consistency.",
-    detailedAnswer: "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
+    explanation: "Schema-on-write applies schema and data validation when data is written to the system, ensuring data consistency."
   },
   {
     id: 4,
@@ -11447,8 +11217,7 @@ const questions$1 = [
       "Lake-cloud; Warehouse-on-prem"
     ],
     correctAnswer: "Lake-raw, schema-on-read; Warehouse-structured, schema-on-write",
-    explanation: "Data lakes accept data in any format with schema-on-read; data warehouses require structured data with schema-on-write.",
-    detailedAnswer: "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
+    explanation: "Data lakes accept data in any format with schema-on-read; data warehouses require structured data with schema-on-write."
   },
   {
     id: 5,
@@ -11460,8 +11229,7 @@ const questions$1 = [
       "Hybrid cloud"
     ],
     correctAnswer: "Combines lake and warehouse features",
-    explanation: "A data lakehouse combines the flexibility of data lakes with the reliability and performance of data warehouses.",
-    detailedAnswer: "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
+    explanation: "A data lakehouse combines the flexibility of data lakes with the reliability and performance of data warehouses."
   },
   {
     id: 6,
@@ -11473,8 +11241,7 @@ const questions$1 = [
       "Visualization tool"
     ],
     correctAnswer: "Open-source storage layer with ACID transactions",
-    explanation: "Delta Lake is an open-source storage layer that brings ACID transactions to Apache Spark and big data workloads.",
-    detailedAnswer: "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
+    explanation: "Delta Lake is an open-source storage layer that brings ACID transactions to Apache Spark and big data workloads."
   },
   {
     id: 7,
@@ -11486,8 +11253,7 @@ const questions$1 = [
       "Streaming platform"
     ],
     correctAnswer: "Open table format for analytic datasets",
-    explanation: "Apache Iceberg is an open table format for huge analytic datasets, providing reliability and simplicity.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is apache iceberg?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Iceberg is an open table format for huge analytic datasets, providing reliability and simplicity."
   },
   {
     id: 8,
@@ -11499,8 +11265,7 @@ const questions$1 = [
       "Streaming platform"
     ],
     correctAnswer: "Open-source data lake with upserts, deletes",
-    explanation: "Apache Hudi provides upserts, deletes, and near-real-time ingestion capabilities to data lakes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is apache hudi?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Hudi provides upserts, deletes, and near-real-time ingestion capabilities to data lakes."
   },
   {
     id: 9,
@@ -11512,8 +11277,7 @@ const questions$1 = [
       "Prod, Stage, Dev"
     ],
     correctAnswer: "Landing, Raw, Cleaned, Curated, Consumption",
-    explanation: "Typical zones are: Landing (temporary), Raw (persistent raw data), Cleaned (validated), Curated (business-ready), Consumption (optimized for users).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what are typical data lake zones?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Typical zones are: Landing (temporary), Raw (persistent raw data), Cleaned (validated), Curated (business-ready), Consumption (optimized for users)."
   },
   {
     id: 10,
@@ -11525,8 +11289,7 @@ const questions$1 = [
       "Lack of query capability"
     ],
     correctAnswer: "Disorganized data lake hard to use",
-    explanation: "A data swamp is what happens when a data lake lacks proper governance, metadata, and organization, making data hard to find, understand, and use.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a data swamp?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A data swamp is what happens when a data lake lacks proper governance, metadata, and organization, making data hard to find, understand, and use."
   },
   {
     id: 11,
@@ -11538,8 +11301,7 @@ const questions$1 = [
       "Google"
     ],
     correctAnswer: "Databricks",
-    explanation: "Delta Lake was originally developed by Databricks as an open-source storage layer for Apache Spark.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which company originally developed delta lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Delta Lake was originally developed by Databricks as an open-source storage layer for Apache Spark."
   },
   {
     id: 12,
@@ -11551,8 +11313,7 @@ const questions$1 = [
       "CSV"
     ],
     correctAnswer: "Parquet",
-    explanation: "Delta Lake uses Parquet as its underlying file format for efficient columnar storage.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what file format does delta lake use?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Delta Lake uses Parquet as its underlying file format for efficient columnar storage."
   },
   {
     id: 13,
@@ -11564,8 +11325,7 @@ const questions$1 = [
       "Log of errors"
     ],
     correctAnswer: "Record of all changes made to the table",
-    explanation: "The Delta Lake transaction log is a set of JSON files that record all changes made to the table, enabling ACID transactions and time travel.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the delta lake transaction log?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Delta Lake transaction log is a set of JSON files that record all changes made to the table, enabling ACID transactions and time travel."
   },
   {
     id: 14,
@@ -11577,8 +11337,7 @@ const questions$1 = [
       "Accessing historical logs"
     ],
     correctAnswer: "Querying data as it was at a previous point in time",
-    explanation: "Time travel in Delta Lake allows you to query data as it was at a previous version or timestamp, using the transaction log.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is time travel in delta lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Time travel in Delta Lake allows you to query data as it was at a previous version or timestamp, using the transaction log."
   },
   {
     id: 15,
@@ -11590,8 +11349,7 @@ const questions$1 = [
       "Compacts transaction logs"
     ],
     correctAnswer: "Compacts small files into larger ones",
-    explanation: "OPTIMIZE command in Delta Lake compacts small files into larger ones to improve query performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is optimize in delta lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "OPTIMIZE command in Delta Lake compacts small files into larger ones to improve query performance."
   },
   {
     id: 16,
@@ -11603,8 +11361,7 @@ const questions$1 = [
       "Compresses data with Z-standard"
     ],
     correctAnswer: "Co-locates related data for faster reads",
-    explanation: "Z-Ordering is a technique that co-locates related data in the same files to minimize the amount of data read during queries.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is z-ordering in delta lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Z-Ordering is a technique that co-locates related data in the same files to minimize the amount of data read during queries."
   },
   {
     id: 17,
@@ -11616,8 +11373,7 @@ const questions$1 = [
       "Compacts files"
     ],
     correctAnswer: "Removes old files no longer referenced by the table",
-    explanation: "VACUUM removes old data files that are no longer referenced by the current table version, freeing up storage space.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is vacuum in delta lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "VACUUM removes old data files that are no longer referenced by the current table version, freeing up storage space."
   },
   {
     id: 18,
@@ -11629,8 +11385,7 @@ const questions$1 = [
       "Stores temporary files"
     ],
     correctAnswer: "Stores transaction log files",
-    explanation: "The _delta_log directory stores all transaction log files that record changes to a Delta Lake table.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of the _delta_log directory?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The _delta_log directory stores all transaction log files that record changes to a Delta Lake table."
   },
   {
     id: 19,
@@ -11642,8 +11397,7 @@ const questions$1 = [
       "Databricks and Apache"
     ],
     correctAnswer: "Netflix and Apple",
-    explanation: "Apache Iceberg was originally developed by Netflix and Apple as an open table format.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which companies originally developed iceberg?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Iceberg was originally developed by Netflix and Apple as an open table format."
   },
   {
     id: 20,
@@ -11655,8 +11409,7 @@ const questions$1 = [
       "Snapshots are isolated from users"
     ],
     correctAnswer: "Readers see a consistent snapshot of the table",
-    explanation: "Snapshot isolation in Iceberg ensures that readers see a consistent snapshot of the table at a point in time, even while writes are occurring.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is snapshot isolation in iceberg?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Snapshot isolation in Iceberg ensures that readers see a consistent snapshot of the table at a point in time, even while writes are occurring."
   },
   {
     id: 21,
@@ -11668,8 +11421,7 @@ const questions$1 = [
       "Stores logs"
     ],
     correctAnswer: "Stores schema and table properties",
-    explanation: "The metadata file in Iceberg contains the schema, table properties, and partition information.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the metadata file in iceberg?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The metadata file in Iceberg contains the schema, table properties, and partition information."
   },
   {
     id: 22,
@@ -11681,8 +11433,7 @@ const questions$1 = [
       "List of partitions"
     ],
     correctAnswer: "Lists data files and their metadata",
-    explanation: "A manifest file in Iceberg contains a list of data files with their metadata, such as file location, size, and partition information.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a manifest file in iceberg?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A manifest file in Iceberg contains a list of data files with their metadata, such as file location, size, and partition information."
   },
   {
     id: 23,
@@ -11694,8 +11445,7 @@ const questions$1 = [
       "Removing old partitions"
     ],
     correctAnswer: "Changing partition scheme without rewriting data",
-    explanation: "Partition evolution allows you to change the partitioning scheme of an Iceberg table without rewriting all the data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is partition evolution in iceberg?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Partition evolution allows you to change the partitioning scheme of an Iceberg table without rewriting all the data."
   },
   {
     id: 24,
@@ -11707,8 +11457,7 @@ const questions$1 = [
       "Removing columns from views"
     ],
     correctAnswer: "Changing schema without rewriting data",
-    explanation: "View evolution in Iceberg allows you to change the schema of a view without rewriting the underlying data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is view evolution in iceberg?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "View evolution in Iceberg allows you to change the schema of a view without rewriting the underlying data."
   },
   {
     id: 25,
@@ -11720,8 +11469,7 @@ const questions$1 = [
       "Partitioning hidden from storage"
     ],
     correctAnswer: "Partitioning visible to queries but not to users",
-    explanation: "Hidden partitioning in Iceberg allows partitioning data for performance while hiding the partitioning columns from query results.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is hidden partitioning in iceberg?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Hidden partitioning in Iceberg allows partitioning data for performance while hiding the partitioning columns from query results."
   },
   {
     id: 26,
@@ -11733,8 +11481,7 @@ const questions$1 = [
       "Microsoft"
     ],
     correctAnswer: "Uber",
-    explanation: "Apache Hudi was originally developed by Uber for near-real-time data ingestion and processing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which company originally developed hudi?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Apache Hudi was originally developed by Uber for near-real-time data ingestion and processing."
   },
   {
     id: 27,
@@ -11746,8 +11493,7 @@ const questions$1 = [
       "Hadoop Data Interface"
     ],
     correctAnswer: "Hadoop Upsert Delete Incremental",
-    explanation: "Hudi stands for Hadoop Upsert Delete Incremental, reflecting its support for upsert and delete operations on data lakes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does hudi stand for?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Hudi stands for Hadoop Upsert Delete Incremental, reflecting its support for upsert and delete operations on data lakes."
   },
   {
     id: 28,
@@ -11759,8 +11505,7 @@ const questions$1 = [
       "Merge-On-Reduce"
     ],
     correctAnswer: "Merge-On-Read table type",
-    explanation: "MOR (Merge-On-Read) is a table type in Hudi where updates are stored as delta files and merged during read time.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is mor in hudi?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "MOR (Merge-On-Read) is a table type in Hudi where updates are stored as delta files and merged during read time."
   },
   {
     id: 29,
@@ -11772,8 +11517,7 @@ const questions$1 = [
       "Copy-On-Read"
     ],
     correctAnswer: "Copy-On-Write table type",
-    explanation: "COW (Copy-On-Write) is a table type in Hudi where updates create new file versions and old files are deleted.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is cow in hudi?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "COW (Copy-On-Write) is a table type in Hudi where updates create new file versions and old files are deleted."
   },
   {
     id: 30,
@@ -11785,8 +11529,7 @@ const questions$1 = [
       "Transaction log"
     ],
     correctAnswer: "Data structure to quickly locate records",
-    explanation: "An index in Hudi is a data structure (like a HBase or bloom filter index) that allows quick location of records for updates and deletes.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is an index in hudi?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "An index in Hudi is a data structure (like a HBase or bloom filter index) that allows quick location of records for updates and deletes."
   },
   {
     id: 31,
@@ -11798,8 +11541,7 @@ const questions$1 = [
       "User access layer"
     ],
     correctAnswer: "Temporary storage for incoming data",
-    explanation: "The Landing zone is for temporary storage of incoming raw data before it's validated and moved to the Raw zone.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of the landing zone in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Landing zone is for temporary storage of incoming raw data before it's validated and moved to the Raw zone."
   },
   {
     id: 32,
@@ -11811,8 +11553,7 @@ const questions$1 = [
       "User-facing data"
     ],
     correctAnswer: "Persistent storage of immutable raw data",
-    explanation: "The Raw zone stores immutable raw data in its original format, serving as the single source of truth.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of the raw zone in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Raw zone stores immutable raw data in its original format, serving as the single source of truth."
   },
   {
     id: 33,
@@ -11824,8 +11565,7 @@ const questions$1 = [
       "Temporary data"
     ],
     correctAnswer: "Data that has been validated and cleansed",
-    explanation: "The Cleaned zone contains data that has been validated, cleansed, and standardized from the Raw zone.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of the cleaned zone?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Cleaned zone contains data that has been validated, cleansed, and standardized from the Raw zone."
   },
   {
     id: 34,
@@ -11837,8 +11577,7 @@ const questions$1 = [
       "User-facing data"
     ],
     correctAnswer: "Business-ready data with relationships and rules",
-    explanation: "The Curated zone contains business-ready data that has been enriched with relationships, business rules, and aggregations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of the curated zone?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Curated zone contains business-ready data that has been enriched with relationships, business rules, and aggregations."
   },
   {
     id: 35,
@@ -11850,8 +11589,7 @@ const questions$1 = [
       "Storage optimization"
     ],
     correctAnswer: "Data optimized for end-user access and analytics",
-    explanation: "The Consumption zone contains data that has been optimized for end-user access, analytics, and visualization.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of the consumption zone?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The Consumption zone contains data that has been optimized for end-user access, analytics, and visualization."
   },
   {
     id: 36,
@@ -11863,8 +11601,7 @@ const questions$1 = [
       "Data access rules"
     ],
     correctAnswer: "Policies, procedures, and standards for data management",
-    explanation: "Data governance defines policies, procedures, standards, and metrics that ensure the effective and efficient use of data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data governance in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data governance defines policies, procedures, standards, and metrics that ensure the effective and efficient use of data."
   },
   {
     id: 37,
@@ -11876,8 +11613,7 @@ const questions$1 = [
       "Managing users"
     ],
     correctAnswer: "Capture, storage, and management of data about data",
-    explanation: "Metadata management involves capturing, storing, and managing information about the data (schema, lineage, ownership, etc.).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is metadata management in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Metadata management involves capturing, storing, and managing information about the data (schema, lineage, ownership, etc.)."
   },
   {
     id: 38,
@@ -11889,8 +11625,7 @@ const questions$1 = [
       "Data processing history"
     ],
     correctAnswer: "History of data transformations and movements",
-    explanation: "Data lineage tracks the flow of data from source to destination, including all transformations and movements.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data lineage in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data lineage tracks the flow of data from source to destination, including all transformations and movements."
   },
   {
     id: 39,
@@ -11902,8 +11637,7 @@ const questions$1 = [
       "Query history"
     ],
     correctAnswer: "Centralized repository of metadata for data discovery",
-    explanation: "A data catalog is a centralized repository of metadata that makes data assets discoverable, understandable, and usable.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a data catalog in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A data catalog is a centralized repository of metadata that makes data assets discoverable, understandable, and usable."
   },
   {
     id: 40,
@@ -11915,8 +11649,7 @@ const questions$1 = [
       "Monitoring data size"
     ],
     correctAnswer: "Ensuring data meets quality standards",
-    explanation: "Data quality management ensures data meets defined quality standards such as accuracy, completeness, consistency, and timeliness.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data quality management in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data quality management ensures data meets defined quality standards such as accuracy, completeness, consistency, and timeliness."
   },
   {
     id: 41,
@@ -11928,8 +11661,7 @@ const questions$1 = [
       "Monitoring users"
     ],
     correctAnswer: "Protecting data from unauthorized access and breaches",
-    explanation: "Data security involves protecting data from unauthorized access, use, disclosure, disruption, modification, or destruction.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data security in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data security involves protecting data from unauthorized access, use, disclosure, disruption, modification, or destruction."
   },
   {
     id: 42,
@@ -11941,8 +11673,7 @@ const questions$1 = [
       "Data archival policy"
     ],
     correctAnswer: "Policies for how long data should be kept",
-    explanation: "Data retention defines policies for how long different types of data should be kept in the data lake.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data retention in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data retention defines policies for how long different types of data should be kept in the data lake."
   },
   {
     id: 43,
@@ -11954,8 +11685,7 @@ const questions$1 = [
       "Encrypting data"
     ],
     correctAnswer: "Moving infrequently accessed data to cheaper storage",
-    explanation: "Data archiving moves infrequently accessed data from expensive hot storage to cheaper cold storage while maintaining access.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data archiving in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data archiving moves infrequently accessed data from expensive hot storage to cheaper cold storage while maintaining access."
   },
   {
     id: 44,
@@ -11967,8 +11697,7 @@ const questions$1 = [
       "Storage by data size"
     ],
     correctAnswer: "Different storage types based on access frequency",
-    explanation: "Tiered storage uses different storage types (hot, warm, cold) based on data access frequency and performance requirements.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is tiered storage in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Tiered storage uses different storage types (hot, warm, cold) based on data access frequency and performance requirements."
   },
   {
     id: 45,
@@ -11980,8 +11709,7 @@ const questions$1 = [
       "Backup storage"
     ],
     correctAnswer: "Fast, expensive storage for frequently accessed data",
-    explanation: "Hot storage is fast, expensive storage (like SSD) used for frequently accessed data that requires low-latency access.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is hot storage in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Hot storage is fast, expensive storage (like SSD) used for frequently accessed data that requires low-latency access."
   },
   {
     id: 46,
@@ -11993,8 +11721,7 @@ const questions$1 = [
       "Backup storage"
     ],
     correctAnswer: "Slow, cheap storage for infrequently accessed data",
-    explanation: "Cold storage is slow, cheap storage (like HDD or cloud archive) used for infrequently accessed data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is cold storage in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Cold storage is slow, cheap storage (like HDD or cloud archive) used for infrequently accessed data."
   },
   {
     id: 47,
@@ -12006,8 +11733,7 @@ const questions$1 = [
       "Separating data by source"
     ],
     correctAnswer: "Dividing data into manageable subsets based on criteria",
-    explanation: "Data partitioning divides large datasets into smaller, manageable subsets based on criteria like date, region, or business unit.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data partitioning in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data partitioning divides large datasets into smaller, manageable subsets based on criteria like date, region, or business unit."
   },
   {
     id: 48,
@@ -12019,8 +11745,7 @@ const questions$1 = [
       "Adding new partitions"
     ],
     correctAnswer: "Skipping irrelevant partitions during queries",
-    explanation: "Partition pruning is an optimization that skips reading partitions that don't contain relevant data for a query, improving performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is partition pruning in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Partition pruning is an optimization that skips reading partitions that don't contain relevant data for a query, improving performance."
   },
   {
     id: 49,
@@ -12032,8 +11757,7 @@ const questions$1 = [
       "Splitting by type"
     ],
     correctAnswer: "Hash-based partitioning within partitions",
-    explanation: "Bucketing uses hash-based partitioning within existing partitions to co-locate related data and improve join performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is bucketing in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Bucketing uses hash-based partitioning within existing partitions to co-locate related data and improve join performance."
   },
   {
     id: 50,
@@ -12045,8 +11769,7 @@ const questions$1 = [
       "Sorting by date"
     ],
     correctAnswer: "Co-locating related data in the same files",
-    explanation: "Clustering (like Z-Ordering) co-locates related data in the same files to minimize I/O during queries.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is clustering in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Clustering (like Z-Ordering) co-locates related data in the same files to minimize I/O during queries."
   },
   {
     id: 51,
@@ -12058,8 +11781,7 @@ const questions$1 = [
       "Merging partitions"
     ],
     correctAnswer: "Combining small files into larger ones",
-    explanation: "Compaction combines many small files into larger files to improve query performance by reducing the number of files to read.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is compaction in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Compaction combines many small files into larger files to improve query performance by reducing the number of files to read."
   },
   {
     id: 52,
@@ -12071,8 +11793,7 @@ const questions$1 = [
       "Small files cause metadata overhead"
     ],
     correctAnswer: "Too many small files causing performance issues",
-    explanation: "The small file problem occurs when there are too many small files, which causes performance issues due to high metadata overhead and many I/O operations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the small file problem in data lakes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The small file problem occurs when there are too many small files, which causes performance issues due to high metadata overhead and many I/O operations."
   },
   {
     id: 53,
@@ -12084,8 +11805,7 @@ const questions$1 = [
       "Partitioning data"
     ],
     correctAnswer: "Reducing data size to save storage and improve performance",
-    explanation: "Data compression reduces the size of data files to save storage space and improve I/O performance by reading less data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data compression in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data compression reduces the size of data files to save storage space and improve I/O performance by reading less data."
   },
   {
     id: 54,
@@ -12097,8 +11817,7 @@ const questions$1 = [
       "Storing data by files"
     ],
     correctAnswer: "Storing data by columns instead of rows",
-    explanation: "Columnar storage stores data by columns instead of rows, which is more efficient for analytical queries that typically read only a subset of columns.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is columnar storage in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Columnar storage stores data by columns instead of rows, which is more efficient for analytical queries that typically read only a subset of columns."
   },
   {
     id: 55,
@@ -12110,8 +11829,7 @@ const questions$1 = [
       "Binary CSV"
     ],
     correctAnswer: "Columnar storage format optimized for analytics",
-    explanation: "Parquet is an open-source columnar storage file format optimized for use with big data processing frameworks like Spark and Hadoop.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is parquet format?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Parquet is an open-source columnar storage file format optimized for use with big data processing frameworks like Spark and Hadoop."
   },
   {
     id: 56,
@@ -12123,8 +11841,7 @@ const questions$1 = [
       "CSV format"
     ],
     correctAnswer: "Optimized Row Columnar format for Hadoop",
-    explanation: "ORC (Optimized Row Columnar) is a columnar file format created for Hadoop that provides efficient columnar storage with compression.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is orc format?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "ORC (Optimized Row Columnar) is a columnar file format created for Hadoop that provides efficient columnar storage with compression."
   },
   {
     id: 57,
@@ -12136,8 +11853,7 @@ const questions$1 = [
       "Binary CSV"
     ],
     correctAnswer: "Row-based format with schema evolution support",
-    explanation: "Avro is a row-based binary format that supports schema evolution, making it suitable for data that changes over time.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is avro format?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Avro is a row-based binary format that supports schema evolution, making it suitable for data that changes over time."
   },
   {
     id: 58,
@@ -12149,8 +11865,7 @@ const questions$1 = [
       "Easier to parse"
     ],
     correctAnswer: "Efficient reading of specific columns",
-    explanation: "Columnar formats allow analytical queries to read only the columns they need, dramatically reducing I/O and improving performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the advantage of columnar formats for analytics?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Columnar formats allow analytical queries to read only the columns they need, dramatically reducing I/O and improving performance."
   },
   {
     id: 59,
@@ -12162,8 +11877,7 @@ const questions$1 = [
       "Processing predicates in parallel"
     ],
     correctAnswer: "Filtering data at the storage layer before reading",
-    explanation: "Predicate pushdown pushes filter conditions down to the storage layer, allowing files or partitions to be skipped entirely during reads.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is predicate pushdown in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Predicate pushdown pushes filter conditions down to the storage layer, allowing files or partitions to be skipped entirely during reads."
   },
   {
     id: 60,
@@ -12175,8 +11889,7 @@ const questions$1 = [
       "Compressing columns"
     ],
     correctAnswer: "Reading only the columns needed for a query",
-    explanation: "Column pruning is an optimization where only the columns required by a query are read, rather than reading entire files.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is column pruning in a data lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Column pruning is an optimization where only the columns required by a query are read, rather than reading entire files."
   },
   {
     id: 61,
@@ -12188,8 +11901,7 @@ const questions$1 = [
       "DynamoDB table"
     ],
     correctAnswer: "S3-based data lake",
-    explanation: "On AWS, a data lake is typically built on Amazon S3, with services like AWS Glue for metadata and Athena for querying.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a data lake on aws?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "On AWS, a data lake is typically built on Amazon S3, with services like AWS Glue for metadata and Athena for querying."
   },
   {
     id: 62,
@@ -12201,8 +11913,7 @@ const questions$1 = [
       "Storage service"
     ],
     correctAnswer: "Serverless ETL and data catalog service",
-    explanation: "AWS Glue is a serverless ETL (Extract, Transform, Load) service that also provides a data catalog for metadata management.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is aws glue?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "AWS Glue is a serverless ETL (Extract, Transform, Load) service that also provides a data catalog for metadata management."
   },
   {
     id: 63,
@@ -12214,8 +11925,7 @@ const questions$1 = [
       "Storage service"
     ],
     correctAnswer: "Serverless query service for data in S3",
-    explanation: "Amazon Athena is a serverless query service that allows you to analyze data in Amazon S3 using standard SQL.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is athena on aws?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Amazon Athena is a serverless query service that allows you to analyze data in Amazon S3 using standard SQL."
   },
   {
     id: 64,
@@ -12227,8 +11937,7 @@ const questions$1 = [
       "ETL service"
     ],
     correctAnswer: "Scalable cloud storage for big data analytics",
-    explanation: "Azure Data Lake Storage is a scalable cloud storage service optimized for big data analytics workloads.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is azure data lake storage?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Azure Data Lake Storage is a scalable cloud storage service optimized for big data analytics workloads."
   },
   {
     id: 65,
@@ -12240,8 +11949,7 @@ const questions$1 = [
       "ETL service"
     ],
     correctAnswer: "Object storage service for data lakes",
-    explanation: "Google Cloud Storage is an object storage service that can be used as the foundation for a data lake on Google Cloud.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is google cloud storage for data lakes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Google Cloud Storage is an object storage service that can be used as the foundation for a data lake on Google Cloud."
   },
   {
     id: 66,
@@ -12253,8 +11961,7 @@ const questions$1 = [
       "Query engine only"
     ],
     correctAnswer: "Serverless data warehouse with data lake capabilities",
-    explanation: "Google BigQuery is a serverless data warehouse that can query data directly from Cloud Storage, providing data lake capabilities.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is bigquery for data lakes?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Google BigQuery is a serverless data warehouse that can query data directly from Cloud Storage, providing data lake capabilities."
   },
   {
     id: 67,
@@ -12266,8 +11973,7 @@ const questions$1 = [
       "ETL platform"
     ],
     correctAnswer: "Unified data lake and warehouse platform",
-    explanation: "Databricks Lakehouse Platform provides a unified architecture that combines the best of data lakes and data warehouses.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is databricks lakehouse?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Databricks Lakehouse Platform provides a unified architecture that combines the best of data lakes and data warehouses."
   },
   {
     id: 68,
@@ -12279,8 +11985,7 @@ const questions$1 = [
       "Streaming service"
     ],
     correctAnswer: "Incremental file ingestion service",
-    explanation: "Auto Loader is a Databricks service that incrementally ingests new files as they arrive in cloud storage.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is auto loader in databricks?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Auto Loader is a Databricks service that incrementally ingests new files as they arrive in cloud storage."
   },
   {
     id: 69,
@@ -12292,8 +11997,7 @@ const questions$1 = [
       "Query optimizer"
     ],
     correctAnswer: "Vectorized query engine for faster SQL",
-    explanation: "Photon is Databricks' vectorized query engine that provides significant performance improvements for SQL workloads.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is photon in databricks?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Photon is Databricks' vectorized query engine that provides significant performance improvements for SQL workloads."
   },
   {
     id: 70,
@@ -12305,8 +12009,7 @@ const questions$1 = [
       "Access control system"
     ],
     correctAnswer: "Centralized governance solution for data and AI assets",
-    explanation: "Unity Catalog is Databricks' centralized governance solution for managing data, files, tables, ML models, and dashboards.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is unity catalog in databricks?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Unity Catalog is Databricks' centralized governance solution for managing data, files, tables, ML models, and dashboards."
   },
   {
     id: 71,
@@ -12318,8 +12021,7 @@ const questions$1 = [
       "Exporting data"
     ],
     correctAnswer: "Securely sharing data between organizations",
-    explanation: "Databricks Delta Sharing allows organizations to securely share data with other organizations without copying or moving the data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is data sharing in databricks?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Databricks Delta Sharing allows organizations to securely share data with other organizations without copying or moving the data."
   },
   {
     id: 72,
@@ -12331,8 +12033,7 @@ const questions$1 = [
       "Consumption data"
     ],
     correctAnswer: "Raw data with minimal transformations",
-    explanation: "In Databricks' medallion architecture, bronze tables contain raw data from source systems with minimal transformations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a bronze table in databricks medallion architecture?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "In Databricks' medallion architecture, bronze tables contain raw data from source systems with minimal transformations."
   },
   {
     id: 73,
@@ -12344,8 +12045,7 @@ const questions$1 = [
       "Consumption data"
     ],
     correctAnswer: "Cleaned, validated, and enriched data",
-    explanation: "Silver tables in the medallion architecture contain cleaned, validated, and enriched data that addresses data quality issues.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a silver table in databricks medallion architecture?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Silver tables in the medallion architecture contain cleaned, validated, and enriched data that addresses data quality issues."
   },
   {
     id: 74,
@@ -12357,8 +12057,7 @@ const questions$1 = [
       "Processed data"
     ],
     correctAnswer: "Business-ready data for analytics and ML",
-    explanation: "Gold tables contain business-ready data that has been aggregated, joined, and prepared for analytics, reporting, and machine learning.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a gold table in databricks medallion architecture?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Gold tables contain business-ready data that has been aggregated, joined, and prepared for analytics, reporting, and machine learning."
   },
   {
     id: 75,
@@ -12370,8 +12069,7 @@ const questions$1 = [
       "Change Data Framework"
     ],
     correctAnswer: "Continuous Data Feed for change data capture",
-    explanation: "CDF (Continuous Data Feed) is a feature in Delta Lake that enables change data capture, tracking row-level changes in tables.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is cdf in delta lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "CDF (Continuous Data Feed) is a feature in Delta Lake that enables change data capture, tracking row-level changes in tables."
   },
   {
     id: 76,
@@ -12383,8 +12081,7 @@ const questions$1 = [
       "File merging"
     ],
     correctAnswer: "Skipping files that don't match query predicates",
-    explanation: "Dynamic File Pruning uses statistics stored in the transaction log to skip files that don't match query predicates, improving performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is dynamic file pruning in delta lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Dynamic File Pruning uses statistics stored in the transaction log to skip files that don't match query predicates, improving performance."
   },
   {
     id: 77,
@@ -12396,8 +12093,7 @@ const questions$1 = [
       "Partition compression"
     ],
     correctAnswer: "Skipping partitions that don't match query predicates",
-    explanation: "Dynamic Partition Pruning skips entire partitions that don't match query predicates, providing significant performance improvements.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is dynamic partition pruning in delta lake?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Dynamic Partition Pruning skips entire partitions that don't match query predicates, providing significant performance improvements."
   },
   {
     id: 78,
@@ -12409,8 +12105,7 @@ const questions$1 = [
       "ETL architecture"
     ],
     correctAnswer: "Decentralized data architecture with domain ownership",
-    explanation: "Data mesh is a decentralized data architecture that treats data as a product, with domain ownership and self-serve data infrastructure.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of a data mesh?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Data mesh is a decentralized data architecture that treats data as a product, with domain ownership and self-serve data infrastructure."
   },
   {
     id: 79,
@@ -12422,8 +12117,7 @@ const questions$1 = [
       "External vendors own data"
     ],
     correctAnswer: "Business domains own their data products",
-    explanation: "In data mesh, business domains (like Finance, Marketing) own their data products, ensuring quality and relevance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is domain ownership in data mesh?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "In data mesh, business domains (like Finance, Marketing) own their data products, ensuring quality and relevance."
   },
   {
     id: 80,
@@ -12435,8 +12129,7 @@ const questions$1 = [
       "Storage system"
     ],
     correctAnswer: "Self-contained, reusable data asset",
-    explanation: "A data product in data mesh is a self-contained, reusable data asset that is managed as a product with defined interfaces and SLAs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a data product in data mesh?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A data product in data mesh is a self-contained, reusable data asset that is managed as a product with defined interfaces and SLAs."
   },
   {
     id: 81,
@@ -12448,8 +12141,7 @@ const questions$1 = [
       "Managed service"
     ],
     correctAnswer: "Platform that enables domain teams to serve their data",
-    explanation: "Self-serve data infrastructure is a platform that enables domain teams to easily publish, discover, and consume data products without central IT involvement.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is self-serve data infrastructure in data mesh?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Self-serve data infrastructure is a platform that enables domain teams to easily publish, discover, and consume data products without central IT involvement."
   },
   {
     id: 82,
@@ -12461,8 +12153,7 @@ const questions$1 = [
       "External governance"
     ],
     correctAnswer: "Global governance with local domain control",
-    explanation: "Federated computational governance balances global standards and policies with local domain control and decision-making.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is federated computational governance in data mesh?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Federated computational governance balances global standards and policies with local domain control and decision-making."
   }
 ];
 const dataLake = {
@@ -12487,8 +12178,7 @@ const questions = [
       "Visualization tool"
     ],
     correctAnswer: "Unified analytics engine for large-scale data processing",
-    explanation: "Apache Spark is a unified analytics engine designed for large-scale data processing, with built-in modules for SQL, streaming, machine learning, and graph processing.",
-    detailedAnswer: "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
+    explanation: "Apache Spark is a unified analytics engine designed for large-scale data processing, with built-in modules for SQL, streaming, machine learning, and graph processing."
   },
   {
     id: 2,
@@ -12500,8 +12190,7 @@ const questions = [
       "Spark Core, Hive, Pig, Tez"
     ],
     correctAnswer: "Spark Core, Spark SQL, Spark Streaming, MLlib, GraphX",
-    explanation: "The main components are: Spark Core (foundation), Spark SQL (structured data), Spark Streaming (real-time), MLlib (machine learning), and GraphX (graph processing).",
-    detailedAnswer: "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
+    explanation: "The main components are: Spark Core (foundation), Spark SQL (structured data), Spark Streaming (real-time), MLlib (machine learning), and GraphX (graph processing)."
   },
   {
     id: 3,
@@ -12513,8 +12202,7 @@ const questions = [
       "Machine learning library"
     ],
     correctAnswer: "Foundation layer with task scheduling, memory management, and fault recovery",
-    explanation: "Spark Core is the foundation layer providing distributed task dispatching, scheduling, memory management, and fault recovery capabilities.",
-    detailedAnswer: "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
+    explanation: "Spark Core is the foundation layer providing distributed task dispatching, scheduling, memory management, and fault recovery capabilities."
   },
   {
     id: 4,
@@ -12526,8 +12214,7 @@ const questions = [
       "Real-time Data Distribution"
     ],
     correctAnswer: "Resilient Distributed Dataset",
-    explanation: "RDD is Spark's core data structure: an immutable, fault-tolerant, distributed collection of objects that can be processed in parallel.",
-    detailedAnswer: "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
+    explanation: "RDD is Spark's core data structure: an immutable, fault-tolerant, distributed collection of objects that can be processed in parallel."
   },
   {
     id: 5,
@@ -12539,8 +12226,7 @@ const questions = [
       "Parallel and Sequential"
     ],
     correctAnswer: "Transformations and Actions",
-    explanation: "RDDs support Transformations (which create new RDDs) and Actions (which compute results). Transformations are lazy while Actions trigger execution.",
-    detailedAnswer: "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
+    explanation: "RDDs support Transformations (which create new RDDs) and Actions (which compute results). Transformations are lazy while Actions trigger execution."
   },
   {
     id: 6,
@@ -12552,8 +12238,7 @@ const questions = [
       "reduce"
     ],
     correctAnswer: "map",
-    explanation: "map() is a Transformation that applies a function to each element of an RDD, creating a new RDD without triggering execution.",
-    detailedAnswer: "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
+    explanation: "map() is a Transformation that applies a function to each element of an RDD, creating a new RDD without triggering execution."
   },
   {
     id: 7,
@@ -12565,8 +12250,7 @@ const questions = [
       "flatMap"
     ],
     correctAnswer: "count",
-    explanation: "count() is an Action that returns the number of elements in an RDD, triggering execution of all accumulated Transformations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which of these is an action operation?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "count() is an Action that returns the number of elements in an RDD, triggering execution of all accumulated Transformations."
   },
   {
     id: 8,
@@ -12578,8 +12262,7 @@ const questions = [
       "Data is loaded lazily by default"
     ],
     correctAnswer: "Transformations are not executed until an Action is called",
-    explanation: "Spark uses lazy evaluation: Transformations build a DAG of operations but do not execute until an Action is called, enabling optimization of the entire pipeline.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is lazy evaluation in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Spark uses lazy evaluation: Transformations build a DAG of operations but do not execute until an Action is called, enabling optimization of the entire pipeline."
   },
   {
     id: 9,
@@ -12591,8 +12274,7 @@ const questions = [
       "Partitioning strategy"
     ],
     correctAnswer: "Directed Acyclic Graph representing the sequence of operations",
-    explanation: "A DAG represents the sequence of Transformations and Actions to be executed, with nodes representing RDDs and edges representing operations between them.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dag in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A DAG represents the sequence of Transformations and Actions to be executed, with nodes representing RDDs and edges representing operations between them."
   },
   {
     id: 10,
@@ -12604,8 +12286,7 @@ const questions = [
       "Graph processing library"
     ],
     correctAnswer: "Module for structured and semi-structured data processing",
-    explanation: "Spark SQL provides a DataFrame API and SQL interface for querying structured and semi-structured data from various sources like JSON, Parquet, and databases.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Spark SQL provides a DataFrame API and SQL interface for querying structured and semi-structured data from various sources like JSON, Parquet, and databases."
   },
   {
     id: 11,
@@ -12617,8 +12298,7 @@ const questions = [
       "Graph data structure"
     ],
     correctAnswer: "Distributed collection of data organized into named columns",
-    explanation: "A DataFrame is a distributed collection of data organized into named columns (like a table in relational databases or a DataFrame in Python/R).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dataframe in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A DataFrame is a distributed collection of data organized into named columns (like a table in relational databases or a DataFrame in Python/R)."
   },
   {
     id: 12,
@@ -12630,8 +12310,7 @@ const questions = [
       "RDDs can only store integers"
     ],
     correctAnswer: "DataFrames have schema information and optimized execution",
-    explanation: "DataFrames provide schema information and use Catalyst optimizer for efficient execution, while RDDs are low-level without schema. DataFrames are built on top of RDDs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between rdd and dataframe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "DataFrames provide schema information and use Catalyst optimizer for efficient execution, while RDDs are low-level without schema. DataFrames are built on top of RDDs."
   },
   {
     id: 13,
@@ -12643,8 +12322,7 @@ const questions = [
       "Data partitioning tool"
     ],
     correctAnswer: "Query optimization framework that transforms logical to physical plans",
-    explanation: "Catalyst is Spark SQL's extensible query optimization framework that transforms logical execution plans into optimized physical execution plans using rule-based optimization.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is catalyst optimizer in spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Catalyst is Spark SQL's extensible query optimization framework that transforms logical execution plans into optimized physical execution plans using rule-based optimization."
   },
   {
     id: 14,
@@ -12656,8 +12334,7 @@ const questions = [
       "Data serialization format"
     ],
     correctAnswer: "Binary processing engine for improved performance",
-    explanation: "Tungsten is Spark's binary processing engine that improves performance through cache-aware computation, code generation, and off-heap memory management.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is tungsten in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Tungsten is Spark's binary processing engine that improves performance through cache-aware computation, code generation, and off-heap memory management."
   },
   {
     id: 15,
@@ -12669,8 +12346,7 @@ const questions = [
       "Visualization tool"
     ],
     correctAnswer: "Micro-batch stream processing framework",
-    explanation: "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine."
   },
   {
     id: 16,
@@ -12682,8 +12358,7 @@ const questions = [
       "Distributed Stream"
     ],
     correctAnswer: "Discretized Stream - sequence of RDDs representing stream data",
-    explanation: "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a dstream in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval."
   },
   {
     id: 17,
@@ -12695,8 +12370,7 @@ const questions = [
       "Graph-based stream processing"
     ],
     correctAnswer: "High-level API for stream processing built on DataFrame API",
-    explanation: "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is structured streaming in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics."
   },
   {
     id: 18,
@@ -12708,8 +12382,7 @@ const questions = [
       "Data visualization library"
     ],
     correctAnswer: "Machine learning library for distributed ML algorithms",
-    explanation: "MLlib is Spark's scalable machine learning library that provides distributed implementations of common ML algorithms including classification, regression, clustering, and collaborative filtering.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is mllib in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "MLlib is Spark's scalable machine learning library that provides distributed implementations of common ML algorithms including classification, regression, clustering, and collaborative filtering."
   },
   {
     id: 19,
@@ -12721,8 +12394,7 @@ const questions = [
       "Network protocol"
     ],
     correctAnswer: "Graph processing library for graph-parallel computation",
-    explanation: "GraphX is Spark's API for graph-parallel computation that enables users to interactively build, transform, and reason about graph-structured data at scale.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is graphx in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "GraphX is Spark's API for graph-parallel computation that enables users to interactively build, transform, and reason about graph-structured data at scale."
   },
   {
     id: 20,
@@ -12734,8 +12406,7 @@ const questions = [
       "Data storage system"
     ],
     correctAnswer: "Entry point to Spark functionality in Spark 2.0+",
-    explanation: "SparkSession is the entry point to all Spark functionality in Spark 2.0 and later, providing access to SparkContext, SQLContext, HiveContext, and streaming functionality.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is spark session?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "SparkSession is the entry point to all Spark functionality in Spark 2.0 and later, providing access to SparkContext, SQLContext, HiveContext, and streaming functionality."
   },
   {
     id: 21,
@@ -12747,8 +12418,7 @@ const questions = [
       "HiveContext()"
     ],
     correctAnswer: "SparkSession.builder.getOrCreate()",
-    explanation: "In PySpark, you create or retrieve a SparkSession using SparkSession.builder.getOrCreate(), which provides a builder pattern for configuration.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what command creates a sparksession in pyspark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "In PySpark, you create or retrieve a SparkSession using SparkSession.builder.getOrCreate(), which provides a builder pattern for configuration."
   },
   {
     id: 22,
@@ -12760,8 +12430,7 @@ const questions = [
       "No dependency between partitions"
     ],
     correctAnswer: "Each partition of parent RDD contributes to at most one partition of child RDD",
-    explanation: "Narrow dependency (or narrow transformation) is when each partition of the parent RDD contributes to at most one partition of the child RDD. These can be pipelined and don't require shuffling.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is narrow dependency in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Narrow dependency (or narrow transformation) is when each partition of the parent RDD contributes to at most one partition of the child RDD. These can be pipelined and don't require shuffling."
   },
   {
     id: 23,
@@ -12773,8 +12442,7 @@ const questions = [
       "All partitions merged into one"
     ],
     correctAnswer: "Each partition of parent RDD contributes to multiple partitions of child RDD",
-    explanation: "Wide dependency (or wide transformation) is when each partition of the parent RDD contributes to multiple partitions of the child RDD, requiring data shuffling across the network.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is wide dependency in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Wide dependency (or wide transformation) is when each partition of the parent RDD contributes to multiple partitions of the child RDD, requiring data shuffling across the network."
   },
   {
     id: 24,
@@ -12786,8 +12454,7 @@ const questions = [
       "flatMap"
     ],
     correctAnswer: "groupByKey",
-    explanation: "groupByKey() is a wide transformation that causes data to be shuffled across the network because keys from different partitions need to be grouped together.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of which transformation causes a shuffle in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "groupByKey() is a wide transformation that causes data to be shuffled across the network because keys from different partitions need to be grouped together."
   },
   {
     id: 25,
@@ -12799,8 +12466,7 @@ const questions = [
       "Partition data"
     ],
     correctAnswer: "Store RDD/DataFrame in memory or disk to avoid recomputation",
-    explanation: "persist() marks an RDD or DataFrame to be stored in memory or disk after first computation, avoiding the need to recompute it for subsequent actions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of persist() in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "persist() marks an RDD or DataFrame to be stored in memory or disk after first computation, avoiding the need to recompute it for subsequent actions."
   },
   {
     id: 26,
@@ -12812,8 +12478,7 @@ const questions = [
       "CACHE, STORE, PERSIST"
     ],
     correctAnswer: "MEMORY_ONLY, MEMORY_AND_DISK, DISK_ONLY, etc.",
-    explanation: "Storage levels include MEMORY_ONLY (store in memory as deserialized Java objects), MEMORY_AND_DISK (spill to disk if memory full), DISK_ONLY, MEMORY_ONLY_SER (serialized), MEMORY_AND_DISK_SER, DISK_ONLY_2, etc.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what are the storage levels in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Storage levels include MEMORY_ONLY (store in memory as deserialized Java objects), MEMORY_AND_DISK (spill to disk if memory full), DISK_ONLY, MEMORY_ONLY_SER (serialized), MEMORY_AND_DISK_SER, DISK_ONLY_2, etc."
   },
   {
     id: 27,
@@ -12825,8 +12490,7 @@ const questions = [
       "persist() doesn't store data"
     ],
     correctAnswer: "cache() uses default storage level (MEMORY_ONLY), persist() allows specifying storage level",
-    explanation: "cache() is a shorthand for persist(StorageLevel.MEMORY_ONLY), while persist() allows you to specify which storage level to use.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between cache() and persist() in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "cache() is a shorthand for persist(StorageLevel.MEMORY_ONLY), while persist() allows you to specify which storage level to use."
   },
   {
     id: 28,
@@ -12838,8 +12502,7 @@ const questions = [
       "Compressing data"
     ],
     correctAnswer: "Dividing data into chunks that can be processed in parallel",
-    explanation: "Partitioning divides data into logical chunks (partitions) that can be stored and processed in parallel across the cluster, with each partition typically processed by one task.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is partitioning in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Partitioning divides data into logical chunks (partitions) that can be stored and processed in parallel across the cluster, with each partition typically processed by one task."
   },
   {
     id: 29,
@@ -12851,8 +12514,7 @@ const questions = [
       "Always 1"
     ],
     correctAnswer: "Number of cores on the driver",
-    explanation: "When creating an RDD from a local collection using parallelize(), the default number of partitions equals the number of cores on the driver machine.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the default number of partitions when creating an rdd from a local collection?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "When creating an RDD from a local collection using parallelize(), the default number of partitions equals the number of cores on the driver machine."
   },
   {
     id: 30,
@@ -12864,8 +12526,7 @@ const questions = [
       "Creates a new RDD with different data"
     ],
     correctAnswer: "Increases or decreases the number of partitions",
-    explanation: "repartition() increases or decreases the number of partitions in an RDD or DataFrame, requiring a full shuffle of the data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does repartition() do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "repartition() increases or decreases the number of partitions in an RDD or DataFrame, requiring a full shuffle of the data."
   },
   {
     id: 31,
@@ -12877,8 +12538,7 @@ const questions = [
       "Combines partitions by key"
     ],
     correctAnswer: "Reduces the number of partitions without full shuffle",
-    explanation: "coalesce() reduces the number of partitions in an RDD without requiring a full shuffle, only moving data from partitions being removed.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does coalesce() do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "coalesce() reduces the number of partitions in an RDD without requiring a full shuffle, only moving data from partitions being removed."
   },
   {
     id: 32,
@@ -12890,8 +12550,7 @@ const questions = [
       "Partition variable"
     ],
     correctAnswer: "Read-only shared variable cached on each machine",
-    explanation: "A broadcast variable is a read-only shared variable that is cached on each machine, allowing efficient access to large, read-only datasets across all nodes without duplication.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is a broadcast variable in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "A broadcast variable is a read-only shared variable that is cached on each machine, allowing efficient access to large, read-only datasets across all nodes without duplication."
   },
   {
     id: 33,
@@ -12903,8 +12562,7 @@ const questions = [
       "Variable for caching data"
     ],
     correctAnswer: "Variable for aggregating values across tasks",
-    explanation: "An accumulator is a shared variable that can be used to aggregate values across tasks, with only the driver program allowed to read its value.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is an accumulator in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "An accumulator is a shared variable that can be used to aggregate values across tasks, with only the driver program allowed to read its value."
   },
   {
     id: 34,
@@ -12916,8 +12574,7 @@ const questions = [
       "Restarting failed tasks"
     ],
     correctAnswer: "Truncating RDD lineage to avoid long recovery times",
-    explanation: "Checkpointing saves an RDD to reliable storage, truncating its lineage graph. This avoids the need to recompute long lineages during recovery, improving fault tolerance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of checkpointing in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Checkpointing saves an RDD to reliable storage, truncating its lineage graph. This avoids the need to recompute long lineages during recovery, improving fault tolerance."
   },
   {
     id: 35,
@@ -12929,8 +12586,7 @@ const questions = [
       "All of the above"
     ],
     correctAnswer: "Text, JSON, Parquet, ORC, CSV",
-    explanation: "Spark natively supports text, JSON, Parquet, ORC, and CSV file formats, with additional formats available through packages.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what file formats does spark support natively?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Spark natively supports text, JSON, Parquet, ORC, and CSV file formats, with additional formats available through packages."
   },
   {
     id: 36,
@@ -12942,8 +12598,7 @@ const questions = [
       "Text"
     ],
     correctAnswer: "Parquet",
-    explanation: "Parquet is a columnar storage format that provides the best performance for Spark due to its efficient compression, columnar encoding, and predicate pushdown capabilities.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the most efficient file format for spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Parquet is a columnar storage format that provides the best performance for Spark due to its efficient compression, columnar encoding, and predicate pushdown capabilities."
   },
   {
     id: 37,
@@ -12955,8 +12610,7 @@ const questions = [
       "Processing predicates in parallel"
     ],
     correctAnswer: "Filtering data at the storage layer before reading",
-    explanation: "Predicate pushdown is an optimization that pushes filter conditions down to the storage layer, allowing files or partitions to be skipped entirely during reads, improving performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is predicate pushdown in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Predicate pushdown is an optimization that pushes filter conditions down to the storage layer, allowing files or partitions to be skipped entirely during reads, improving performance."
   },
   {
     id: 38,
@@ -12968,8 +12622,7 @@ const questions = [
       "Compressing columns"
     ],
     correctAnswer: "Reading only the columns needed for a query",
-    explanation: "Column pruning is an optimization where Spark SQL only reads the columns that are actually needed for a query, rather than reading entire files, reducing I/O.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is column pruning in spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Column pruning is an optimization where Spark SQL only reads the columns that are actually needed for a query, rather than reading entire files, reducing I/O."
   },
   {
     id: 39,
@@ -12981,8 +12634,7 @@ const questions = [
       "Storing data in different directories"
     ],
     correctAnswer: "Organizing data based on column values for efficient querying",
-    explanation: "In Spark SQL, partitioning organizes data into directories based on column values, enabling partition pruning and improving query performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is partitioning in spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "In Spark SQL, partitioning organizes data into directories based on column values, enabling partition pruning and improving query performance."
   },
   {
     id: 40,
@@ -12994,8 +12646,7 @@ const questions = [
       "Dividing data by date"
     ],
     correctAnswer: "Hash partitioning within partitions for efficient joins",
-    explanation: "Bucketing is a data organization technique that uses hash partitioning within partitions, enabling efficient joins and aggregations by co-locating related data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is bucketing in spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Bucketing is a data organization technique that uses hash partitioning within partitions, enabling efficient joins and aggregations by co-locating related data."
   },
   {
     id: 41,
@@ -13007,8 +12658,7 @@ const questions = [
       "Both use the same partitioning"
     ],
     correctAnswer: "partitionBy uses hash partitioning, repartitionByRange uses range partitioning",
-    explanation: "partitionBy() uses hash partitioning to distribute data across partitions, while repartitionByRange() uses range partitioning which is useful for ordered data.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between partitionby and repartitionbyrange in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "partitionBy() uses hash partitioning to distribute data across partitions, while repartitionByRange() uses range partitioning which is useful for ordered data."
   },
   {
     id: 42,
@@ -13020,8 +12670,7 @@ const questions = [
       "Group by key"
     ],
     correctAnswer: "Sort RDD by key",
-    explanation: "sortByKey() sorts an RDD by its keys, which is a wide transformation that requires shuffling data across the network.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of sortbykey in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "sortByKey() sorts an RDD by its keys, which is a wide transformation that requires shuffling data across the network."
   },
   {
     id: 43,
@@ -13033,8 +12682,7 @@ const questions = [
       "Filter keys"
     ],
     correctAnswer: "Aggregate values for each key using a function",
-    explanation: "reduceByKey() aggregates the values of each key using a reduce function, providing a more efficient alternative to groupByKey() followed by reduce().",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is reducebykey in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "reduceByKey() aggregates the values of each key using a reduce function, providing a more efficient alternative to groupByKey() followed by reduce()."
   },
   {
     id: 44,
@@ -13046,8 +12694,7 @@ const questions = [
       "No difference"
     ],
     correctAnswer: "reduceByKey performs map-side aggregation, groupByKey does not",
-    explanation: "reduceByKey() performs map-side aggregation (combining values within each partition before shuffling), making it more efficient than groupByKey() which requires all values to be shuffled first.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between reducebykey and groupbykey?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "reduceByKey() performs map-side aggregation (combining values within each partition before shuffling), making it more efficient than groupByKey() which requires all values to be shuffled first."
   },
   {
     id: 45,
@@ -13059,8 +12706,7 @@ const questions = [
       "Sort values by key"
     ],
     correctAnswer: "Aggregate values with different functions for map-side and reduce-side",
-    explanation: "aggregateByKey() allows different aggregation functions for map-side (within partitions) and reduce-side (across partitions), providing more flexibility than reduceByKey().",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is aggregatebykey in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "aggregateByKey() allows different aggregation functions for map-side (within partitions) and reduce-side (across partitions), providing more flexibility than reduceByKey()."
   },
   {
     id: 46,
@@ -13072,8 +12718,7 @@ const questions = [
       "Joining RDDs"
     ],
     correctAnswer: "Custom aggregation with different functions for creating, merging, and combining values",
-    explanation: "combineByKey() is a generic aggregation function that allows you to specify custom functions for creating the first value, merging values within a partition, and combining values across partitions.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is combinebykey in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "combineByKey() is a generic aggregation function that allows you to specify custom functions for creating the first value, merging values within a partition, and combining values across partitions."
   },
   {
     id: 47,
@@ -13085,8 +12730,7 @@ const questions = [
       "Merge partitions"
     ],
     correctAnswer: "Combine RDDs based on keys",
-    explanation: "join() combines two RDDs based on matching keys, returning an RDD of (key, (value1, value2)) pairs for all keys present in both RDDs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is join in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "join() combines two RDDs based on matching keys, returning an RDD of (key, (value1, value2)) pairs for all keys present in both RDDs."
   },
   {
     id: 48,
@@ -13098,8 +12742,7 @@ const questions = [
       "Inner join is faster"
     ],
     correctAnswer: "Inner join returns only matching keys, left join returns all keys from left RDD",
-    explanation: "Inner join returns only pairs with keys present in both RDDs, while left join (leftOuterJoin) returns all keys from the left RDD with matching values from the right RDD or None if no match exists.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between inner join and left join in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Inner join returns only pairs with keys present in both RDDs, while left join (leftOuterJoin) returns all keys from the left RDD with matching values from the right RDD or None if no match exists."
   },
   {
     id: 49,
@@ -13111,8 +12754,7 @@ const questions = [
       "Filter by key"
     ],
     correctAnswer: "Group data from both RDDs by key and return pairs of iterators",
-    explanation: "cogroup() groups data from both RDDs by key, returning an RDD of (key, (Iterable[V], Iterable[W])) pairs, which can be more efficient than join for certain operations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is cogroup in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "cogroup() groups data from both RDDs by key, returning an RDD of (key, (Iterable[V], Iterable[W])) pairs, which can be more efficient than join for certain operations."
   },
   {
     id: 50,
@@ -13124,8 +12766,7 @@ const questions = [
       "Filter elements"
     ],
     correctAnswer: "Return elements in first RDD not present in second",
-    explanation: "subtract() returns an RDD containing elements that are present in the first RDD but not in the second RDD.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of subtract in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "subtract() returns an RDD containing elements that are present in the first RDD but not in the second RDD."
   },
   {
     id: 51,
@@ -13137,8 +12778,7 @@ const questions = [
       "Find differences"
     ],
     correctAnswer: "Return elements present in both RDDs",
-    explanation: "intersect() returns an RDD containing elements that are present in both RDDs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does intersect do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "intersect() returns an RDD containing elements that are present in both RDDs."
   },
   {
     id: 52,
@@ -13150,8 +12790,7 @@ const questions = [
       "Find unique elements"
     ],
     correctAnswer: "Return all elements from both RDDs",
-    explanation: "union() returns an RDD containing all elements from both RDDs, including duplicates.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does union do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "union() returns an RDD containing all elements from both RDDs, including duplicates."
   },
   {
     id: 53,
@@ -13163,8 +12802,7 @@ const questions = [
       "Aggregate values"
     ],
     correctAnswer: "Return the Cartesian product of two RDDs",
-    explanation: "cartesian() returns the Cartesian product of two RDDs, pairing each element of the first RDD with each element of the second RDD.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does cartesian do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "cartesian() returns the Cartesian product of two RDDs, pairing each element of the first RDD with each element of the second RDD."
   },
   {
     id: 54,
@@ -13176,8 +12814,7 @@ const questions = [
       "Randomly partition data"
     ],
     correctAnswer: "Return a random sample of elements",
-    explanation: "sample() returns a random sample of elements from an RDD, with or without replacement, based on specified probabilities.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of sample in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "sample() returns a random sample of elements from an RDD, with or without replacement, based on specified probabilities."
   },
   {
     id: 55,
@@ -13189,8 +12826,7 @@ const questions = [
       "Filter elements"
     ],
     correctAnswer: "Return first N elements",
-    explanation: "take(n) returns an array containing the first n elements of an RDD as an array to the driver program.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does take do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "take(n) returns an array containing the first n elements of an RDD as an array to the driver program."
   },
   {
     id: 56,
@@ -13202,8 +12838,7 @@ const questions = [
       "Sort and return first"
     ],
     correctAnswer: "Return first element",
-    explanation: "first() returns the first element of an RDD as a single value to the driver program.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does first do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "first() returns the first element of an RDD as a single value to the driver program."
   },
   {
     id: 57,
@@ -13215,8 +12850,7 @@ const questions = [
       "Return largest elements"
     ],
     correctAnswer: "Return top N elements based on natural ordering",
-    explanation: "top(n) returns an array containing the top n elements of an RDD based on their natural ordering (ascending by default).",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does top do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "top(n) returns an array containing the top n elements of an RDD based on their natural ordering (ascending by default)."
   },
   {
     id: 58,
@@ -13228,8 +12862,7 @@ const questions = [
       "Filter and sort"
     ],
     correctAnswer: "Return first N elements in specified order",
-    explanation: "takeOrdered(n) returns an array containing the first n elements of an RDD sorted in ascending order based on a specified ordering.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does takeordered do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "takeOrdered(n) returns an array containing the first n elements of an RDD sorted in ascending order based on a specified ordering."
   },
   {
     id: 59,
@@ -13241,8 +12874,7 @@ const questions = [
       "Group and count"
     ],
     correctAnswer: "Return count of each key",
-    explanation: "countByKey() returns a map containing the count of each key in an RDD of key-value pairs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does countbykey do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "countByKey() returns a map containing the count of each key in an RDD of key-value pairs."
   },
   {
     id: 60,
@@ -13254,8 +12886,7 @@ const questions = [
       "Group and count"
     ],
     correctAnswer: "Return count of each value",
-    explanation: "countByValue() returns a map containing the count of each unique value in an RDD.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does countbyvalue do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "countByValue() returns a map containing the count of each unique value in an RDD."
   },
   {
     id: 61,
@@ -13267,8 +12898,7 @@ const questions = [
       "Find matching keys"
     ],
     correctAnswer: "Return all values for a specific key",
-    explanation: "lookup(key) returns an array of all values associated with a specific key in an RDD of key-value pairs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does lookup do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "lookup(key) returns an array of all values associated with a specific key in an RDD of key-value pairs."
   },
   {
     id: 62,
@@ -13280,8 +12910,7 @@ const questions = [
       "Extract keys"
     ],
     correctAnswer: "Return RDD of keys",
-    explanation: "keys() returns an RDD containing only the keys from an RDD of key-value pairs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does keys do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "keys() returns an RDD containing only the keys from an RDD of key-value pairs."
   },
   {
     id: 63,
@@ -13293,8 +12922,7 @@ const questions = [
       "Filter values"
     ],
     correctAnswer: "Return RDD of values",
-    explanation: "values() returns an RDD containing only the values from an RDD of key-value pairs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does values do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "values() returns an RDD containing only the values from an RDD of key-value pairs."
   },
   {
     id: 64,
@@ -13306,8 +12934,7 @@ const questions = [
       "Save to database"
     ],
     correctAnswer: "Save RDD as text file",
-    explanation: "saveAsTextFile(path) writes the elements of an RDD as a text file (or multiple text files) to the specified directory, with each element on a separate line.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does saveastextfile do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "saveAsTextFile(path) writes the elements of an RDD as a text file (or multiple text files) to the specified directory, with each element on a separate line."
   },
   {
     id: 65,
@@ -13319,8 +12946,7 @@ const questions = [
       "Save as Parquet"
     ],
     correctAnswer: "Save RDD as Hadoop SequenceFile",
-    explanation: "saveAsSequenceFile(path) writes the elements of an RDD as a Hadoop SequenceFile, which is a binary file format for key-value pairs.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does saveassequencefile do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "saveAsSequenceFile(path) writes the elements of an RDD as a Hadoop SequenceFile, which is a binary file format for key-value pairs."
   },
   {
     id: 66,
@@ -13332,8 +12958,7 @@ const questions = [
       "Save as binary"
     ],
     correctAnswer: "Save RDD as serialized Java objects",
-    explanation: "saveAsObjectFile(path) writes the elements of an RDD as serialized Java objects to a directory, with each partition written as a separate file.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does saveasobjectfile do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "saveAsObjectFile(path) writes the elements of an RDD as serialized Java objects to a directory, with each partition written as a separate file."
   },
   {
     id: 67,
@@ -13345,8 +12970,7 @@ const questions = [
       "Map elements"
     ],
     correctAnswer: "Apply function to each element",
-    explanation: "foreach(func) applies a function to each element of an RDD, typically used for side effects like writing to external systems.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of foreach in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "foreach(func) applies a function to each element of an RDD, typically used for side effects like writing to external systems."
   },
   {
     id: 68,
@@ -13358,8 +12982,7 @@ const questions = [
       "Process partitions in parallel"
     ],
     correctAnswer: "Apply function to each partition (more efficient for connections)",
-    explanation: "foreachPartition(func) applies a function to each partition of an RDD, which is more efficient than foreach when the function initializes expensive resources (like database connections) that can be reused for all elements in a partition.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of foreachpartition in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "foreachPartition(func) applies a function to each partition of an RDD, which is more efficient than foreach when the function initializes expensive resources (like database connections) that can be reused for all elements in a partition."
   },
   {
     id: 69,
@@ -13371,8 +12994,7 @@ const questions = [
       "Aggregate partitions"
     ],
     correctAnswer: "Apply function to each partition and return new RDD",
-    explanation: "mapPartitions(func) applies a function to each partition of an RDD and returns a new RDD, allowing for more efficient processing when expensive resources can be reused across all elements in a partition.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does mappartitions do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "mapPartitions(func) applies a function to each partition of an RDD and returns a new RDD, allowing for more efficient processing when expensive resources can be reused across all elements in a partition."
   },
   {
     id: 70,
@@ -13384,8 +13006,7 @@ const questions = [
       "Process with partition number"
     ],
     correctAnswer: "Apply function with partition index to each partition",
-    explanation: "mapPartitionsWithIndex(func) is similar to mapPartitions but provides the partition index to the function, useful for partition-specific operations.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does mappartitionswithindex do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "mapPartitionsWithIndex(func) is similar to mapPartitions but provides the partition index to the function, useful for partition-specific operations."
   },
   {
     id: 71,
@@ -13397,8 +13018,7 @@ const questions = [
       "Filter partitions"
     ],
     correctAnswer: "Convert each partition into an array of its elements",
-    explanation: "glom() converts each partition of an RDD into an array containing all the elements of that partition, resulting in an RDD[Array[T]].",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of glom in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "glom() converts each partition of an RDD into an array containing all the elements of that partition, resulting in an RDD[Array[T]]."
   },
   {
     id: 72,
@@ -13410,8 +13030,7 @@ const questions = [
       "Filter duplicates"
     ],
     correctAnswer: "Return unique elements",
-    explanation: "distinct() returns an RDD containing only the unique elements from the source RDD, removing duplicates.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does distinct do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "distinct() returns an RDD containing only the unique elements from the source RDD, removing duplicates."
   },
   {
     id: 73,
@@ -13423,8 +13042,7 @@ const questions = [
       "Select elements"
     ],
     correctAnswer: "Return elements that satisfy a predicate",
-    explanation: "filter(func) returns an RDD containing only the elements that satisfy a specified predicate function.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does filter do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "filter(func) returns an RDD containing only the elements that satisfy a specified predicate function."
   },
   {
     id: 74,
@@ -13436,8 +13054,7 @@ const questions = [
       "Process each element"
     ],
     correctAnswer: "Map function that returns iterator and flattens results",
-    explanation: "flatMap(func) is similar to map but the function returns an iterator, and the results are flattened into a single RDD.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does flatmap do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "flatMap(func) is similar to map but the function returns an iterator, and the results are flattened into a single RDD."
   },
   {
     id: 75,
@@ -13449,8 +13066,7 @@ const questions = [
       "Process values"
     ],
     correctAnswer: "Apply flatMap to values of key-value RDD",
-    explanation: "flatMapValues(func) applies a flatMap function to each value of a key-value RDD, keeping the original keys and flattening the results.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does flatmapvalues do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "flatMapValues(func) applies a flatMap function to each value of a key-value RDD, keeping the original keys and flattening the results."
   },
   {
     id: 76,
@@ -13462,8 +13078,7 @@ const questions = [
       "Transform values"
     ],
     correctAnswer: "Apply map function to values of key-value RDD",
-    explanation: "mapValues(func) applies a map function to each value of a key-value RDD, keeping the original keys.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does mapvalues do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "mapValues(func) applies a map function to each value of a key-value RDD, keeping the original keys."
   },
   {
     id: 77,
@@ -13475,8 +13090,7 @@ const questions = [
       "Order elements"
     ],
     correctAnswer: "Sort elements using natural or custom ordering",
-    explanation: "sort() sorts the elements of an RDD using either their natural ordering or a custom comparator.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does sort do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "sort() sorts the elements of an RDD using either their natural ordering or a custom comparator."
   },
   {
     id: 78,
@@ -13488,8 +13102,7 @@ const questions = [
       "Custom sort"
     ],
     correctAnswer: "Sort by specified key function",
-    explanation: "sortBy(func) sorts elements by applying a key function to each element and using the returned keys for sorting.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what does sortby do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "sortBy(func) sorts elements by applying a key function to each element and using the returned keys for sorting."
   },
   {
     id: 79,
@@ -13501,8 +13114,7 @@ const questions = [
       "MEMORY_ONLY_SER"
     ],
     correctAnswer: "MEMORY_ONLY",
-    explanation: "The default storage level for caching (using cache() or persist()) is MEMORY_ONLY, which stores data in memory as deserialized Java objects.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the default storage level when caching in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The default storage level for caching (using cache() or persist()) is MEMORY_ONLY, which stores data in memory as deserialized Java objects."
   },
   {
     id: 80,
@@ -13514,8 +13126,7 @@ const questions = [
       "MapReduce uses memory"
     ],
     correctAnswer: "Spark processes data in memory for faster performance",
-    explanation: "Spark's key advantage over Hadoop MapReduce is its ability to process data in memory, avoiding the need to read/write data to disk for each transformation, resulting in significantly faster performance.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between spark and hadoop mapreduce?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Spark's key advantage over Hadoop MapReduce is its ability to process data in memory, avoiding the need to read/write data to disk for each transformation, resulting in significantly faster performance."
   },
   {
     id: 81,
@@ -13527,8 +13138,7 @@ const questions = [
       "Executor process"
     ],
     correctAnswer: "Process that runs the main function and manages Spark application",
-    explanation: "The driver program runs the main() function of the application and manages the execution of Spark jobs, creating the SparkContext and coordinating task execution.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the driver program in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The driver program runs the main() function of the application and manages the execution of Spark jobs, creating the SparkContext and coordinating task execution."
   },
   {
     id: 82,
@@ -13540,8 +13150,7 @@ const questions = [
       "Driver processes"
     ],
     correctAnswer: "Processes that run tasks and store data",
-    explanation: "Executors are worker processes that run on cluster nodes and are responsible for executing tasks and storing data (RDDs, cached data) for the Spark application.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what are executors in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Executors are worker processes that run on cluster nodes and are responsible for executing tasks and storing data (RDDs, cached data) for the Spark application."
   },
   {
     id: 83,
@@ -13553,8 +13162,7 @@ const questions = [
       "Executor process"
     ],
     correctAnswer: "External service for allocating resources to Spark applications",
-    explanation: "The cluster manager is an external service (like YARN, Mesos, or Kubernetes) that allocates resources (CPU, memory) to Spark applications.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the cluster manager in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "The cluster manager is an external service (like YARN, Mesos, or Kubernetes) that allocates resources (CPU, memory) to Spark applications."
   },
   {
     id: 84,
@@ -13566,8 +13174,7 @@ const questions = [
       "Local mode"
     ],
     correctAnswer: "Built-in cluster manager for Spark",
-    explanation: "Spark standalone mode is a simple built-in cluster manager that comes with Spark, making it easy to set up a Spark cluster without external dependencies.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is the spark standalone mode?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "Spark standalone mode is a simple built-in cluster manager that comes with Spark, making it easy to set up a Spark cluster without external dependencies."
   },
   {
     id: 85,
@@ -13579,8 +13186,7 @@ const questions = [
       "Run without network"
     ],
     correctAnswer: "Run Spark application on a single machine",
-    explanation: "In local mode, Spark runs the entire application on a single machine using multiple threads, useful for development and testing.",
-    detailedAnswer: "\n**Additional Context:**\n\nThis question tests your understanding of what is spark local mode?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
+    explanation: "In local mode, Spark runs the entire application on a single machine using multiple threads, useful for development and testing."
   }
 ];
 const apacheSpark = {
