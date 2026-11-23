@@ -21,6 +21,7 @@ export default defineConfig({
       manifest: {
         name: 'Get-It Quiz App',
         short_name: 'Get-It',
+        id: '/get-it/',
         description: 'Master your interview skills with Get-It quiz app',
         theme_color: '#4f46e5',
         background_color: '#ffffff',
