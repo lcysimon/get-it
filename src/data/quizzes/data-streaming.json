@@ -7,576 +7,1068 @@
     {
       "id": 1,
       "question": "What is Apache Kafka?",
-      "options": ["High-throughput distributed event streaming platform", "Batch processing framework", "Database management system", "Data visualization tool"],
+      "options": [
+        "High-throughput distributed event streaming platform",
+        "Batch processing framework",
+        "Database management system",
+        "Data visualization tool"
+      ],
       "correctAnswer": "High-throughput distributed event streaming platform",
-      "explanation": "Kafka is a distributed event streaming platform designed for high-throughput, fault-tolerant, low-latency event processing."
+      "explanation": "Kafka is a distributed event streaming platform designed for high-throughput, fault-tolerant, low-latency event processing.",
+      "detailedAnswer": "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
     },
     {
       "id": 2,
       "question": "What is a Kafka topic?",
-      "options": ["Category or feed name to which events are published", "Database table", "Processing engine", "Backup location"],
+      "options": [
+        "Category or feed name to which events are published",
+        "Database table",
+        "Processing engine",
+        "Backup location"
+      ],
       "correctAnswer": "Category or feed name to which events are published",
-      "explanation": "A Kafka topic is a category or feed name to which events are published by producers."
+      "explanation": "A Kafka topic is a category or feed name to which events are published by producers.",
+      "detailedAnswer": "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
     },
     {
       "id": 3,
       "question": "What is a Kafka partition?",
-      "options": ["Ordered, immutable sequence of events within a topic", "Database shard", "Processing thread", "Backup copy"],
+      "options": [
+        "Ordered, immutable sequence of events within a topic",
+        "Database shard",
+        "Processing thread",
+        "Backup copy"
+      ],
       "correctAnswer": "Ordered, immutable sequence of events within a topic",
-      "explanation": "A partition is an ordered, immutable sequence of events within a topic. Each topic is split into partitions for scalability."
+      "explanation": "A partition is an ordered, immutable sequence of events within a topic. Each topic is split into partitions for scalability.",
+      "detailedAnswer": "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
     },
     {
       "id": 4,
       "question": "What is a Kafka broker?",
-      "options": ["Server that stores topic partitions and serves client requests", "Client producing events", "Client consuming events", "Database server"],
+      "options": [
+        "Server that stores topic partitions and serves client requests",
+        "Client producing events",
+        "Client consuming events",
+        "Database server"
+      ],
       "correctAnswer": "Server that stores topic partitions and serves client requests",
-      "explanation": "A Kafka broker is a server that stores topic partitions and serves client requests."
+      "explanation": "A Kafka broker is a server that stores topic partitions and serves client requests.",
+      "detailedAnswer": "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
     },
     {
       "id": 5,
       "question": "What was ZooKeeper's role in traditional Kafka?",
-      "options": ["Maintain cluster metadata and coordinate brokers", "Store events", "Process events", "Serve requests"],
+      "options": [
+        "Maintain cluster metadata and coordinate brokers",
+        "Store events",
+        "Process events",
+        "Serve requests"
+      ],
       "correctAnswer": "Maintain cluster metadata and coordinate brokers",
-      "explanation": "ZooKeeper maintained cluster metadata and coordinated between brokers in traditional Kafka clusters."
+      "explanation": "ZooKeeper maintained cluster metadata and coordinated between brokers in traditional Kafka clusters.",
+      "detailedAnswer": "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
     },
     {
       "id": 6,
       "question": "What is a Kafka producer?",
-      "options": ["Client application that publishes events to topics", "Client that reads events", "Server", "Database client"],
+      "options": [
+        "Client application that publishes events to topics",
+        "Client that reads events",
+        "Server",
+        "Database client"
+      ],
       "correctAnswer": "Client application that publishes events to topics",
-      "explanation": "A Kafka producer is a client application that publishes (writes) events to Kafka topics."
+      "explanation": "A Kafka producer is a client application that publishes (writes) events to Kafka topics.",
+      "detailedAnswer": "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
     },
     {
       "id": 7,
       "question": "What is a Kafka consumer?",
-      "options": ["Client application that subscribes to and reads events", "Client that publishes events", "Server", "Database client"],
+      "options": [
+        "Client application that subscribes to and reads events",
+        "Client that publishes events",
+        "Server",
+        "Database client"
+      ],
       "correctAnswer": "Client application that subscribes to and reads events",
-      "explanation": "A Kafka consumer is a client application that subscribes to and reads events from Kafka topics."
+      "explanation": "A Kafka consumer is a client application that subscribes to and reads events from Kafka topics.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 8,
       "question": "What is a consumer group?",
-      "options": ["Group of consumers that collectively read from a topic", "Group of producers", "Group of brokers", "Group of topics"],
+      "options": [
+        "Group of consumers that collectively read from a topic",
+        "Group of producers",
+        "Group of brokers",
+        "Group of topics"
+      ],
       "correctAnswer": "Group of consumers that collectively read from a topic",
-      "explanation": "A consumer group is a group of consumer instances that collectively read from a topic, with each partition read by only one consumer."
+      "explanation": "A consumer group is a group of consumer instances that collectively read from a topic, with each partition read by only one consumer.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a consumer group?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 9,
       "question": "What are consumer group offsets?",
-      "options": ["Track the reading position in each partition", "Track writing position", "Track replication", "Track health"],
+      "options": [
+        "Track the reading position in each partition",
+        "Track writing position",
+        "Track replication",
+        "Track health"
+      ],
       "correctAnswer": "Track the reading position in each partition",
-      "explanation": "Kafka tracks the offset of the last event read by each consumer group for each partition, allowing consumers to resume from where they left off."
+      "explanation": "Kafka tracks the offset of the last event read by each consumer group for each partition, allowing consumers to resume from where they left off.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what are consumer group offsets?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 10,
       "question": "What is Kafka Connect?",
-      "options": ["Framework for integrating Kafka with external systems", "Client library", "Monitoring tool", "Testing framework"],
+      "options": [
+        "Framework for integrating Kafka with external systems",
+        "Client library",
+        "Monitoring tool",
+        "Testing framework"
+      ],
       "correctAnswer": "Framework for integrating Kafka with external systems",
-      "explanation": "Kafka Connect is a framework for building data pipelines that integrate Kafka with external systems using connectors."
+      "explanation": "Kafka Connect is a framework for building data pipelines that integrate Kafka with external systems using connectors.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kafka connect?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 11,
       "question": "What is a source connector in Kafka Connect?",
-      "options": ["Ingests data from external systems into Kafka", "Exports data from Kafka", "Both ingests and exports", "Processes data"],
+      "options": [
+        "Ingests data from external systems into Kafka",
+        "Exports data from Kafka",
+        "Both ingests and exports",
+        "Processes data"
+      ],
       "correctAnswer": "Ingests data from external systems into Kafka",
-      "explanation": "A source connector imports data from external systems (databases, files, etc.) into Kafka topics."
+      "explanation": "A source connector imports data from external systems (databases, files, etc.) into Kafka topics.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a source connector in kafka connect?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 12,
       "question": "What is a sink connector in Kafka Connect?",
-      "options": ["Exports data from Kafka to external systems", "Imports data to Kafka", "Both imports and exports", "Processes data"],
+      "options": [
+        "Exports data from Kafka to external systems",
+        "Imports data to Kafka",
+        "Both imports and exports",
+        "Processes data"
+      ],
       "correctAnswer": "Exports data from Kafka to external systems",
-      "explanation": "A sink connector exports data from Kafka topics to external systems (databases, storage, etc.)."
+      "explanation": "A sink connector exports data from Kafka topics to external systems (databases, storage, etc.).",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a sink connector in kafka connect?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 13,
       "question": "What is Kafka Streams?",
-      "options": ["Client library for building stream processing applications", "Streaming framework", "Database", "Visualization tool"],
+      "options": [
+        "Client library for building stream processing applications",
+        "Streaming framework",
+        "Database",
+        "Visualization tool"
+      ],
       "correctAnswer": "Client library for building stream processing applications",
-      "explanation": "Kafka Streams is a client library for building stream processing applications and microservices that process data in Kafka topics."
+      "explanation": "Kafka Streams is a client library for building stream processing applications and microservices that process data in Kafka topics.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kafka streams?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 14,
       "question": "What is KSQL?",
-      "options": ["Streaming SQL engine for Kafka", "NoSQL database", "Query language", "ETL tool"],
+      "options": [
+        "Streaming SQL engine for Kafka",
+        "NoSQL database",
+        "Query language",
+        "ETL tool"
+      ],
       "correctAnswer": "Streaming SQL engine for Kafka",
-      "explanation": "KSQL is a streaming SQL engine that allows you to query, transform, and process data in Kafka using SQL-like syntax."
+      "explanation": "KSQL is a streaming SQL engine that allows you to query, transform, and process data in Kafka using SQL-like syntax.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is ksql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 15,
       "question": "What is the purpose of Kafka Schema Registry?",
-      "options": ["Manage and enforce schemas for Kafka messages", "Store messages", "Process messages", "Validate consumers"],
+      "options": [
+        "Manage and enforce schemas for Kafka messages",
+        "Store messages",
+        "Process messages",
+        "Validate consumers"
+      ],
       "correctAnswer": "Manage and enforce schemas for Kafka messages",
-      "explanation": "Schema Registry manages and enforces schemas for Kafka messages, enabling schema evolution and compatibility checking."
+      "explanation": "Schema Registry manages and enforces schemas for Kafka messages, enabling schema evolution and compatibility checking.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of kafka schema registry?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 16,
       "question": "What is Avro format in Kafka?",
-      "options": ["Binary serialization format with schema", "Text format", "JSON format", "XML format"],
+      "options": [
+        "Binary serialization format with schema",
+        "Text format",
+        "JSON format",
+        "XML format"
+      ],
       "correctAnswer": "Binary serialization format with schema",
-      "explanation": "Avro is a binary serialization format that includes schema information, enabling efficient serialization and deserialization with schema evolution."
+      "explanation": "Avro is a binary serialization format that includes schema information, enabling efficient serialization and deserialization with schema evolution.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is avro format in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 17,
       "question": "What is the offset in Kafka?",
-      "options": ["Sequential ID of an event within a partition", "Position in topic", "ID of consumer", "ID of producer"],
+      "options": [
+        "Sequential ID of an event within a partition",
+        "Position in topic",
+        "ID of consumer",
+        "ID of producer"
+      ],
       "correctAnswer": "Sequential ID of an event within a partition",
-      "explanation": "An offset is a sequential ID assigned to each event within a partition, starting at 0 and incrementing by 1 for each new event."
+      "explanation": "An offset is a sequential ID assigned to each event within a partition, starting at 0 and incrementing by 1 for each new event.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the offset in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 18,
       "question": "What is the leader of a Kafka partition?",
-      "options": ["Broker responsible for all reads and writes to a partition", "Primary consumer", "Main producer", "Cluster manager"],
+      "options": [
+        "Broker responsible for all reads and writes to a partition",
+        "Primary consumer",
+        "Main producer",
+        "Cluster manager"
+      ],
       "correctAnswer": "Broker responsible for all reads and writes to a partition",
-      "explanation": "The leader is the broker responsible for all reads and writes to a partition. Followers replicate from the leader."
+      "explanation": "The leader is the broker responsible for all reads and writes to a partition. Followers replicate from the leader.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the leader of a kafka partition?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 19,
       "question": "What is a follower in Kafka?",
-      "options": ["Broker that replicates partition data from leader", "Secondary consumer", "Backup producer", "Standby broker"],
+      "options": [
+        "Broker that replicates partition data from leader",
+        "Secondary consumer",
+        "Backup producer",
+        "Standby broker"
+      ],
       "correctAnswer": "Broker that replicates partition data from leader",
-      "explanation": "A follower is a broker that replicates partition data from the leader to maintain redundancy and fault tolerance."
+      "explanation": "A follower is a broker that replicates partition data from the leader to maintain redundancy and fault tolerance.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a follower in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 20,
       "question": "What is ISR in Kafka?",
-      "options": ["In-Sync Replicas - set of brokers that are in sync with leader", "Internal Storage Registry", "In-System Replication", "Integrated Service Router"],
+      "options": [
+        "In-Sync Replicas - set of brokers that are in sync with leader",
+        "Internal Storage Registry",
+        "In-System Replication",
+        "Integrated Service Router"
+      ],
       "correctAnswer": "In-Sync Replicas - set of brokers that are in sync with leader",
-      "explanation": "ISR (In-Sync Replicas) is the set of brokers that are currently in sync with the partition leader and eligible to be elected as leader."
+      "explanation": "ISR (In-Sync Replicas) is the set of brokers that are currently in sync with the partition leader and eligible to be elected as leader.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is isr in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 21,
       "question": "What is the replication factor in Kafka?",
-      "options": ["Number of copies of each partition across brokers", "Number of brokers", "Number of topics", "Number of partitions"],
+      "options": [
+        "Number of copies of each partition across brokers",
+        "Number of brokers",
+        "Number of topics",
+        "Number of partitions"
+      ],
       "correctAnswer": "Number of copies of each partition across brokers",
-      "explanation": "The replication factor determines how many copies of each partition are maintained across different brokers for fault tolerance."
+      "explanation": "The replication factor determines how many copies of each partition are maintained across different brokers for fault tolerance.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the replication factor in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 22,
       "question": "What is the minimum.insync.replicas setting?",
-      "options": ["Minimum number of in-sync replicas required for producer writes", "Minimum number of brokers", "Minimum number of topics", "Minimum number of partitions"],
+      "options": [
+        "Minimum number of in-sync replicas required for producer writes",
+        "Minimum number of brokers",
+        "Minimum number of topics",
+        "Minimum number of partitions"
+      ],
       "correctAnswer": "Minimum number of in-sync replicas required for producer writes",
-      "explanation": "minimum.insync.replicas specifies the minimum number of in-sync replicas required for a producer to successfully write to a partition, ensuring durability."
+      "explanation": "minimum.insync.replicas specifies the minimum number of in-sync replicas required for a producer to successfully write to a partition, ensuring durability.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the minimum.insync.replicas setting?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 23,
       "question": "What is unclean.leader.election.enable?",
-      "options": ["Allow leader election from out-of-sync replicas", "Prevent unclean leader election", "Enable fast leader election", "Allow automatic leader election"],
+      "options": [
+        "Allow leader election from out-of-sync replicas",
+        "Prevent unclean leader election",
+        "Enable fast leader election",
+        "Allow automatic leader election"
+      ],
       "correctAnswer": "Allow leader election from out-of-sync replicas",
-      "explanation": "When enabled, unclean.leader.election.enable allows a broker that is not in the ISR to be elected as leader, potentially causing data loss."
+      "explanation": "When enabled, unclean.leader.election.enable allows a broker that is not in the ISR to be elected as leader, potentially causing data loss.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is unclean.leader.election.enable?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 24,
       "question": "What is acks in Kafka producer?",
-      "options": ["Number of broker acknowledgments required", "Number of consumers", "Number of producers", "Number of topics"],
+      "options": [
+        "Number of broker acknowledgments required",
+        "Number of consumers",
+        "Number of producers",
+        "Number of topics"
+      ],
       "correctAnswer": "Number of broker acknowledgments required",
-      "explanation": "acks setting in producer determines how many broker acknowledgments are required: 0 (no ack), 1 (leader ack), or all (all in-sync replicas)."
+      "explanation": "acks setting in producer determines how many broker acknowledgments are required: 0 (no ack), 1 (leader ack), or all (all in-sync replicas).",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is acks in kafka producer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 25,
       "question": "What is idempotent producer in Kafka?",
-      "options": ["Producer that prevents duplicate sends of same message", "Producer with unique ID", "Producer that only sends once", "Producer that always succeeds"],
+      "options": [
+        "Producer that prevents duplicate sends of same message",
+        "Producer with unique ID",
+        "Producer that only sends once",
+        "Producer that always succeeds"
+      ],
       "correctAnswer": "Producer that prevents duplicate sends of same message",
-      "explanation": "An idempotent producer ensures that each message is delivered exactly once, even if it's retried, preventing duplicates."
+      "explanation": "An idempotent producer ensures that each message is delivered exactly once, even if it's retried, preventing duplicates.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is idempotent producer in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 26,
       "question": "What is transactional producer in Kafka?",
-      "options": ["Producer that can send messages to multiple partitions atomically", "Producer with transactions", "Producer that only commits once", "Producer that supports rollbacks"],
+      "options": [
+        "Producer that can send messages to multiple partitions atomically",
+        "Producer with transactions",
+        "Producer that only commits once",
+        "Producer that supports rollbacks"
+      ],
       "correctAnswer": "Producer that can send messages to multiple partitions atomically",
-      "explanation": "A transactional producer can send messages to multiple partitions and topics atomically, ensuring all messages are committed or none are."
+      "explanation": "A transactional producer can send messages to multiple partitions and topics atomically, ensuring all messages are committed or none are.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is transactional producer in kafka?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 27,
       "question": "What is consumer lag?",
-      "options": ["Difference between latest offset and consumer offset", "Time delay", "Network latency", "Processing delay"],
+      "options": [
+        "Difference between latest offset and consumer offset",
+        "Time delay",
+        "Network latency",
+        "Processing delay"
+      ],
       "correctAnswer": "Difference between latest offset and consumer offset",
-      "explanation": "Consumer lag is the difference between the latest offset in a partition and the current offset of the consumer group, indicating how far behind the consumer is."
+      "explanation": "Consumer lag is the difference between the latest offset in a partition and the current offset of the consumer group, indicating how far behind the consumer is.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is consumer lag?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 28,
       "question": "What is the purpose of consumer groups rebalancing?",
-      "options": ["Reassign partitions to consumers when group membership changes", "Restart consumers", "Reconnect to brokers", "Refresh metadata"],
+      "options": [
+        "Reassign partitions to consumers when group membership changes",
+        "Restart consumers",
+        "Reconnect to brokers",
+        "Refresh metadata"
+      ],
       "correctAnswer": "Reassign partitions to consumers when group membership changes",
-      "explanation": "Rebalancing reassigns partition ownership among consumers in a group when consumers join, leave, or when partitions are added/removed."
+      "explanation": "Rebalancing reassigns partition ownership among consumers in a group when consumers join, leave, or when partitions are added/removed.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of consumer groups rebalancing?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 29,
       "question": "What is heartbeat.interval.ms in Kafka consumer?",
-      "options": ["Interval at which consumer sends heartbeats", "Interval for consuming", "Interval for processing", "Interval for committing"],
+      "options": [
+        "Interval at which consumer sends heartbeats",
+        "Interval for consuming",
+        "Interval for processing",
+        "Interval for committing"
+      ],
       "correctAnswer": "Interval at which consumer sends heartbeats",
-      "explanation": "heartbeat.interval.ms is the interval at which the consumer sends heartbeats to the group coordinator to indicate it's alive."
+      "explanation": "heartbeat.interval.ms is the interval at which the consumer sends heartbeats to the group coordinator to indicate it's alive.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is heartbeat.interval.ms in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 30,
       "question": "What is session.timeout.ms in Kafka consumer?",
-      "options": ["Maximum time between heartbeats before consumer is considered dead", "Time for consuming", "Time for processing", "Time for connecting"],
+      "options": [
+        "Maximum time between heartbeats before consumer is considered dead",
+        "Time for consuming",
+        "Time for processing",
+        "Time for connecting"
+      ],
       "correctAnswer": "Maximum time between heartbeats before consumer is considered dead",
-      "explanation": "session.timeout.ms is the maximum time between heartbeats before a consumer is considered dead and triggers rebalancing."
+      "explanation": "session.timeout.ms is the maximum time between heartbeats before a consumer is considered dead and triggers rebalancing.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is session.timeout.ms in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 31,
       "question": "What is max.poll.records in Kafka consumer?",
-      "options": ["Maximum number of records returned in a single poll", "Maximum poll duration", "Maximum batch size", "Maximum fetch size"],
+      "options": [
+        "Maximum number of records returned in a single poll",
+        "Maximum poll duration",
+        "Maximum batch size",
+        "Maximum fetch size"
+      ],
       "correctAnswer": "Maximum number of records returned in a single poll",
-      "explanation": "max.poll.records limits the maximum number of records returned in a single call to poll(), controlling batch size."
+      "explanation": "max.poll.records limits the maximum number of records returned in a single call to poll(), controlling batch size.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is max.poll.records in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 32,
       "question": "What is auto.offset.reset in Kafka consumer?",
-      "options": ["What to do when offset is out of range", "Auto reset consumer", "Auto commit offset", "Auto reconnect"],
+      "options": [
+        "What to do when offset is out of range",
+        "Auto reset consumer",
+        "Auto commit offset",
+        "Auto reconnect"
+      ],
       "correctAnswer": "What to do when offset is out of range",
-      "explanation": "auto.offset.reset determines what to do when there's no initial offset or the offset is out of range: earliest, latest, or none."
+      "explanation": "auto.offset.reset determines what to do when there's no initial offset or the offset is out of range: earliest, latest, or none.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is auto.offset.reset in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 33,
       "question": "What is enable.auto.commit in Kafka consumer?",
-      "options": ["Whether to automatically commit offsets", "Auto enable consumer", "Auto commit all", "Auto acknowledge"],
+      "options": [
+        "Whether to automatically commit offsets",
+        "Auto enable consumer",
+        "Auto commit all",
+        "Auto acknowledge"
+      ],
       "correctAnswer": "Whether to automatically commit offsets",
-      "explanation": "enable.auto.commit controls whether offsets are automatically committed (true) or manually committed by the application (false)."
+      "explanation": "enable.auto.commit controls whether offsets are automatically committed (true) or manually committed by the application (false).",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is enable.auto.commit in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 34,
       "question": "What is commitSync in Kafka consumer?",
-      "options": ["Synchronously commit offsets", "Synchronously consume", "Synchronously process", "Synchronously acknowledge"],
+      "options": [
+        "Synchronously commit offsets",
+        "Synchronously consume",
+        "Synchronously process",
+        "Synchronously acknowledge"
+      ],
       "correctAnswer": "Synchronously commit offsets",
-      "explanation": "commitSync() synchronously commits offsets to Kafka, blocking until the commit is acknowledged by the broker."
+      "explanation": "commitSync() synchronously commits offsets to Kafka, blocking until the commit is acknowledged by the broker.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is commitsync in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 35,
       "question": "What is commitAsync in Kafka consumer?",
-      "options": ["Asynchronously commit offsets", "Asynchronously consume", "Asynchronously process", "Asynchronously acknowledge"],
+      "options": [
+        "Asynchronously commit offsets",
+        "Asynchronously consume",
+        "Asynchronously process",
+        "Asynchronously acknowledge"
+      ],
       "correctAnswer": "Asynchronously commit offsets",
-      "explanation": "commitAsync() asynchronously commits offsets to Kafka, returning immediately and allowing the application to continue processing."
+      "explanation": "commitAsync() asynchronously commits offsets to Kafka, returning immediately and allowing the application to continue processing.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is commitasync in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 36,
       "question": "What is seek in Kafka consumer?",
-      "options": ["Manually set offset for a partition", "Search for messages", "Skip messages", "Filter messages"],
+      "options": [
+        "Manually set offset for a partition",
+        "Search for messages",
+        "Skip messages",
+        "Filter messages"
+      ],
       "correctAnswer": "Manually set offset for a partition",
-      "explanation": "seek() allows manually setting the offset for a specific partition, enabling replay or skipping of messages."
+      "explanation": "seek() allows manually setting the offset for a specific partition, enabling replay or skipping of messages.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is seek in kafka consumer?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 37,
       "question": "What is Apache Flink?",
-      "options": ["Stateful stream processing framework", "Batch processing framework", "Database", "Message queue"],
+      "options": [
+        "Stateful stream processing framework",
+        "Batch processing framework",
+        "Database",
+        "Message queue"
+      ],
       "correctAnswer": "Stateful stream processing framework",
-      "explanation": "Apache Flink is a stateful stream processing framework for distributed, high-performance, exactly-once processing of unbounded data streams."
+      "explanation": "Apache Flink is a stateful stream processing framework for distributed, high-performance, exactly-once processing of unbounded data streams.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is apache flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 38,
       "question": "What is a DataStream in Flink?",
-      "options": ["Representation of a stream of data", "Data structure", "Processing engine", "Storage system"],
+      "options": [
+        "Representation of a stream of data",
+        "Data structure",
+        "Processing engine",
+        "Storage system"
+      ],
       "correctAnswer": "Representation of a stream of data",
-      "explanation": "A DataStream in Flink is a representation of a stream of data that can be transformed using various operations."
+      "explanation": "A DataStream in Flink is a representation of a stream of data that can be transformed using various operations.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a datastream in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 39,
       "question": "What is a DataSet in Flink?",
-      "options": ["Representation of a finite dataset", "Stream of data", "Processing engine", "Storage system"],
+      "options": [
+        "Representation of a finite dataset",
+        "Stream of data",
+        "Processing engine",
+        "Storage system"
+      ],
       "correctAnswer": "Representation of a finite dataset",
-      "explanation": "A DataSet in Flink is a representation of a finite, bounded dataset that can be processed in batch mode."
+      "explanation": "A DataSet in Flink is a representation of a finite, bounded dataset that can be processed in batch mode.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a dataset in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 40,
       "question": "What is a Table in Flink Table API?",
-      "options": ["Relational table abstraction for streams and batches", "Data structure", "Processing engine", "Storage system"],
+      "options": [
+        "Relational table abstraction for streams and batches",
+        "Data structure",
+        "Processing engine",
+        "Storage system"
+      ],
       "correctAnswer": "Relational table abstraction for streams and batches",
-      "explanation": "In Flink's Table API, a Table is a relational abstraction that can represent both streaming and batch data, enabling SQL-like operations."
+      "explanation": "In Flink's Table API, a Table is a relational abstraction that can represent both streaming and batch data, enabling SQL-like operations.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a table in flink table api?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 41,
       "question": "What is SQL API in Flink?",
-      "options": ["Query streams and batches using SQL", "Query database", "Query files", "Query Kafka"],
+      "options": [
+        "Query streams and batches using SQL",
+        "Query database",
+        "Query files",
+        "Query Kafka"
+      ],
       "correctAnswer": "Query streams and batches using SQL",
-      "explanation": "Flink's SQL API allows you to query both streaming and batch data using standard SQL syntax."
+      "explanation": "Flink's SQL API allows you to query both streaming and batch data using standard SQL syntax.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is sql api in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 42,
       "question": "What is Flink's event time?",
-      "options": ["Time when event actually occurred", "Time when event is processed", "Time when event arrives", "Time when event is stored"],
+      "options": [
+        "Time when event actually occurred",
+        "Time when event is processed",
+        "Time when event arrives",
+        "Time when event is stored"
+      ],
       "correctAnswer": "Time when event actually occurred",
-      "explanation": "Event time in Flink is the time when the event actually occurred (typically embedded in the event data), as opposed to processing time or ingestion time."
+      "explanation": "Event time in Flink is the time when the event actually occurred (typically embedded in the event data), as opposed to processing time or ingestion time.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is flink's event time?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 43,
       "question": "What is watermark in Flink?",
-      "options": ["Estimate of event time progress", "Timestamp in event", "Progress indicator", "Time marker"],
+      "options": [
+        "Estimate of event time progress",
+        "Timestamp in event",
+        "Progress indicator",
+        "Time marker"
+      ],
       "correctAnswer": "Estimate of event time progress",
-      "explanation": "A watermark in Flink is an estimate of event time progress, used to trigger window computations and handle late data."
+      "explanation": "A watermark in Flink is an estimate of event time progress, used to trigger window computations and handle late data.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is watermark in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 44,
       "question": "What is a window in Flink?",
-      "options": ["Finite set of events grouped together", "Processing unit", "Storage location", "Time period"],
+      "options": [
+        "Finite set of events grouped together",
+        "Processing unit",
+        "Storage location",
+        "Time period"
+      ],
       "correctAnswer": "Finite set of events grouped together",
-      "explanation": "A window in Flink is a finite set of events grouped together based on time or count, used for aggregations and computations."
+      "explanation": "A window in Flink is a finite set of events grouped together based on time or count, used for aggregations and computations.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 45,
       "question": "What is a tumbling window in Flink?",
-      "options": ["Fixed-size, non-overlapping windows", "Overlapping windows", "Sliding windows", "Session windows"],
+      "options": [
+        "Fixed-size, non-overlapping windows",
+        "Overlapping windows",
+        "Sliding windows",
+        "Session windows"
+      ],
       "correctAnswer": "Fixed-size, non-overlapping windows",
-      "explanation": "Tumbling windows are fixed-size, non-overlapping windows where events are assigned to exactly one window."
+      "explanation": "Tumbling windows are fixed-size, non-overlapping windows where events are assigned to exactly one window.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a tumbling window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 46,
       "question": "What is a sliding window in Flink?",
-      "options": ["Fixed-size, overlapping windows", "Non-overlapping windows", "Session windows", "Global windows"],
+      "options": [
+        "Fixed-size, overlapping windows",
+        "Non-overlapping windows",
+        "Session windows",
+        "Global windows"
+      ],
       "correctAnswer": "Fixed-size, overlapping windows",
-      "explanation": "Sliding windows are fixed-size windows that overlap with each other, allowing events to belong to multiple windows."
+      "explanation": "Sliding windows are fixed-size windows that overlap with each other, allowing events to belong to multiple windows.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a sliding window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 47,
       "question": "What is a session window in Flink?",
-      "options": ["Windows based on activity gaps", "Fixed-size windows", "Sliding windows", "Tumbling windows"],
+      "options": [
+        "Windows based on activity gaps",
+        "Fixed-size windows",
+        "Sliding windows",
+        "Tumbling windows"
+      ],
       "correctAnswer": "Windows based on activity gaps",
-      "explanation": "Session windows group events into sessions based on gaps of inactivity (e.g., user sessions that end after a period of inactivity)."
+      "explanation": "Session windows group events into sessions based on gaps of inactivity (e.g., user sessions that end after a period of inactivity).",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a session window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 48,
       "question": "What is a global window in Flink?",
-      "options": ["Single window containing all events", "Multiple windows", "Sliding windows", "Session windows"],
+      "options": [
+        "Single window containing all events",
+        "Multiple windows",
+        "Sliding windows",
+        "Session windows"
+      ],
       "correctAnswer": "Single window containing all events",
-      "explanation": "A global window contains all events in the stream, typically used with custom triggers for aggregation."
+      "explanation": "A global window contains all events in the stream, typically used with custom triggers for aggregation.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a global window in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 49,
       "question": "What is a trigger in Flink?",
-      "options": ["Determines when a window is evaluated", "Triggers processing", "Triggers events", "Triggers state"],
+      "options": [
+        "Determines when a window is evaluated",
+        "Triggers processing",
+        "Triggers events",
+        "Triggers state"
+      ],
       "correctAnswer": "Determines when a window is evaluated",
-      "explanation": "A trigger in Flink determines when a window is evaluated and results are emitted, based on time or event counts."
+      "explanation": "A trigger in Flink determines when a window is evaluated and results are emitted, based on time or event counts.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a trigger in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 50,
       "question": "What is state in Flink?",
-      "options": ["Data maintained during stream processing", "Processing state", "Storage state", "Network state"],
+      "options": [
+        "Data maintained during stream processing",
+        "Processing state",
+        "Storage state",
+        "Network state"
+      ],
       "correctAnswer": "Data maintained during stream processing",
-      "explanation": "State in Flink is data that is maintained and updated during stream processing, such as counts, aggregations, or user sessions."
+      "explanation": "State in Flink is data that is maintained and updated during stream processing, such as counts, aggregations, or user sessions.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is state in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 51,
       "question": "What is Keyed State in Flink?",
-      "options": ["State scoped to a key", "Global state", "Local state", "Shared state"],
+      "options": [
+        "State scoped to a key",
+        "Global state",
+        "Local state",
+        "Shared state"
+      ],
       "correctAnswer": "State scoped to a key",
-      "explanation": "Keyed State in Flink is state that is scoped to a specific key, accessible only when processing events with that key."
+      "explanation": "Keyed State in Flink is state that is scoped to a specific key, accessible only when processing events with that key.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is keyed state in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 52,
       "question": "What is Operator State in Flink?",
-      "options": ["State scoped to an operator", "State per key", "State per event", "State per partition"],
+      "options": [
+        "State scoped to an operator",
+        "State per key",
+        "State per event",
+        "State per partition"
+      ],
       "correctAnswer": "State scoped to an operator",
-      "explanation": "Operator State in Flink is state that is scoped to a specific operator (e.g., Kafka consumer state), independent of keys."
+      "explanation": "Operator State in Flink is state that is scoped to a specific operator (e.g., Kafka consumer state), independent of keys.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is operator state in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 53,
       "question": "What is a state backend in Flink?",
-      "options": ["Where state is stored and how it's checkpointed", "Processing engine", "Storage system", "Network layer"],
+      "options": [
+        "Where state is stored and how it's checkpointed",
+        "Processing engine",
+        "Storage system",
+        "Network layer"
+      ],
       "correctAnswer": "Where state is stored and how it's checkpointed",
-      "explanation": "A state backend in Flink determines where state is stored (memory, filesystem, RocksDB) and how it's checkpointed."
+      "explanation": "A state backend in Flink determines where state is stored (memory, filesystem, RocksDB) and how it's checkpointed.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a state backend in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 54,
       "question": "What is MemoryStateBackend in Flink?",
-      "options": ["Stores state in heap memory", "Stores state in RocksDB", "Stores state on filesystem", "Stores state in memory-mapped files"],
+      "options": [
+        "Stores state in heap memory",
+        "Stores state in RocksDB",
+        "Stores state on filesystem",
+        "Stores state in memory-mapped files"
+      ],
       "correctAnswer": "Stores state in heap memory",
-      "explanation": "MemoryStateBackend stores state in Java heap memory, suitable for development and small state workloads."
+      "explanation": "MemoryStateBackend stores state in Java heap memory, suitable for development and small state workloads.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is memorystatebackend in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 55,
       "question": "What is RocksDBStateBackend in Flink?",
-      "options": ["Stores state in RocksDB (on disk)", "Stores state in memory", "Stores state on filesystem", "Stores state in database"],
+      "options": [
+        "Stores state in RocksDB (on disk)",
+        "Stores state in memory",
+        "Stores state on filesystem",
+        "Stores state in database"
+      ],
       "correctAnswer": "Stores state in RocksDB (on disk)",
-      "explanation": "RocksDBStateBackend stores state in RocksDB, an embedded key-value store on disk, suitable for large state that doesn't fit in memory."
+      "explanation": "RocksDBStateBackend stores state in RocksDB, an embedded key-value store on disk, suitable for large state that doesn't fit in memory.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is rocksdbstatebackend in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 56,
       "question": "What is FsStateBackend in Flink?",
-      "options": ["Stores state in memory and checkpoints to filesystem", "Stores state in RocksDB", "Stores state on filesystem", "Stores state in memory-mapped files"],
+      "options": [
+        "Stores state in memory and checkpoints to filesystem",
+        "Stores state in RocksDB",
+        "Stores state on filesystem",
+        "Stores state in memory-mapped files"
+      ],
       "correctAnswer": "Stores state in memory and checkpoints to filesystem",
-      "explanation": "FsStateBackend stores state in memory and checkpoints to a filesystem (local or distributed), providing a balance between performance and scalability."
+      "explanation": "FsStateBackend stores state in memory and checkpoints to a filesystem (local or distributed), providing a balance between performance and scalability.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is fsstatebackend in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 57,
       "question": "What is checkpointing in Flink?",
-      "options": ["Periodic snapshots of state for fault tolerance", "Periodic state backup", "State storage", "State recovery"],
+      "options": [
+        "Periodic snapshots of state for fault tolerance",
+        "Periodic state backup",
+        "State storage",
+        "State recovery"
+      ],
       "correctAnswer": "Periodic snapshots of state for fault tolerance",
-      "explanation": "Checkpointing in Flink creates periodic snapshots of state and offsets, enabling fault tolerance and exactly-once processing."
+      "explanation": "Checkpointing in Flink creates periodic snapshots of state and offsets, enabling fault tolerance and exactly-once processing.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is checkpointing in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 58,
       "question": "What is a savepoint in Flink?",
-      "options": ["Manual checkpoint that can be restored", "Automatic checkpoint", "State snapshot", "Recovery point"],
+      "options": [
+        "Manual checkpoint that can be restored",
+        "Automatic checkpoint",
+        "State snapshot",
+        "Recovery point"
+      ],
       "correctAnswer": "Manual checkpoint that can be restored",
-      "explanation": "A savepoint in Flink is a manual checkpoint that can be restored later, useful for planned upgrades or state changes."
+      "explanation": "A savepoint in Flink is a manual checkpoint that can be restored later, useful for planned upgrades or state changes.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a savepoint in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 59,
       "question": "What is exactly-once processing in Flink?",
-      "options": ["Each event is processed exactly once, even with failures", "Each event processed once", "No duplicates", "No failures"],
+      "options": [
+        "Each event is processed exactly once, even with failures",
+        "Each event processed once",
+        "No duplicates",
+        "No failures"
+      ],
       "correctAnswer": "Each event is processed exactly once, even with failures",
-      "explanation": "Exactly-once processing in Flink ensures that each event is processed exactly once, even in the presence of failures, using checkpointing and transactional sinks."
+      "explanation": "Exactly-once processing in Flink ensures that each event is processed exactly once, even in the presence of failures, using checkpointing and transactional sinks.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is exactly-once processing in flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 60,
       "question": "What is Spark Streaming?",
-      "options": ["Micro-batch stream processing framework", "Real-time database", "Message queue", "Visualization tool"],
+      "options": [
+        "Micro-batch stream processing framework",
+        "Real-time database",
+        "Message queue",
+        "Visualization tool"
+      ],
       "correctAnswer": "Micro-batch stream processing framework",
-      "explanation": "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine."
+      "explanation": "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 61,
       "question": "What is a DStream in Spark Streaming?",
-      "options": ["Discretized Stream - sequence of RDDs", "Data Stream Manager", "Stream processing algorithm", "Distributed Stream"],
+      "options": [
+        "Discretized Stream - sequence of RDDs",
+        "Data Stream Manager",
+        "Stream processing algorithm",
+        "Distributed Stream"
+      ],
       "correctAnswer": "Discretized Stream - sequence of RDDs",
-      "explanation": "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval."
+      "explanation": "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a dstream in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 62,
       "question": "What is Structured Streaming in Spark?",
-      "options": ["High-level API for stream processing built on DataFrame API", "Low-level API using RDDs", "Stream processing with SQL only", "Graph-based stream processing"],
+      "options": [
+        "High-level API for stream processing built on DataFrame API",
+        "Low-level API using RDDs",
+        "Stream processing with SQL only",
+        "Graph-based stream processing"
+      ],
       "correctAnswer": "High-level API for stream processing built on DataFrame API",
-      "explanation": "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics."
+      "explanation": "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is structured streaming in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 63,
       "question": "What is a DataFrame in Spark Streaming?",
-      "options": ["Distributed collection of data organized into named columns", "Single machine data structure", "Key-value pair collection", "Graph data structure"],
+      "options": [
+        "Distributed collection of data organized into named columns",
+        "Single machine data structure",
+        "Key-value pair collection",
+        "Graph data structure"
+      ],
       "correctAnswer": "Distributed collection of data organized into named columns",
-      "explanation": "A DataFrame is a distributed collection of data organized into named columns, used in both batch and streaming processing."
+      "explanation": "A DataFrame is a distributed collection of data organized into named columns, used in both batch and streaming processing.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a dataframe in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 64,
       "question": "What is the batch interval in Spark Streaming?",
-      "options": ["Time interval for micro-batch processing", "Batch size", "Processing time", "Interval between batches"],
+      "options": [
+        "Time interval for micro-batch processing",
+        "Batch size",
+        "Processing time",
+        "Interval between batches"
+      ],
       "correctAnswer": "Time interval for micro-batch processing",
-      "explanation": "The batch interval determines how often Spark Streaming creates micro-batches of data for processing (e.g., 1 second, 5 seconds)."
+      "explanation": "The batch interval determines how often Spark Streaming creates micro-batches of data for processing (e.g., 1 second, 5 seconds).",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the batch interval in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 65,
       "question": "What is a receiver in Spark Streaming?",
-      "options": ["Component that ingests data from external sources", "Component that processes data", "Component that stores data", "Component that exports data"],
+      "options": [
+        "Component that ingests data from external sources",
+        "Component that processes data",
+        "Component that stores data",
+        "Component that exports data"
+      ],
       "correctAnswer": "Component that ingests data from external sources",
-      "explanation": "A receiver in Spark Streaming is a component that ingests data from external sources (Kafka, Flume, Kinesis, etc.) into Spark."
+      "explanation": "A receiver in Spark Streaming is a component that ingests data from external sources (Kafka, Flume, Kinesis, etc.) into Spark.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a receiver in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 66,
       "question": "What is Direct Approach (Kafka Direct Stream) in Spark Streaming?",
-      "options": ["Query Kafka directly without receivers", "Use receivers to ingest from Kafka", "Direct connection to Kafka brokers", "Kafka consumer in Spark"],
+      "options": [
+        "Query Kafka directly without receivers",
+        "Use receivers to ingest from Kafka",
+        "Direct connection to Kafka brokers",
+        "Kafka consumer in Spark"
+      ],
       "correctAnswer": "Query Kafka directly without receivers",
-      "explanation": "The Direct Approach (Kafka Direct Stream) allows Spark to query Kafka directly without using receivers, improving reliability and parallelism."
+      "explanation": "The Direct Approach (Kafka Direct Stream) allows Spark to query Kafka directly without using receivers, improving reliability and parallelism.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is direct approach (kafka direct stream) in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 67,
       "question": "What is mapWithState in Spark Streaming?",
-      "options": ["Stateful transformation maintaining state across batches", "Map transformation", "Stateful map", "State processing"],
+      "options": [
+        "Stateful transformation maintaining state across batches",
+        "Map transformation",
+        "Stateful map",
+        "State processing"
+      ],
       "correctAnswer": "Stateful transformation maintaining state across batches",
-      "explanation": "mapWithState is a stateful transformation in Spark Streaming that maintains state across batches, useful for maintaining aggregations or sessions."
+      "explanation": "mapWithState is a stateful transformation in Spark Streaming that maintains state across batches, useful for maintaining aggregations or sessions.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is mapwithstate in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 68,
       "question": "What is updateStateByKey in Spark Streaming?",
-      "options": ["Stateful aggregation maintaining state across batches", "State update", "Key-based update", "State transformation"],
+      "options": [
+        "Stateful aggregation maintaining state across batches",
+        "State update",
+        "Key-based update",
+        "State transformation"
+      ],
       "correctAnswer": "Stateful aggregation maintaining state across batches",
-      "explanation": "updateStateByKey is a stateful aggregation in Spark Streaming that maintains and updates state for each key across batches."
+      "explanation": "updateStateByKey is a stateful aggregation in Spark Streaming that maintains and updates state for each key across batches.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is updatestatebykey in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 69,
       "question": "What is checkpointing in Spark Streaming?",
-      "options": ["Save state to fault-tolerant storage", "State backup", "State storage", "State recovery"],
+      "options": [
+        "Save state to fault-tolerant storage",
+        "State backup",
+        "State storage",
+        "State recovery"
+      ],
       "correctAnswer": "Save state to fault-tolerant storage",
-      "explanation": "Checkpointing in Spark Streaming saves state and RDDs to fault-tolerant storage (HDFS, S3) to enable recovery from failures."
+      "explanation": "Checkpointing in Spark Streaming saves state and RDDs to fault-tolerant storage (HDFS, S3) to enable recovery from failures.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is checkpointing in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 70,
       "question": "What is output operations in Spark Streaming?",
-      "options": ["Operations that produce output to external systems", "Processing operations", "Input operations", "Transformation operations"],
+      "options": [
+        "Operations that produce output to external systems",
+        "Processing operations",
+        "Input operations",
+        "Transformation operations"
+      ],
       "correctAnswer": "Operations that produce output to external systems",
-      "explanation": "Output operations in Spark Streaming produce results to external systems (databases, files, dashboards) like print(), saveAsTextFiles(), foreachRDD()."
+      "explanation": "Output operations in Spark Streaming produce results to external systems (databases, files, dashboards) like print(), saveAsTextFiles(), foreachRDD().",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is output operations in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 71,
       "question": "What is foreachRDD in Spark Streaming?",
-      "options": ["Apply function to each RDD in a DStream", "Process each element", "Iterate over RDD", "Apply to each partition"],
+      "options": [
+        "Apply function to each RDD in a DStream",
+        "Process each element",
+        "Iterate over RDD",
+        "Apply to each partition"
+      ],
       "correctAnswer": "Apply function to each RDD in a DStream",
-      "explanation": "foreachRDD applies a function to each RDD in a DStream as it's generated, useful for writing data to external systems."
+      "explanation": "foreachRDD applies a function to each RDD in a DStream as it's generated, useful for writing data to external systems.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is foreachrdd in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 72,
       "question": "What is transform in Spark Streaming?",
-      "options": ["Apply RDD-to-RDD transformation to each batch", "Transform data", "Process data", "Map transformation"],
+      "options": [
+        "Apply RDD-to-RDD transformation to each batch",
+        "Transform data",
+        "Process data",
+        "Map transformation"
+      ],
       "correctAnswer": "Apply RDD-to-RDD transformation to each batch",
-      "explanation": "transform applies an arbitrary RDD-to-RDD transformation to each batch in a DStream, providing flexibility for complex operations."
+      "explanation": "transform applies an arbitrary RDD-to-RDD transformation to each batch in a DStream, providing flexibility for complex operations.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is transform in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 73,
       "question": "What is the difference between Spark Streaming and Flink?",
-      "options": ["Spark uses micro-batches, Flink uses true streaming", "Spark is batch-only", "Flink uses micro-batches", "Both use true streaming"],
+      "options": [
+        "Spark uses micro-batches, Flink uses true streaming",
+        "Spark is batch-only",
+        "Flink uses micro-batches",
+        "Both use true streaming"
+      ],
       "correctAnswer": "Spark uses micro-batches, Flink uses true streaming",
-      "explanation": "The key difference is their processing model: Spark Streaming uses micro-batch processing, while Flink uses true streaming with event-by-event processing."
+      "explanation": "The key difference is their processing model: Spark Streaming uses micro-batch processing, while Flink uses true streaming with event-by-event processing.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between spark streaming and flink?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 74,
       "question": "What is Kafka Streams vs KSQL?",
-      "options": ["Kafka Streams is Java library, KSQL is SQL interface", "Kafka Streams uses SQL", "KSQL is Java library", "Both are the same"],
+      "options": [
+        "Kafka Streams is Java library, KSQL is SQL interface",
+        "Kafka Streams uses SQL",
+        "KSQL is Java library",
+        "Both are the same"
+      ],
       "correctAnswer": "Kafka Streams is Java library, KSQL is SQL interface",
-      "explanation": "Kafka Streams is a Java library for building stream processing applications, while KSQL is a SQL interface for querying and processing Kafka data using SQL-like syntax."
+      "explanation": "Kafka Streams is a Java library for building stream processing applications, while KSQL is a SQL interface for querying and processing Kafka data using SQL-like syntax.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is kafka streams vs ksql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 75,
       "question": "What is Apache Pulsar?",
-      "options": ["Multi-tenancy pub-sub messaging system", "Stream processing framework", "Database", "Batch processing framework"],
+      "options": [
+        "Multi-tenancy pub-sub messaging system",
+        "Stream processing framework",
+        "Database",
+        "Batch processing framework"
+      ],
       "correctAnswer": "Multi-tenancy pub-sub messaging system",
-      "explanation": "Apache Pulsar is a multi-tenancy, high-performance pub-sub messaging system that also supports queueing, streaming, and other patterns."
+      "explanation": "Apache Pulsar is a multi-tenancy, high-performance pub-sub messaging system that also supports queueing, streaming, and other patterns.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is apache pulsar?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 76,
       "question": "What is the difference between Kafka and Pulsar?",
-      "options": ["Pulsar has multi-tenancy built-in, Kafka added it later", "Kafka has better performance", "Pulsar is only for messaging", "Kafka doesn't support streaming"],
+      "options": [
+        "Pulsar has multi-tenancy built-in, Kafka added it later",
+        "Kafka has better performance",
+        "Pulsar is only for messaging",
+        "Kafka doesn't support streaming"
+      ],
       "correctAnswer": "Pulsar has multi-tenancy built-in, Kafka added it later",
-      "explanation": "Pulsar was designed with multi-tenancy as a first-class feature from the beginning, while Kafka added multi-tenancy support later through namespaces."
+      "explanation": "Pulsar was designed with multi-tenancy as a first-class feature from the beginning, while Kafka added multi-tenancy support later through namespaces.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between kafka and pulsar?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 77,
       "question": "What is Apache Beam?",
-      "options": ["Unified programming model for batch and streaming", "Stream processing framework", "Batch processing framework", "ETL tool"],
+      "options": [
+        "Unified programming model for batch and streaming",
+        "Stream processing framework",
+        "Batch processing framework",
+        "ETL tool"
+      ],
       "correctAnswer": "Unified programming model for batch and streaming",
-      "explanation": "Apache Beam is a unified, portable programming model for defining both batch and streaming data processing pipelines."
+      "explanation": "Apache Beam is a unified, portable programming model for defining both batch and streaming data processing pipelines.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is apache beam?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 78,
       "question": "What is a runner in Apache Beam?",
-      "options": ["Execution engine that runs Beam pipelines", "Processing engine", "Pipeline runner", "Execution backend"],
+      "options": [
+        "Execution engine that runs Beam pipelines",
+        "Processing engine",
+        "Pipeline runner",
+        "Execution backend"
+      ],
       "correctAnswer": "Execution engine that runs Beam pipelines",
-      "explanation": "A runner in Beam is an execution engine that runs Beam pipelines, such as Spark Runner, Flink Runner, or Google Dataflow Runner."
+      "explanation": "A runner in Beam is an execution engine that runs Beam pipelines, such as Spark Runner, Flink Runner, or Google Dataflow Runner.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a runner in apache beam?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 79,
       "question": "What is windowing in streaming?",
-      "options": ["Grouping events into finite windows for processing", "Processing events in batches", "Dividing streams into partitions", "Filtering events"],
+      "options": [
+        "Grouping events into finite windows for processing",
+        "Processing events in batches",
+        "Dividing streams into partitions",
+        "Filtering events"
+      ],
       "correctAnswer": "Grouping events into finite windows for processing",
-      "explanation": "Windowing in streaming divides the continuous stream of events into finite, processable chunks (windows) based on time or count."
+      "explanation": "Windowing in streaming divides the continuous stream of events into finite, processable chunks (windows) based on time or count.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is windowing in streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 80,
       "question": "What is event time vs processing time?",
-      "options": ["Event time when event occurred, processing time when processed", "Event time when processed, processing time when occurred", "Same thing", "Different time zones"],
+      "options": [
+        "Event time when event occurred, processing time when processed",
+        "Event time when processed, processing time when occurred",
+        "Same thing",
+        "Different time zones"
+      ],
       "correctAnswer": "Event time when event occurred, processing time when processed",
-      "explanation": "Event time is when the event actually occurred (embedded in event data), while processing time is when the event is processed by the system."
+      "explanation": "Event time is when the event actually occurred (embedded in event data), while processing time is when the event is processed by the system.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is event time vs processing time?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 81,
       "question": "What is late data in streaming?",
-      "options": ["Events that arrive after their event time", "Events that arrive late", "Events with wrong timestamp", "Events that are delayed"],
+      "options": [
+        "Events that arrive after their event time",
+        "Events that arrive late",
+        "Events with wrong timestamp",
+        "Events that are delayed"
+      ],
       "correctAnswer": "Events that arrive after their event time",
-      "explanation": "Late data refers to events that arrive at the processing system after their event time has already passed, which can be handled using watermarks and allowed lateness."
+      "explanation": "Late data refers to events that arrive at the processing system after their event time has already passed, which can be handled using watermarks and allowed lateness.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is late data in streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 82,
       "question": "What is allowed lateness in streaming?",
-      "options": ["Maximum time to wait for late data", "Time to process late data", "Time to drop late data", "Time to accept late data"],
+      "options": [
+        "Maximum time to wait for late data",
+        "Time to process late data",
+        "Time to drop late data",
+        "Time to accept late data"
+      ],
       "correctAnswer": "Maximum time to wait for late data",
-      "explanation": "Allowed lateness is the maximum amount of time a streaming system will wait for late data to arrive before considering it as late and potentially discarding it."
+      "explanation": "Allowed lateness is the maximum amount of time a streaming system will wait for late data to arrive before considering it as late and potentially discarding it.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is allowed lateness in streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     }
   ]
 }

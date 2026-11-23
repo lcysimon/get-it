@@ -7,597 +7,1107 @@
     {
       "id": 1,
       "question": "What is Apache Spark?",
-      "options": ["Unified analytics engine for large-scale data processing", "Database management system", "Real-time streaming platform only", "Visualization tool"],
+      "options": [
+        "Unified analytics engine for large-scale data processing",
+        "Database management system",
+        "Real-time streaming platform only",
+        "Visualization tool"
+      ],
       "correctAnswer": "Unified analytics engine for large-scale data processing",
-      "explanation": "Apache Spark is a unified analytics engine designed for large-scale data processing, with built-in modules for SQL, streaming, machine learning, and graph processing."
+      "explanation": "Apache Spark is a unified analytics engine designed for large-scale data processing, with built-in modules for SQL, streaming, machine learning, and graph processing.",
+      "detailedAnswer": "A Pod is the fundamental building block in Kubernetes. It represents a single instance of a running process in your cluster. Pods can contain multiple containers that share the same network namespace, storage volumes, and specifications for how to run. Pods are ephemeral - they are created, run, and destroyed. When a Pod is destroyed, it cannot be recreated with the same identity.\n\nKey characteristics of Pods:\n- Smallest deployable unit\n- Can contain one or more containers\n- Containers in a Pod share resources\n- Have a unique IP address\n- Are mortal (ephemeral by nature)\n- Can have init containers that run before app containers\n\nUse cases for multi-container Pods:\n1. Sidecar pattern: Helper containers that complement the main application\n2. Adapter pattern: Containers that standardize or transform outputs\n3. Ambassador pattern: Proxies that help connect to external services\n"
     },
     {
       "id": 2,
       "question": "What are the main components of Spark?",
-      "options": ["Spark Core, Spark SQL, Spark Streaming, MLlib, GraphX", "Spark Core, HDFS, YARN, Mesos", "Spark SQL, Kafka, Flink, Hadoop", "Spark Core, Hive, Pig, Tez"],
+      "options": [
+        "Spark Core, Spark SQL, Spark Streaming, MLlib, GraphX",
+        "Spark Core, HDFS, YARN, Mesos",
+        "Spark SQL, Kafka, Flink, Hadoop",
+        "Spark Core, Hive, Pig, Tez"
+      ],
       "correctAnswer": "Spark Core, Spark SQL, Spark Streaming, MLlib, GraphX",
-      "explanation": "The main components are: Spark Core (foundation), Spark SQL (structured data), Spark Streaming (real-time), MLlib (machine learning), and GraphX (graph processing)."
+      "explanation": "The main components are: Spark Core (foundation), Spark SQL (structured data), Spark Streaming (real-time), MLlib (machine learning), and GraphX (graph processing).",
+      "detailedAnswer": "The Kubelet is a critical component that runs on every node in a Kubernetes cluster. It is the primary node agent that communicates with the Kubernetes control plane (master).\n\nMain responsibilities of Kubelet:\n\n1. **Pod Management**: Creates, updates, and destroys Pods on the node based on instructions from the API server\n2. **Container Health**: Monitors the health of containers running in Pods using liveness and readiness probes\n3. **Volume Mounting**: Mounts and unmounts storage volumes for Pods\n4. **Network Setup**: Configures networking for Pods (through CNI plugins)\n5. **Secret/ConfigMap Handling**: Retrieves and provides secrets and configuration data to Pods\n6. **Resource Monitoring**: Reports node status and resource usage to the control plane\n\nKubelet interacts with container runtimes (like Docker, containerd, or CRI-O) via the Container Runtime Interface (CRI) to manage containers. Without Kubelet, nodes cannot participate in the cluster and run workloads."
     },
     {
       "id": 3,
       "question": "What is Spark Core?",
-      "options": ["Foundation layer with task scheduling, memory management, and fault recovery", "SQL query engine", "Streaming processing module", "Machine learning library"],
+      "options": [
+        "Foundation layer with task scheduling, memory management, and fault recovery",
+        "SQL query engine",
+        "Streaming processing module",
+        "Machine learning library"
+      ],
       "correctAnswer": "Foundation layer with task scheduling, memory management, and fault recovery",
-      "explanation": "Spark Core is the foundation layer providing distributed task dispatching, scheduling, memory management, and fault recovery capabilities."
+      "explanation": "Spark Core is the foundation layer providing distributed task dispatching, scheduling, memory management, and fault recovery capabilities.",
+      "detailedAnswer": "Deployments are one of the most commonly used Kubernetes objects for managing stateless applications. They provide a declarative way to define the desired state of your application.\n\nKey features of Deployments:\n\n1. **Declarative Updates**: You specify the desired state (e.g., image version, number of replicas), and Kubernetes makes it happen\n2. **Rolling Updates**: Updates are applied gradually, allowing zero-downtime deployments\n3. **Rollback Capability**: You can roll back to a previous revision if something goes wrong\n4. **Scaling**: Easily scale the number of replicas up or down\n5. **Self-Healing**: Automatically replaces failed Pods\n6. **History Tracking**: Maintains revision history for rollbacks\n\nExample use cases:\n- Rolling out a new version of your application\n- Scaling your application to handle increased load\n- Testing changes with canary deployments\n- A/B testing different versions\n\nDeployment manages a ReplicaSet, which in turn manages Pods. This provides an additional layer of abstraction and stability."
     },
     {
       "id": 4,
       "question": "What does RDD stand for?",
-      "options": ["Resilient Distributed Dataset", "Replicated Data Directory", "Remote Data Driver", "Real-time Data Distribution"],
+      "options": [
+        "Resilient Distributed Dataset",
+        "Replicated Data Directory",
+        "Remote Data Driver",
+        "Real-time Data Distribution"
+      ],
       "correctAnswer": "Resilient Distributed Dataset",
-      "explanation": "RDD is Spark's core data structure: an immutable, fault-tolerant, distributed collection of objects that can be processed in parallel."
+      "explanation": "RDD is Spark's core data structure: an immutable, fault-tolerant, distributed collection of objects that can be processed in parallel.",
+      "detailedAnswer": "Services are a critical abstraction in Kubernetes that provide stable, persistent identities for your Pods.\n\nWhy Services are needed:\n- Pods are ephemeral and get new IP addresses when they are recreated\n- Direct IP-based communication between Pods is unreliable\n- Services provide a stable endpoint that abstracts away individual Pod IPs\n\nTypes of Services:\n\n1. **ClusterIP** (default): Creates an internal virtual IP for accessing Pods within the cluster\n2. **NodePort**: Exposes the Service on a static port on each node's IP\n3. **LoadBalancer**: Creates an external load balancer in supported environments (cloud providers)\n4. **ExternalName**: Maps to an external DNS name\n\nService Discovery:\n- Kubernetes provides DNS for Services automatically\n- Pods can resolve Services by name: <service-name>.<namespace>.svc.cluster.local\n- Within the same namespace: just <service-name>\n\nServices use selectors to identify which Pods should receive traffic. They can also be configured without selectors for more advanced routing scenarios."
     },
     {
       "id": 5,
       "question": "What are the two types of RDD operations?",
-      "options": ["Transformations and Actions", "Map and Reduce", "Filter and Aggregate", "Parallel and Sequential"],
+      "options": [
+        "Transformations and Actions",
+        "Map and Reduce",
+        "Filter and Aggregate",
+        "Parallel and Sequential"
+      ],
       "correctAnswer": "Transformations and Actions",
-      "explanation": "RDDs support Transformations (which create new RDDs) and Actions (which compute results). Transformations are lazy while Actions trigger execution."
+      "explanation": "RDDs support Transformations (which create new RDDs) and Actions (which compute results). Transformations are lazy while Actions trigger execution.",
+      "detailedAnswer": "The kubectl scale command is a convenient way to adjust the number of replicas for scalable resources.\n\nBasic syntax:\n  kubectl scale <resource-type> <resource-name> --replicas=<count>\n\nSupported resource types:\n- deployments (deployment)\n- replica sets (replicaset)\n- replication controllers (replicationcontroller)\n- stateful sets (statefulset)\n\nExample:\n  kubectl scale deployment my-app --replicas=5\n\nThis command:\n1. Updates the desired replica count in the Deployment specification\n2. The ReplicaSet controller observes the change\n3. The ReplicaSet creates or destroys Pods to match the new desired count\n\nAlternative ways to scale:\n1. **kubectl edit**: Edit the YAML directly and change the replicas field\n2. **kubectl patch**: Use JSON patch to update the replicas field\n3. **kubectl apply**: Apply a modified manifest file\n\nScaling is nearly instantaneous. The actual time depends on how long it takes to pull container images and start new Pods."
     },
     {
       "id": 6,
       "question": "Which of these is a Transformation operation?",
-      "options": ["map", "count", "collect", "reduce"],
+      "options": [
+        "map",
+        "count",
+        "collect",
+        "reduce"
+      ],
       "correctAnswer": "map",
-      "explanation": "map() is a Transformation that applies a function to each element of an RDD, creating a new RDD without triggering execution."
+      "explanation": "map() is a Transformation that applies a function to each element of an RDD, creating a new RDD without triggering execution.",
+      "detailedAnswer": "This is an important distinction to understand:\n\n**Containers**:\n- A Docker/OCI standard concept\n- Represents a running process with isolated filesystem, network, and process space\n- Created from container images\n- Managed by container runtimes (Docker, containerd, etc.)\n\n**Pods**:\n- A Kubernetes abstraction\n- The smallest deployable unit in Kubernetes\n- Can contain one or more containers that share resources\n- Have their own lifecycle managed by Kubernetes\n- Can be scheduled, scaled, and managed as a unit\n\n**Key Relationship**:\n- Kubernetes does not directly manage containers\n- Kubernetes manages Pods, which contain containers\n- This allows Kubernetes to provide additional functionality:\n  - Shared volumes between containers in a Pod\n  - Shared network namespace\n  - Coordinated lifecycle management\n  - Resource sharing and limits\n\n**Why this design?**:\nThe Pod abstraction allows Kubernetes to treat containers as a group rather than individually. This is essential for patterns like sidecars, adapters, and ambassadors where multiple containers work together as a single unit."
     },
     {
       "id": 7,
       "question": "Which of these is an Action operation?",
-      "options": ["count", "map", "filter", "flatMap"],
+      "options": [
+        "count",
+        "map",
+        "filter",
+        "flatMap"
+      ],
       "correctAnswer": "count",
-      "explanation": "count() is an Action that returns the number of elements in an RDD, triggering execution of all accumulated Transformations."
+      "explanation": "count() is an Action that returns the number of elements in an RDD, triggering execution of all accumulated Transformations.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of which of these is an action operation?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 8,
       "question": "What is lazy evaluation in Spark?",
-      "options": ["Transformations are not executed until an Action is called", "Transformations execute immediately", "Actions are evaluated lazily", "Data is loaded lazily by default"],
+      "options": [
+        "Transformations are not executed until an Action is called",
+        "Transformations execute immediately",
+        "Actions are evaluated lazily",
+        "Data is loaded lazily by default"
+      ],
       "correctAnswer": "Transformations are not executed until an Action is called",
-      "explanation": "Spark uses lazy evaluation: Transformations build a DAG of operations but do not execute until an Action is called, enabling optimization of the entire pipeline."
+      "explanation": "Spark uses lazy evaluation: Transformations build a DAG of operations but do not execute until an Action is called, enabling optimization of the entire pipeline.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is lazy evaluation in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 9,
       "question": "What is a DAG in Spark?",
-      "options": ["Directed Acyclic Graph representing the sequence of operations", "Data structure for storing RDDs", "Scheduling algorithm", "Partitioning strategy"],
+      "options": [
+        "Directed Acyclic Graph representing the sequence of operations",
+        "Data structure for storing RDDs",
+        "Scheduling algorithm",
+        "Partitioning strategy"
+      ],
       "correctAnswer": "Directed Acyclic Graph representing the sequence of operations",
-      "explanation": "A DAG represents the sequence of Transformations and Actions to be executed, with nodes representing RDDs and edges representing operations between them."
+      "explanation": "A DAG represents the sequence of Transformations and Actions to be executed, with nodes representing RDDs and edges representing operations between them.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a dag in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 10,
       "question": "What is Spark SQL?",
-      "options": ["Module for structured and semi-structured data processing", "NoSQL database", "Streaming engine", "Graph processing library"],
+      "options": [
+        "Module for structured and semi-structured data processing",
+        "NoSQL database",
+        "Streaming engine",
+        "Graph processing library"
+      ],
       "correctAnswer": "Module for structured and semi-structured data processing",
-      "explanation": "Spark SQL provides a DataFrame API and SQL interface for querying structured and semi-structured data from various sources like JSON, Parquet, and databases."
+      "explanation": "Spark SQL provides a DataFrame API and SQL interface for querying structured and semi-structured data from various sources like JSON, Parquet, and databases.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 11,
       "question": "What is a DataFrame in Spark?",
-      "options": ["Distributed collection of data organized into named columns", "Single machine data structure", "Key-value pair collection", "Graph data structure"],
+      "options": [
+        "Distributed collection of data organized into named columns",
+        "Single machine data structure",
+        "Key-value pair collection",
+        "Graph data structure"
+      ],
       "correctAnswer": "Distributed collection of data organized into named columns",
-      "explanation": "A DataFrame is a distributed collection of data organized into named columns (like a table in relational databases or a DataFrame in Python/R)."
+      "explanation": "A DataFrame is a distributed collection of data organized into named columns (like a table in relational databases or a DataFrame in Python/R).",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a dataframe in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 12,
       "question": "What is the difference between RDD and DataFrame?",
-      "options": ["DataFrames have schema information and optimized execution", "RDDs are faster", "DataFrames don't support SQL", "RDDs can only store integers"],
+      "options": [
+        "DataFrames have schema information and optimized execution",
+        "RDDs are faster",
+        "DataFrames don't support SQL",
+        "RDDs can only store integers"
+      ],
       "correctAnswer": "DataFrames have schema information and optimized execution",
-      "explanation": "DataFrames provide schema information and use Catalyst optimizer for efficient execution, while RDDs are low-level without schema. DataFrames are built on top of RDDs."
+      "explanation": "DataFrames provide schema information and use Catalyst optimizer for efficient execution, while RDDs are low-level without schema. DataFrames are built on top of RDDs.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between rdd and dataframe?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 13,
       "question": "What is Catalyst optimizer in Spark SQL?",
-      "options": ["Query optimization framework that transforms logical to physical plans", "Memory management system", "Cluster manager", "Data partitioning tool"],
+      "options": [
+        "Query optimization framework that transforms logical to physical plans",
+        "Memory management system",
+        "Cluster manager",
+        "Data partitioning tool"
+      ],
       "correctAnswer": "Query optimization framework that transforms logical to physical plans",
-      "explanation": "Catalyst is Spark SQL's extensible query optimization framework that transforms logical execution plans into optimized physical execution plans using rule-based optimization."
+      "explanation": "Catalyst is Spark SQL's extensible query optimization framework that transforms logical execution plans into optimized physical execution plans using rule-based optimization.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is catalyst optimizer in spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 14,
       "question": "What is Tungsten in Spark?",
-      "options": ["Binary processing engine for improved performance", "Memory management system", "Cluster manager", "Data serialization format"],
+      "options": [
+        "Binary processing engine for improved performance",
+        "Memory management system",
+        "Cluster manager",
+        "Data serialization format"
+      ],
       "correctAnswer": "Binary processing engine for improved performance",
-      "explanation": "Tungsten is Spark's binary processing engine that improves performance through cache-aware computation, code generation, and off-heap memory management."
+      "explanation": "Tungsten is Spark's binary processing engine that improves performance through cache-aware computation, code generation, and off-heap memory management.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is tungsten in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 15,
       "question": "What is Spark Streaming?",
-      "options": ["Micro-batch stream processing framework", "Real-time database", "Message queue", "Visualization tool"],
+      "options": [
+        "Micro-batch stream processing framework",
+        "Real-time database",
+        "Message queue",
+        "Visualization tool"
+      ],
       "correctAnswer": "Micro-batch stream processing framework",
-      "explanation": "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine."
+      "explanation": "Spark Streaming processes live data streams by dividing them into micro-batches, which are processed using Spark's batch processing engine.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 16,
       "question": "What is a DStream in Spark Streaming?",
-      "options": ["Discretized Stream - sequence of RDDs representing stream data", "Data Stream Manager", "Stream processing algorithm", "Distributed Stream"],
+      "options": [
+        "Discretized Stream - sequence of RDDs representing stream data",
+        "Data Stream Manager",
+        "Stream processing algorithm",
+        "Distributed Stream"
+      ],
       "correctAnswer": "Discretized Stream - sequence of RDDs representing stream data",
-      "explanation": "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval."
+      "explanation": "A DStream (Discretized Stream) is a sequence of RDDs representing a stream of data, where each RDD contains data from a specific time interval.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a dstream in spark streaming?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 17,
       "question": "What is Structured Streaming in Spark?",
-      "options": ["High-level API for stream processing built on DataFrame API", "Low-level API using RDDs", "Stream processing with SQL only", "Graph-based stream processing"],
+      "options": [
+        "High-level API for stream processing built on DataFrame API",
+        "Low-level API using RDDs",
+        "Stream processing with SQL only",
+        "Graph-based stream processing"
+      ],
       "correctAnswer": "High-level API for stream processing built on DataFrame API",
-      "explanation": "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics."
+      "explanation": "Structured Streaming is a high-level API for stream processing built on the DataFrame API, providing end-to-end fault tolerance and exactly-once semantics.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is structured streaming in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 18,
       "question": "What is MLlib in Spark?",
-      "options": ["Machine learning library for distributed ML algorithms", "Memory management library", "Cluster management library", "Data visualization library"],
+      "options": [
+        "Machine learning library for distributed ML algorithms",
+        "Memory management library",
+        "Cluster management library",
+        "Data visualization library"
+      ],
       "correctAnswer": "Machine learning library for distributed ML algorithms",
-      "explanation": "MLlib is Spark's scalable machine learning library that provides distributed implementations of common ML algorithms including classification, regression, clustering, and collaborative filtering."
+      "explanation": "MLlib is Spark's scalable machine learning library that provides distributed implementations of common ML algorithms including classification, regression, clustering, and collaborative filtering.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is mllib in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 19,
       "question": "What is GraphX in Spark?",
-      "options": ["Graph processing library for graph-parallel computation", "Data visualization library", "Graph database", "Network protocol"],
+      "options": [
+        "Graph processing library for graph-parallel computation",
+        "Data visualization library",
+        "Graph database",
+        "Network protocol"
+      ],
       "correctAnswer": "Graph processing library for graph-parallel computation",
-      "explanation": "GraphX is Spark's API for graph-parallel computation that enables users to interactively build, transform, and reason about graph-structured data at scale."
+      "explanation": "GraphX is Spark's API for graph-parallel computation that enables users to interactively build, transform, and reason about graph-structured data at scale.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is graphx in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 20,
       "question": "What is Spark Session?",
-      "options": ["Entry point to Spark functionality in Spark 2.0+", "User interface for Spark", "Cluster management interface", "Data storage system"],
+      "options": [
+        "Entry point to Spark functionality in Spark 2.0+",
+        "User interface for Spark",
+        "Cluster management interface",
+        "Data storage system"
+      ],
       "correctAnswer": "Entry point to Spark functionality in Spark 2.0+",
-      "explanation": "SparkSession is the entry point to all Spark functionality in Spark 2.0 and later, providing access to SparkContext, SQLContext, HiveContext, and streaming functionality."
+      "explanation": "SparkSession is the entry point to all Spark functionality in Spark 2.0 and later, providing access to SparkContext, SQLContext, HiveContext, and streaming functionality.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is spark session?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 21,
       "question": "What command creates a SparkSession in PySpark?",
-      "options": ["SparkSession.builder.getOrCreate()", "SparkContext()", "SQLContext()", "HiveContext()"],
+      "options": [
+        "SparkSession.builder.getOrCreate()",
+        "SparkContext()",
+        "SQLContext()",
+        "HiveContext()"
+      ],
       "correctAnswer": "SparkSession.builder.getOrCreate()",
-      "explanation": "In PySpark, you create or retrieve a SparkSession using SparkSession.builder.getOrCreate(), which provides a builder pattern for configuration."
+      "explanation": "In PySpark, you create or retrieve a SparkSession using SparkSession.builder.getOrCreate(), which provides a builder pattern for configuration.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what command creates a sparksession in pyspark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 22,
       "question": "What is narrow dependency in Spark?",
-      "options": ["Each partition of parent RDD contributes to at most one partition of child RDD", "Each partition contributes to multiple child partitions", "Partition depends on all previous partitions", "No dependency between partitions"],
+      "options": [
+        "Each partition of parent RDD contributes to at most one partition of child RDD",
+        "Each partition contributes to multiple child partitions",
+        "Partition depends on all previous partitions",
+        "No dependency between partitions"
+      ],
       "correctAnswer": "Each partition of parent RDD contributes to at most one partition of child RDD",
-      "explanation": "Narrow dependency (or narrow transformation) is when each partition of the parent RDD contributes to at most one partition of the child RDD. These can be pipelined and don't require shuffling."
+      "explanation": "Narrow dependency (or narrow transformation) is when each partition of the parent RDD contributes to at most one partition of the child RDD. These can be pipelined and don't require shuffling.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is narrow dependency in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 23,
       "question": "What is wide dependency in Spark?",
-      "options": ["Each partition of parent RDD contributes to multiple partitions of child RDD", "Each partition contributes to one child partition", "Partition doesn't depend on parent", "All partitions merged into one"],
+      "options": [
+        "Each partition of parent RDD contributes to multiple partitions of child RDD",
+        "Each partition contributes to one child partition",
+        "Partition doesn't depend on parent",
+        "All partitions merged into one"
+      ],
       "correctAnswer": "Each partition of parent RDD contributes to multiple partitions of child RDD",
-      "explanation": "Wide dependency (or wide transformation) is when each partition of the parent RDD contributes to multiple partitions of the child RDD, requiring data shuffling across the network."
+      "explanation": "Wide dependency (or wide transformation) is when each partition of the parent RDD contributes to multiple partitions of the child RDD, requiring data shuffling across the network.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is wide dependency in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 24,
       "question": "Which transformation causes a shuffle in Spark?",
-      "options": ["groupByKey", "map", "filter", "flatMap"],
+      "options": [
+        "groupByKey",
+        "map",
+        "filter",
+        "flatMap"
+      ],
       "correctAnswer": "groupByKey",
-      "explanation": "groupByKey() is a wide transformation that causes data to be shuffled across the network because keys from different partitions need to be grouped together."
+      "explanation": "groupByKey() is a wide transformation that causes data to be shuffled across the network because keys from different partitions need to be grouped together.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of which transformation causes a shuffle in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 25,
       "question": "What is the purpose of persist() in Spark?",
-      "options": ["Store RDD/DataFrame in memory or disk to avoid recomputation", "Save to external storage", "Stop execution", "Partition data"],
+      "options": [
+        "Store RDD/DataFrame in memory or disk to avoid recomputation",
+        "Save to external storage",
+        "Stop execution",
+        "Partition data"
+      ],
       "correctAnswer": "Store RDD/DataFrame in memory or disk to avoid recomputation",
-      "explanation": "persist() marks an RDD or DataFrame to be stored in memory or disk after first computation, avoiding the need to recompute it for subsequent actions."
+      "explanation": "persist() marks an RDD or DataFrame to be stored in memory or disk after first computation, avoiding the need to recompute it for subsequent actions.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of persist() in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 26,
       "question": "What are the storage levels in Spark?",
-      "options": ["MEMORY_ONLY, MEMORY_AND_DISK, DISK_ONLY, etc.", "FAST, MEDIUM, SLOW", "IN_MEMORY, ON_DISK", "CACHE, STORE, PERSIST"],
+      "options": [
+        "MEMORY_ONLY, MEMORY_AND_DISK, DISK_ONLY, etc.",
+        "FAST, MEDIUM, SLOW",
+        "IN_MEMORY, ON_DISK",
+        "CACHE, STORE, PERSIST"
+      ],
       "correctAnswer": "MEMORY_ONLY, MEMORY_AND_DISK, DISK_ONLY, etc.",
-      "explanation": "Storage levels include MEMORY_ONLY (store in memory as deserialized Java objects), MEMORY_AND_DISK (spill to disk if memory full), DISK_ONLY, MEMORY_ONLY_SER (serialized), MEMORY_AND_DISK_SER, DISK_ONLY_2, etc."
+      "explanation": "Storage levels include MEMORY_ONLY (store in memory as deserialized Java objects), MEMORY_AND_DISK (spill to disk if memory full), DISK_ONLY, MEMORY_ONLY_SER (serialized), MEMORY_AND_DISK_SER, DISK_ONLY_2, etc.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what are the storage levels in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 27,
       "question": "What is the difference between cache() and persist() in Spark?",
-      "options": ["cache() uses default storage level (MEMORY_ONLY), persist() allows specifying storage level", "cache() stores on disk, persist() in memory", "cache() is for DataFrames only", "persist() doesn't store data"],
+      "options": [
+        "cache() uses default storage level (MEMORY_ONLY), persist() allows specifying storage level",
+        "cache() stores on disk, persist() in memory",
+        "cache() is for DataFrames only",
+        "persist() doesn't store data"
+      ],
       "correctAnswer": "cache() uses default storage level (MEMORY_ONLY), persist() allows specifying storage level",
-      "explanation": "cache() is a shorthand for persist(StorageLevel.MEMORY_ONLY), while persist() allows you to specify which storage level to use."
+      "explanation": "cache() is a shorthand for persist(StorageLevel.MEMORY_ONLY), while persist() allows you to specify which storage level to use.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between cache() and persist() in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 28,
       "question": "What is partitioning in Spark?",
-      "options": ["Dividing data into chunks that can be processed in parallel", "Splitting data by key", "Storing data in different formats", "Compressing data"],
+      "options": [
+        "Dividing data into chunks that can be processed in parallel",
+        "Splitting data by key",
+        "Storing data in different formats",
+        "Compressing data"
+      ],
       "correctAnswer": "Dividing data into chunks that can be processed in parallel",
-      "explanation": "Partitioning divides data into logical chunks (partitions) that can be stored and processed in parallel across the cluster, with each partition typically processed by one task."
+      "explanation": "Partitioning divides data into logical chunks (partitions) that can be stored and processed in parallel across the cluster, with each partition typically processed by one task.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is partitioning in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 29,
       "question": "What is the default number of partitions when creating an RDD from a local collection?",
-      "options": ["Number of cores in the cluster", "Number of cores on the driver", "Number of nodes in the cluster", "Always 1"],
+      "options": [
+        "Number of cores in the cluster",
+        "Number of cores on the driver",
+        "Number of nodes in the cluster",
+        "Always 1"
+      ],
       "correctAnswer": "Number of cores on the driver",
-      "explanation": "When creating an RDD from a local collection using parallelize(), the default number of partitions equals the number of cores on the driver machine."
+      "explanation": "When creating an RDD from a local collection using parallelize(), the default number of partitions equals the number of cores on the driver machine.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the default number of partitions when creating an rdd from a local collection?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 30,
       "question": "What does repartition() do in Spark?",
-      "options": ["Increases or decreases the number of partitions", "Changes partition keys", "Rebalances data across existing partitions", "Creates a new RDD with different data"],
+      "options": [
+        "Increases or decreases the number of partitions",
+        "Changes partition keys",
+        "Rebalances data across existing partitions",
+        "Creates a new RDD with different data"
+      ],
       "correctAnswer": "Increases or decreases the number of partitions",
-      "explanation": "repartition() increases or decreases the number of partitions in an RDD or DataFrame, requiring a full shuffle of the data."
+      "explanation": "repartition() increases or decreases the number of partitions in an RDD or DataFrame, requiring a full shuffle of the data.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does repartition() do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 31,
       "question": "What does coalesce() do in Spark?",
-      "options": ["Reduces the number of partitions without full shuffle", "Increases partitions", "Rebalances data", "Combines partitions by key"],
+      "options": [
+        "Reduces the number of partitions without full shuffle",
+        "Increases partitions",
+        "Rebalances data",
+        "Combines partitions by key"
+      ],
       "correctAnswer": "Reduces the number of partitions without full shuffle",
-      "explanation": "coalesce() reduces the number of partitions in an RDD without requiring a full shuffle, only moving data from partitions being removed."
+      "explanation": "coalesce() reduces the number of partitions in an RDD without requiring a full shuffle, only moving data from partitions being removed.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does coalesce() do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 32,
       "question": "What is a broadcast variable in Spark?",
-      "options": ["Read-only shared variable cached on each machine", "Variable shared across all executors", "Mutable variable for accumulators", "Partition variable"],
+      "options": [
+        "Read-only shared variable cached on each machine",
+        "Variable shared across all executors",
+        "Mutable variable for accumulators",
+        "Partition variable"
+      ],
       "correctAnswer": "Read-only shared variable cached on each machine",
-      "explanation": "A broadcast variable is a read-only shared variable that is cached on each machine, allowing efficient access to large, read-only datasets across all nodes without duplication."
+      "explanation": "A broadcast variable is a read-only shared variable that is cached on each machine, allowing efficient access to large, read-only datasets across all nodes without duplication.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is a broadcast variable in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 33,
       "question": "What is an accumulator in Spark?",
-      "options": ["Variable for aggregating values across tasks", "Variable for broadcasting data", "Variable for partitioning data", "Variable for caching data"],
+      "options": [
+        "Variable for aggregating values across tasks",
+        "Variable for broadcasting data",
+        "Variable for partitioning data",
+        "Variable for caching data"
+      ],
       "correctAnswer": "Variable for aggregating values across tasks",
-      "explanation": "An accumulator is a shared variable that can be used to aggregate values across tasks, with only the driver program allowed to read its value."
+      "explanation": "An accumulator is a shared variable that can be used to aggregate values across tasks, with only the driver program allowed to read its value.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is an accumulator in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 34,
       "question": "What is the purpose of checkpointing in Spark?",
-      "options": ["Truncating RDD lineage to avoid long recovery times", "Saving RDD to disk", "Creating backup of SparkSession", "Restarting failed tasks"],
+      "options": [
+        "Truncating RDD lineage to avoid long recovery times",
+        "Saving RDD to disk",
+        "Creating backup of SparkSession",
+        "Restarting failed tasks"
+      ],
       "correctAnswer": "Truncating RDD lineage to avoid long recovery times",
-      "explanation": "Checkpointing saves an RDD to reliable storage, truncating its lineage graph. This avoids the need to recompute long lineages during recovery, improving fault tolerance."
+      "explanation": "Checkpointing saves an RDD to reliable storage, truncating its lineage graph. This avoids the need to recompute long lineages during recovery, improving fault tolerance.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of checkpointing in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 35,
       "question": "What file formats does Spark support natively?",
-      "options": ["Text, JSON, Parquet, ORC, CSV", "Binary, XML, Avro", "YAML, TOML", "All of the above"],
+      "options": [
+        "Text, JSON, Parquet, ORC, CSV",
+        "Binary, XML, Avro",
+        "YAML, TOML",
+        "All of the above"
+      ],
       "correctAnswer": "Text, JSON, Parquet, ORC, CSV",
-      "explanation": "Spark natively supports text, JSON, Parquet, ORC, and CSV file formats, with additional formats available through packages."
+      "explanation": "Spark natively supports text, JSON, Parquet, ORC, and CSV file formats, with additional formats available through packages.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what file formats does spark support natively?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 36,
       "question": "What is the most efficient file format for Spark?",
-      "options": ["Parquet", "JSON", "CSV", "Text"],
+      "options": [
+        "Parquet",
+        "JSON",
+        "CSV",
+        "Text"
+      ],
       "correctAnswer": "Parquet",
-      "explanation": "Parquet is a columnar storage format that provides the best performance for Spark due to its efficient compression, columnar encoding, and predicate pushdown capabilities."
+      "explanation": "Parquet is a columnar storage format that provides the best performance for Spark due to its efficient compression, columnar encoding, and predicate pushdown capabilities.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the most efficient file format for spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 37,
       "question": "What is predicate pushdown in Spark?",
-      "options": ["Filtering data at the storage layer before reading", "Pushing predicates to executors", "Filtering after loading all data", "Processing predicates in parallel"],
+      "options": [
+        "Filtering data at the storage layer before reading",
+        "Pushing predicates to executors",
+        "Filtering after loading all data",
+        "Processing predicates in parallel"
+      ],
       "correctAnswer": "Filtering data at the storage layer before reading",
-      "explanation": "Predicate pushdown is an optimization that pushes filter conditions down to the storage layer, allowing files or partitions to be skipped entirely during reads, improving performance."
+      "explanation": "Predicate pushdown is an optimization that pushes filter conditions down to the storage layer, allowing files or partitions to be skipped entirely during reads, improving performance.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is predicate pushdown in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 38,
       "question": "What is column pruning in Spark SQL?",
-      "options": ["Reading only the columns needed for a query", "Pruning rows based on conditions", "Removing duplicate columns", "Compressing columns"],
+      "options": [
+        "Reading only the columns needed for a query",
+        "Pruning rows based on conditions",
+        "Removing duplicate columns",
+        "Compressing columns"
+      ],
       "correctAnswer": "Reading only the columns needed for a query",
-      "explanation": "Column pruning is an optimization where Spark SQL only reads the columns that are actually needed for a query, rather than reading entire files, reducing I/O."
+      "explanation": "Column pruning is an optimization where Spark SQL only reads the columns that are actually needed for a query, rather than reading entire files, reducing I/O.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is column pruning in spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 39,
       "question": "What is partitioning in Spark SQL?",
-      "options": ["Organizing data based on column values for efficient querying", "Splitting data by file size", "Dividing data by number of cores", "Storing data in different directories"],
+      "options": [
+        "Organizing data based on column values for efficient querying",
+        "Splitting data by file size",
+        "Dividing data by number of cores",
+        "Storing data in different directories"
+      ],
       "correctAnswer": "Organizing data based on column values for efficient querying",
-      "explanation": "In Spark SQL, partitioning organizes data into directories based on column values, enabling partition pruning and improving query performance."
+      "explanation": "In Spark SQL, partitioning organizes data into directories based on column values, enabling partition pruning and improving query performance.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is partitioning in spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 40,
       "question": "What is bucketing in Spark SQL?",
-      "options": ["Hash partitioning within partitions for efficient joins", "Storing data in buckets", "Grouping data by size", "Dividing data by date"],
+      "options": [
+        "Hash partitioning within partitions for efficient joins",
+        "Storing data in buckets",
+        "Grouping data by size",
+        "Dividing data by date"
+      ],
       "correctAnswer": "Hash partitioning within partitions for efficient joins",
-      "explanation": "Bucketing is a data organization technique that uses hash partitioning within partitions, enabling efficient joins and aggregations by co-locating related data."
+      "explanation": "Bucketing is a data organization technique that uses hash partitioning within partitions, enabling efficient joins and aggregations by co-locating related data.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is bucketing in spark sql?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 41,
       "question": "What is the difference between partitionBy and repartitionByRange in Spark?",
-      "options": ["partitionBy uses hash partitioning, repartitionByRange uses range partitioning", "partitionBy uses range, repartitionByRange uses hash", "partitionBy stores on disk, repartitionByRange in memory", "Both use the same partitioning"],
+      "options": [
+        "partitionBy uses hash partitioning, repartitionByRange uses range partitioning",
+        "partitionBy uses range, repartitionByRange uses hash",
+        "partitionBy stores on disk, repartitionByRange in memory",
+        "Both use the same partitioning"
+      ],
       "correctAnswer": "partitionBy uses hash partitioning, repartitionByRange uses range partitioning",
-      "explanation": "partitionBy() uses hash partitioning to distribute data across partitions, while repartitionByRange() uses range partitioning which is useful for ordered data."
+      "explanation": "partitionBy() uses hash partitioning to distribute data across partitions, while repartitionByRange() uses range partitioning which is useful for ordered data.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between partitionby and repartitionbyrange in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 42,
       "question": "What is the purpose of sortByKey in Spark?",
-      "options": ["Sort RDD by key", "Sort RDD by value", "Partition by key", "Group by key"],
+      "options": [
+        "Sort RDD by key",
+        "Sort RDD by value",
+        "Partition by key",
+        "Group by key"
+      ],
       "correctAnswer": "Sort RDD by key",
-      "explanation": "sortByKey() sorts an RDD by its keys, which is a wide transformation that requires shuffling data across the network."
+      "explanation": "sortByKey() sorts an RDD by its keys, which is a wide transformation that requires shuffling data across the network.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of sortbykey in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 43,
       "question": "What is reduceByKey in Spark?",
-      "options": ["Aggregate values for each key using a function", "Reduce RDD to single value", "Map values for each key", "Filter keys"],
+      "options": [
+        "Aggregate values for each key using a function",
+        "Reduce RDD to single value",
+        "Map values for each key",
+        "Filter keys"
+      ],
       "correctAnswer": "Aggregate values for each key using a function",
-      "explanation": "reduceByKey() aggregates the values of each key using a reduce function, providing a more efficient alternative to groupByKey() followed by reduce()."
+      "explanation": "reduceByKey() aggregates the values of each key using a reduce function, providing a more efficient alternative to groupByKey() followed by reduce().",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is reducebykey in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 44,
       "question": "What is the difference between reduceByKey and groupByKey?",
-      "options": ["reduceByKey performs map-side aggregation, groupByKey does not", "reduceByKey is slower", "groupByKey is preferred for aggregations", "No difference"],
+      "options": [
+        "reduceByKey performs map-side aggregation, groupByKey does not",
+        "reduceByKey is slower",
+        "groupByKey is preferred for aggregations",
+        "No difference"
+      ],
       "correctAnswer": "reduceByKey performs map-side aggregation, groupByKey does not",
-      "explanation": "reduceByKey() performs map-side aggregation (combining values within each partition before shuffling), making it more efficient than groupByKey() which requires all values to be shuffled first."
+      "explanation": "reduceByKey() performs map-side aggregation (combining values within each partition before shuffling), making it more efficient than groupByKey() which requires all values to be shuffled first.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between reducebykey and groupbykey?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 45,
       "question": "What is aggregateByKey in Spark?",
-      "options": ["Aggregate values with different functions for map-side and reduce-side", "Aggregate with single function", "Group values by key", "Sort values by key"],
+      "options": [
+        "Aggregate values with different functions for map-side and reduce-side",
+        "Aggregate with single function",
+        "Group values by key",
+        "Sort values by key"
+      ],
       "correctAnswer": "Aggregate values with different functions for map-side and reduce-side",
-      "explanation": "aggregateByKey() allows different aggregation functions for map-side (within partitions) and reduce-side (across partitions), providing more flexibility than reduceByKey()."
+      "explanation": "aggregateByKey() allows different aggregation functions for map-side (within partitions) and reduce-side (across partitions), providing more flexibility than reduceByKey().",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is aggregatebykey in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 46,
       "question": "What is combineByKey in Spark?",
-      "options": ["Custom aggregation with different functions for creating, merging, and combining values", "Combining RDDs by key", "Merging partitions", "Joining RDDs"],
+      "options": [
+        "Custom aggregation with different functions for creating, merging, and combining values",
+        "Combining RDDs by key",
+        "Merging partitions",
+        "Joining RDDs"
+      ],
       "correctAnswer": "Custom aggregation with different functions for creating, merging, and combining values",
-      "explanation": "combineByKey() is a generic aggregation function that allows you to specify custom functions for creating the first value, merging values within a partition, and combining values across partitions."
+      "explanation": "combineByKey() is a generic aggregation function that allows you to specify custom functions for creating the first value, merging values within a partition, and combining values across partitions.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is combinebykey in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 47,
       "question": "What is join in Spark?",
-      "options": ["Combine RDDs based on keys", "Combine RDDs by index", "Combine all elements", "Merge partitions"],
+      "options": [
+        "Combine RDDs based on keys",
+        "Combine RDDs by index",
+        "Combine all elements",
+        "Merge partitions"
+      ],
       "correctAnswer": "Combine RDDs based on keys",
-      "explanation": "join() combines two RDDs based on matching keys, returning an RDD of (key, (value1, value2)) pairs for all keys present in both RDDs."
+      "explanation": "join() combines two RDDs based on matching keys, returning an RDD of (key, (value1, value2)) pairs for all keys present in both RDDs.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is join in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 48,
       "question": "What is the difference between inner join and left join in Spark?",
-      "options": ["Inner join returns only matching keys, left join returns all keys from left RDD", "Inner join returns all keys, left join returns matching keys", "Both return the same results", "Inner join is faster"],
+      "options": [
+        "Inner join returns only matching keys, left join returns all keys from left RDD",
+        "Inner join returns all keys, left join returns matching keys",
+        "Both return the same results",
+        "Inner join is faster"
+      ],
       "correctAnswer": "Inner join returns only matching keys, left join returns all keys from left RDD",
-      "explanation": "Inner join returns only pairs with keys present in both RDDs, while left join (leftOuterJoin) returns all keys from the left RDD with matching values from the right RDD or None if no match exists."
+      "explanation": "Inner join returns only pairs with keys present in both RDDs, while left join (leftOuterJoin) returns all keys from the left RDD with matching values from the right RDD or None if no match exists.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between inner join and left join in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 49,
       "question": "What is cogroup in Spark?",
-      "options": ["Group data from both RDDs by key and return pairs of iterators", "Combine RDDs by key", "Join RDDs", "Filter by key"],
+      "options": [
+        "Group data from both RDDs by key and return pairs of iterators",
+        "Combine RDDs by key",
+        "Join RDDs",
+        "Filter by key"
+      ],
       "correctAnswer": "Group data from both RDDs by key and return pairs of iterators",
-      "explanation": "cogroup() groups data from both RDDs by key, returning an RDD of (key, (Iterable[V], Iterable[W])) pairs, which can be more efficient than join for certain operations."
+      "explanation": "cogroup() groups data from both RDDs by key, returning an RDD of (key, (Iterable[V], Iterable[W])) pairs, which can be more efficient than join for certain operations.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is cogroup in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 50,
       "question": "What is the purpose of subtract in Spark?",
-      "options": ["Return elements in first RDD not present in second", "Subtract values", "Remove duplicates", "Filter elements"],
+      "options": [
+        "Return elements in first RDD not present in second",
+        "Subtract values",
+        "Remove duplicates",
+        "Filter elements"
+      ],
       "correctAnswer": "Return elements in first RDD not present in second",
-      "explanation": "subtract() returns an RDD containing elements that are present in the first RDD but not in the second RDD."
+      "explanation": "subtract() returns an RDD containing elements that are present in the first RDD but not in the second RDD.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of subtract in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 51,
       "question": "What does intersect do in Spark?",
-      "options": ["Return elements present in both RDDs", "Return common keys", "Merge RDDs", "Find differences"],
+      "options": [
+        "Return elements present in both RDDs",
+        "Return common keys",
+        "Merge RDDs",
+        "Find differences"
+      ],
       "correctAnswer": "Return elements present in both RDDs",
-      "explanation": "intersect() returns an RDD containing elements that are present in both RDDs."
+      "explanation": "intersect() returns an RDD containing elements that are present in both RDDs.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does intersect do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 52,
       "question": "What does union do in Spark?",
-      "options": ["Return all elements from both RDDs", "Combine RDDs by key", "Merge RDDs and remove duplicates", "Find unique elements"],
+      "options": [
+        "Return all elements from both RDDs",
+        "Combine RDDs by key",
+        "Merge RDDs and remove duplicates",
+        "Find unique elements"
+      ],
       "correctAnswer": "Return all elements from both RDDs",
-      "explanation": "union() returns an RDD containing all elements from both RDDs, including duplicates."
+      "explanation": "union() returns an RDD containing all elements from both RDDs, including duplicates.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does union do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 53,
       "question": "What does cartesian do in Spark?",
-      "options": ["Return the Cartesian product of two RDDs", "Combine RDDs by key", "Filter by condition", "Aggregate values"],
+      "options": [
+        "Return the Cartesian product of two RDDs",
+        "Combine RDDs by key",
+        "Filter by condition",
+        "Aggregate values"
+      ],
       "correctAnswer": "Return the Cartesian product of two RDDs",
-      "explanation": "cartesian() returns the Cartesian product of two RDDs, pairing each element of the first RDD with each element of the second RDD."
+      "explanation": "cartesian() returns the Cartesian product of two RDDs, pairing each element of the first RDD with each element of the second RDD.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does cartesian do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 54,
       "question": "What is the purpose of sample in Spark?",
-      "options": ["Return a random sample of elements", "Sample data by key", "Create sample RDD", "Randomly partition data"],
+      "options": [
+        "Return a random sample of elements",
+        "Sample data by key",
+        "Create sample RDD",
+        "Randomly partition data"
+      ],
       "correctAnswer": "Return a random sample of elements",
-      "explanation": "sample() returns a random sample of elements from an RDD, with or without replacement, based on specified probabilities."
+      "explanation": "sample() returns a random sample of elements from an RDD, with or without replacement, based on specified probabilities.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of sample in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 55,
       "question": "What does take do in Spark?",
-      "options": ["Return first N elements", "Take elements by key", "Remove elements", "Filter elements"],
+      "options": [
+        "Return first N elements",
+        "Take elements by key",
+        "Remove elements",
+        "Filter elements"
+      ],
       "correctAnswer": "Return first N elements",
-      "explanation": "take(n) returns an array containing the first n elements of an RDD as an array to the driver program."
+      "explanation": "take(n) returns an array containing the first n elements of an RDD as an array to the driver program.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does take do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 56,
       "question": "What does first do in Spark?",
-      "options": ["Return first element", "Return first N elements", "Return first element by key", "Sort and return first"],
+      "options": [
+        "Return first element",
+        "Return first N elements",
+        "Return first element by key",
+        "Sort and return first"
+      ],
       "correctAnswer": "Return first element",
-      "explanation": "first() returns the first element of an RDD as a single value to the driver program."
+      "explanation": "first() returns the first element of an RDD as a single value to the driver program.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does first do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 57,
       "question": "What does top do in Spark?",
-      "options": ["Return top N elements based on natural ordering", "Return top N elements by key", "Sort and return first N", "Return largest elements"],
+      "options": [
+        "Return top N elements based on natural ordering",
+        "Return top N elements by key",
+        "Sort and return first N",
+        "Return largest elements"
+      ],
       "correctAnswer": "Return top N elements based on natural ordering",
-      "explanation": "top(n) returns an array containing the top n elements of an RDD based on their natural ordering (ascending by default)."
+      "explanation": "top(n) returns an array containing the top n elements of an RDD based on their natural ordering (ascending by default).",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does top do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 58,
       "question": "What does takeOrdered do in Spark?",
-      "options": ["Return first N elements in specified order", "Take elements by key", "Return sorted elements", "Filter and sort"],
+      "options": [
+        "Return first N elements in specified order",
+        "Take elements by key",
+        "Return sorted elements",
+        "Filter and sort"
+      ],
       "correctAnswer": "Return first N elements in specified order",
-      "explanation": "takeOrdered(n) returns an array containing the first n elements of an RDD sorted in ascending order based on a specified ordering."
+      "explanation": "takeOrdered(n) returns an array containing the first n elements of an RDD sorted in ascending order based on a specified ordering.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does takeordered do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 59,
       "question": "What does countByKey do in Spark?",
-      "options": ["Return count of each key", "Count all elements", "Count by value", "Group and count"],
+      "options": [
+        "Return count of each key",
+        "Count all elements",
+        "Count by value",
+        "Group and count"
+      ],
       "correctAnswer": "Return count of each key",
-      "explanation": "countByKey() returns a map containing the count of each key in an RDD of key-value pairs."
+      "explanation": "countByKey() returns a map containing the count of each key in an RDD of key-value pairs.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does countbykey do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 60,
       "question": "What does countByValue do in Spark?",
-      "options": ["Return count of each value", "Count all elements", "Count by key", "Group and count"],
+      "options": [
+        "Return count of each value",
+        "Count all elements",
+        "Count by key",
+        "Group and count"
+      ],
       "correctAnswer": "Return count of each value",
-      "explanation": "countByValue() returns a map containing the count of each unique value in an RDD."
+      "explanation": "countByValue() returns a map containing the count of each unique value in an RDD.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does countbyvalue do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 61,
       "question": "What does lookup do in Spark?",
-      "options": ["Return all values for a specific key", "Lookup key in RDD", "Search for value", "Find matching keys"],
+      "options": [
+        "Return all values for a specific key",
+        "Lookup key in RDD",
+        "Search for value",
+        "Find matching keys"
+      ],
       "correctAnswer": "Return all values for a specific key",
-      "explanation": "lookup(key) returns an array of all values associated with a specific key in an RDD of key-value pairs."
+      "explanation": "lookup(key) returns an array of all values associated with a specific key in an RDD of key-value pairs.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does lookup do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 62,
       "question": "What does keys do in Spark?",
-      "options": ["Return RDD of keys", "Return all keys as array", "Filter by key", "Extract keys"],
+      "options": [
+        "Return RDD of keys",
+        "Return all keys as array",
+        "Filter by key",
+        "Extract keys"
+      ],
       "correctAnswer": "Return RDD of keys",
-      "explanation": "keys() returns an RDD containing only the keys from an RDD of key-value pairs."
+      "explanation": "keys() returns an RDD containing only the keys from an RDD of key-value pairs.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does keys do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 63,
       "question": "What does values do in Spark?",
-      "options": ["Return RDD of values", "Return all values as array", "Extract values by key", "Filter values"],
+      "options": [
+        "Return RDD of values",
+        "Return all values as array",
+        "Extract values by key",
+        "Filter values"
+      ],
       "correctAnswer": "Return RDD of values",
-      "explanation": "values() returns an RDD containing only the values from an RDD of key-value pairs."
+      "explanation": "values() returns an RDD containing only the values from an RDD of key-value pairs.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does values do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 64,
       "question": "What does saveAsTextFile do in Spark?",
-      "options": ["Save RDD as text file", "Save as binary file", "Save as JSON", "Save to database"],
+      "options": [
+        "Save RDD as text file",
+        "Save as binary file",
+        "Save as JSON",
+        "Save to database"
+      ],
       "correctAnswer": "Save RDD as text file",
-      "explanation": "saveAsTextFile(path) writes the elements of an RDD as a text file (or multiple text files) to the specified directory, with each element on a separate line."
+      "explanation": "saveAsTextFile(path) writes the elements of an RDD as a text file (or multiple text files) to the specified directory, with each element on a separate line.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does saveastextfile do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 65,
       "question": "What does saveAsSequenceFile do in Spark?",
-      "options": ["Save RDD as Hadoop SequenceFile", "Save as text file", "Save as JSON", "Save as Parquet"],
+      "options": [
+        "Save RDD as Hadoop SequenceFile",
+        "Save as text file",
+        "Save as JSON",
+        "Save as Parquet"
+      ],
       "correctAnswer": "Save RDD as Hadoop SequenceFile",
-      "explanation": "saveAsSequenceFile(path) writes the elements of an RDD as a Hadoop SequenceFile, which is a binary file format for key-value pairs."
+      "explanation": "saveAsSequenceFile(path) writes the elements of an RDD as a Hadoop SequenceFile, which is a binary file format for key-value pairs.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does saveassequencefile do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 66,
       "question": "What does saveAsObjectFile do in Spark?",
-      "options": ["Save RDD as serialized Java objects", "Save as text", "Save as JSON", "Save as binary"],
+      "options": [
+        "Save RDD as serialized Java objects",
+        "Save as text",
+        "Save as JSON",
+        "Save as binary"
+      ],
       "correctAnswer": "Save RDD as serialized Java objects",
-      "explanation": "saveAsObjectFile(path) writes the elements of an RDD as serialized Java objects to a directory, with each partition written as a separate file."
+      "explanation": "saveAsObjectFile(path) writes the elements of an RDD as serialized Java objects to a directory, with each partition written as a separate file.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does saveasobjectfile do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 67,
       "question": "What is the purpose of foreach in Spark?",
-      "options": ["Apply function to each element", "Iterate over RDD", "Filter elements", "Map elements"],
+      "options": [
+        "Apply function to each element",
+        "Iterate over RDD",
+        "Filter elements",
+        "Map elements"
+      ],
       "correctAnswer": "Apply function to each element",
-      "explanation": "foreach(func) applies a function to each element of an RDD, typically used for side effects like writing to external systems."
+      "explanation": "foreach(func) applies a function to each element of an RDD, typically used for side effects like writing to external systems.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of foreach in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 68,
       "question": "What is the purpose of foreachPartition in Spark?",
-      "options": ["Apply function to each partition (more efficient for connections)", "Apply to each element", "Filter partitions", "Process partitions in parallel"],
+      "options": [
+        "Apply function to each partition (more efficient for connections)",
+        "Apply to each element",
+        "Filter partitions",
+        "Process partitions in parallel"
+      ],
       "correctAnswer": "Apply function to each partition (more efficient for connections)",
-      "explanation": "foreachPartition(func) applies a function to each partition of an RDD, which is more efficient than foreach when the function initializes expensive resources (like database connections) that can be reused for all elements in a partition."
+      "explanation": "foreachPartition(func) applies a function to each partition of an RDD, which is more efficient than foreach when the function initializes expensive resources (like database connections) that can be reused for all elements in a partition.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of foreachpartition in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 69,
       "question": "What does mapPartitions do in Spark?",
-      "options": ["Apply function to each partition and return new RDD", "Map elements in partition", "Filter partitions", "Aggregate partitions"],
+      "options": [
+        "Apply function to each partition and return new RDD",
+        "Map elements in partition",
+        "Filter partitions",
+        "Aggregate partitions"
+      ],
       "correctAnswer": "Apply function to each partition and return new RDD",
-      "explanation": "mapPartitions(func) applies a function to each partition of an RDD and returns a new RDD, allowing for more efficient processing when expensive resources can be reused across all elements in a partition."
+      "explanation": "mapPartitions(func) applies a function to each partition of an RDD and returns a new RDD, allowing for more efficient processing when expensive resources can be reused across all elements in a partition.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does mappartitions do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 70,
       "question": "What does mapPartitionsWithIndex do in Spark?",
-      "options": ["Apply function with partition index to each partition", "Map elements with index", "Filter with index", "Process with partition number"],
+      "options": [
+        "Apply function with partition index to each partition",
+        "Map elements with index",
+        "Filter with index",
+        "Process with partition number"
+      ],
       "correctAnswer": "Apply function with partition index to each partition",
-      "explanation": "mapPartitionsWithIndex(func) is similar to mapPartitions but provides the partition index to the function, useful for partition-specific operations."
+      "explanation": "mapPartitionsWithIndex(func) is similar to mapPartitions but provides the partition index to the function, useful for partition-specific operations.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does mappartitionswithindex do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 71,
       "question": "What is the purpose of glom in Spark?",
-      "options": ["Convert each partition into an array of its elements", "Combine partitions", "Split partitions", "Filter partitions"],
+      "options": [
+        "Convert each partition into an array of its elements",
+        "Combine partitions",
+        "Split partitions",
+        "Filter partitions"
+      ],
       "correctAnswer": "Convert each partition into an array of its elements",
-      "explanation": "glom() converts each partition of an RDD into an array containing all the elements of that partition, resulting in an RDD[Array[T]]."
+      "explanation": "glom() converts each partition of an RDD into an array containing all the elements of that partition, resulting in an RDD[Array[T]].",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the purpose of glom in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 72,
       "question": "What does distinct do in Spark?",
-      "options": ["Return unique elements", "Remove duplicates", "Count unique elements", "Filter duplicates"],
+      "options": [
+        "Return unique elements",
+        "Remove duplicates",
+        "Count unique elements",
+        "Filter duplicates"
+      ],
       "correctAnswer": "Return unique elements",
-      "explanation": "distinct() returns an RDD containing only the unique elements from the source RDD, removing duplicates."
+      "explanation": "distinct() returns an RDD containing only the unique elements from the source RDD, removing duplicates.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does distinct do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 73,
       "question": "What does filter do in Spark?",
-      "options": ["Return elements that satisfy a predicate", "Remove elements", "Keep matching elements", "Select elements"],
+      "options": [
+        "Return elements that satisfy a predicate",
+        "Remove elements",
+        "Keep matching elements",
+        "Select elements"
+      ],
       "correctAnswer": "Return elements that satisfy a predicate",
-      "explanation": "filter(func) returns an RDD containing only the elements that satisfy a specified predicate function."
+      "explanation": "filter(func) returns an RDD containing only the elements that satisfy a specified predicate function.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does filter do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 74,
       "question": "What does flatMap do in Spark?",
-      "options": ["Map function that returns iterator and flattens results", "Flatten nested structures", "Map and flatten", "Process each element"],
+      "options": [
+        "Map function that returns iterator and flattens results",
+        "Flatten nested structures",
+        "Map and flatten",
+        "Process each element"
+      ],
       "correctAnswer": "Map function that returns iterator and flattens results",
-      "explanation": "flatMap(func) is similar to map but the function returns an iterator, and the results are flattened into a single RDD."
+      "explanation": "flatMap(func) is similar to map but the function returns an iterator, and the results are flattened into a single RDD.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does flatmap do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 75,
       "question": "What does flatMapValues do in Spark?",
-      "options": ["Apply flatMap to values of key-value RDD", "Flatten key-value pairs", "Map and flatten values", "Process values"],
+      "options": [
+        "Apply flatMap to values of key-value RDD",
+        "Flatten key-value pairs",
+        "Map and flatten values",
+        "Process values"
+      ],
       "correctAnswer": "Apply flatMap to values of key-value RDD",
-      "explanation": "flatMapValues(func) applies a flatMap function to each value of a key-value RDD, keeping the original keys and flattening the results."
+      "explanation": "flatMapValues(func) applies a flatMap function to each value of a key-value RDD, keeping the original keys and flattening the results.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does flatmapvalues do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 76,
       "question": "What does mapValues do in Spark?",
-      "options": ["Apply map function to values of key-value RDD", "Map all elements", "Map keys", "Transform values"],
+      "options": [
+        "Apply map function to values of key-value RDD",
+        "Map all elements",
+        "Map keys",
+        "Transform values"
+      ],
       "correctAnswer": "Apply map function to values of key-value RDD",
-      "explanation": "mapValues(func) applies a map function to each value of a key-value RDD, keeping the original keys."
+      "explanation": "mapValues(func) applies a map function to each value of a key-value RDD, keeping the original keys.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does mapvalues do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 77,
       "question": "What does sort do in Spark?",
-      "options": ["Sort elements using natural or custom ordering", "Sort by key", "Sort by value", "Order elements"],
+      "options": [
+        "Sort elements using natural or custom ordering",
+        "Sort by key",
+        "Sort by value",
+        "Order elements"
+      ],
       "correctAnswer": "Sort elements using natural or custom ordering",
-      "explanation": "sort() sorts the elements of an RDD using either their natural ordering or a custom comparator."
+      "explanation": "sort() sorts the elements of an RDD using either their natural ordering or a custom comparator.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does sort do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 78,
       "question": "What does sortBy do in Spark?",
-      "options": ["Sort by specified key function", "Sort by natural order", "Sort and group", "Custom sort"],
+      "options": [
+        "Sort by specified key function",
+        "Sort by natural order",
+        "Sort and group",
+        "Custom sort"
+      ],
       "correctAnswer": "Sort by specified key function",
-      "explanation": "sortBy(func) sorts elements by applying a key function to each element and using the returned keys for sorting."
+      "explanation": "sortBy(func) sorts elements by applying a key function to each element and using the returned keys for sorting.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what does sortby do in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 79,
       "question": "What is the default storage level when caching in Spark?",
-      "options": ["MEMORY_ONLY", "MEMORY_AND_DISK", "DISK_ONLY", "MEMORY_ONLY_SER"],
+      "options": [
+        "MEMORY_ONLY",
+        "MEMORY_AND_DISK",
+        "DISK_ONLY",
+        "MEMORY_ONLY_SER"
+      ],
       "correctAnswer": "MEMORY_ONLY",
-      "explanation": "The default storage level for caching (using cache() or persist()) is MEMORY_ONLY, which stores data in memory as deserialized Java objects."
+      "explanation": "The default storage level for caching (using cache() or persist()) is MEMORY_ONLY, which stores data in memory as deserialized Java objects.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the default storage level when caching in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 80,
       "question": "What is the difference between Spark and Hadoop MapReduce?",
-      "options": ["Spark processes data in memory for faster performance", "Spark uses disk-based processing", "MapReduce is faster", "MapReduce uses memory"],
+      "options": [
+        "Spark processes data in memory for faster performance",
+        "Spark uses disk-based processing",
+        "MapReduce is faster",
+        "MapReduce uses memory"
+      ],
       "correctAnswer": "Spark processes data in memory for faster performance",
-      "explanation": "Spark's key advantage over Hadoop MapReduce is its ability to process data in memory, avoiding the need to read/write data to disk for each transformation, resulting in significantly faster performance."
+      "explanation": "Spark's key advantage over Hadoop MapReduce is its ability to process data in memory, avoiding the need to read/write data to disk for each transformation, resulting in significantly faster performance.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the difference between spark and hadoop mapreduce?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 81,
       "question": "What is the driver program in Spark?",
-      "options": ["Process that runs the main function and manages Spark application", "Worker process", "Cluster manager", "Executor process"],
+      "options": [
+        "Process that runs the main function and manages Spark application",
+        "Worker process",
+        "Cluster manager",
+        "Executor process"
+      ],
       "correctAnswer": "Process that runs the main function and manages Spark application",
-      "explanation": "The driver program runs the main() function of the application and manages the execution of Spark jobs, creating the SparkContext and coordinating task execution."
+      "explanation": "The driver program runs the main() function of the application and manages the execution of Spark jobs, creating the SparkContext and coordinating task execution.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the driver program in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 82,
       "question": "What are executors in Spark?",
-      "options": ["Processes that run tasks and store data", "Worker nodes", "Cluster managers", "Driver processes"],
+      "options": [
+        "Processes that run tasks and store data",
+        "Worker nodes",
+        "Cluster managers",
+        "Driver processes"
+      ],
       "correctAnswer": "Processes that run tasks and store data",
-      "explanation": "Executors are worker processes that run on cluster nodes and are responsible for executing tasks and storing data (RDDs, cached data) for the Spark application."
+      "explanation": "Executors are worker processes that run on cluster nodes and are responsible for executing tasks and storing data (RDDs, cached data) for the Spark application.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what are executors in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 83,
       "question": "What is the cluster manager in Spark?",
-      "options": ["External service for allocating resources to Spark applications", "Process for managing Spark cluster", "Driver program", "Executor process"],
+      "options": [
+        "External service for allocating resources to Spark applications",
+        "Process for managing Spark cluster",
+        "Driver program",
+        "Executor process"
+      ],
       "correctAnswer": "External service for allocating resources to Spark applications",
-      "explanation": "The cluster manager is an external service (like YARN, Mesos, or Kubernetes) that allocates resources (CPU, memory) to Spark applications."
+      "explanation": "The cluster manager is an external service (like YARN, Mesos, or Kubernetes) that allocates resources (CPU, memory) to Spark applications.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the cluster manager in spark?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 84,
       "question": "What is the Spark standalone mode?",
-      "options": ["Built-in cluster manager for Spark", "External cluster manager", "Single machine mode", "Local mode"],
+      "options": [
+        "Built-in cluster manager for Spark",
+        "External cluster manager",
+        "Single machine mode",
+        "Local mode"
+      ],
       "correctAnswer": "Built-in cluster manager for Spark",
-      "explanation": "Spark standalone mode is a simple built-in cluster manager that comes with Spark, making it easy to set up a Spark cluster without external dependencies."
+      "explanation": "Spark standalone mode is a simple built-in cluster manager that comes with Spark, making it easy to set up a Spark cluster without external dependencies.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is the spark standalone mode?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     },
     {
       "id": 85,
       "question": "What is Spark local mode?",
-      "options": ["Run Spark application on a single machine", "Run on local cluster", "Run on single core", "Run without network"],
+      "options": [
+        "Run Spark application on a single machine",
+        "Run on local cluster",
+        "Run on single core",
+        "Run without network"
+      ],
       "correctAnswer": "Run Spark application on a single machine",
-      "explanation": "In local mode, Spark runs the entire application on a single machine using multiple threads, useful for development and testing."
+      "explanation": "In local mode, Spark runs the entire application on a single machine using multiple threads, useful for development and testing.",
+      "detailedAnswer": "\n**Additional Context:**\n\nThis question tests your understanding of what is spark local mode?.\n\n**Best Practices:**\n- Always consider the specific requirements of your application\n- Monitor and adjust configurations based on real-world usage\n- Document your decisions for future reference\n\n**Common Pitfalls:**\n- Not testing changes in a non-production environment first\n- Overlooking resource constraints\n- Forgetting to monitor after making changes\n\n**Further Reading:**\n- Official Kubernetes documentation\n- Kubernetes best practices guides\n- Community forums and discussions\n"
     }
   ]
 }
