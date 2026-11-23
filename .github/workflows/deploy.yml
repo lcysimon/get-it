@@ -42,7 +42,7 @@ jobs:
           cd deploy-repo
           git checkout --orphan gh-pages
           git rm -rf . 2>/dev/null || true
-          cp -r /home/runner/work/get-it/get-it/dist/* .
+          cp -r /home/runner/work/get-it/get-it/dist/. .
           git add -A
           git commit -m "Deploy to GitHub Pages"
           git push origin gh-pages --force
