@@ -1,0 +1,203 @@
+{
+  "id": 7,
+  "title": "Terraform",
+  "description": "Infrastructure as Code with HashiCorp Terraform for cloud provisioning",
+  "category": "Ops",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is Terraform?",
+      "options": [
+        "Infrastructure as Code tool for provisioning cloud resources",
+        "Configuration management tool for server automation",
+        "Container orchestration platform",
+        "Monitoring and logging tool"
+      ],
+      "correctAnswer": "Infrastructure as Code tool for provisioning cloud resources",
+      "explanation": "Terraform is an Infrastructure as Code (IaC) tool developed by HashiCorp that allows users to define and provision infrastructure using declarative configuration files.",
+      "detailedAnswer": "Terraform is an open-source Infrastructure as Code (IaC) tool created by HashiCorp that enables users to define, provision, and manage cloud infrastructure using declarative configuration files. Unlike traditional manual provisioning or imperative scripting approaches, Terraform uses a declarative language (HCL - HashiCorp Configuration Language) where users specify the desired end state of their infrastructure, and Terraform automatically determines the steps needed to achieve that state. This approach provides consistency, repeatability, and version control for infrastructure management. Terraform supports a wide range of providers including major cloud platforms (AWS, Azure, GCP), private cloud solutions, and on-premises infrastructure. It follows a workflow of Write (create configuration files), Plan (preview changes before applying), and Apply (provision the infrastructure). Terraform maintains state about the infrastructure it manages, allowing it to detect drift and make corrections. It is designed to be provider-agnostic, meaning the same configuration can often be used across different cloud platforms with minimal changes."
+    },
+    {
+      "id": 2,
+      "question": "What file extension is used for Terraform configuration files?",
+      "options": [
+        ".tf",
+        ".json",
+        ".yaml",
+        ".hcl"
+      ],
+      "correctAnswer": ".tf",
+      "explanation": "Terraform configuration files use the .tf extension, though .hcl is also technically correct since HCL is the underlying language.",
+      "detailedAnswer": "Terraform configuration files use the .tf file extension by convention. The primary configuration language used in these files is HCL (HashiCorp Configuration Language), which is a declarative, human-readable language specifically designed for infrastructure configuration. While .hcl would technically be accurate since HCL is the language, .tf is the standard and expected extension for Terraform configuration files. Terraform also supports JSON as a configuration language, and those files would use the .json extension. The .tf extension allows Terraform to automatically recognize and process the files. A typical Terraform project contains multiple .tf files that are organized by functionality (main.tf, variables.tf, outputs.tf, etc.), and Terraform automatically merges all .tf files in a directory when processing them."
+    },
+    {
+      "id": 3,
+      "question": "What is the purpose of terraform init?",
+      "options": [
+        "Initialize a Terraform working directory and download providers",
+        "Apply infrastructure changes",
+        "Destroy all infrastructure",
+        "Show the execution plan"
+      ],
+      "correctAnswer": "Initialize a Terraform working directory and download providers",
+      "explanation": "terraform init initializes the working directory by downloading the required provider plugins and setting up the backend for state storage.",
+      "detailedAnswer": "The terraform init command is the first command that should be run when starting to work with a new or existing Terraform configuration. Its primary purpose is to initialize the Terraform working directory by performing several critical setup tasks. First, it downloads and installs the provider plugins specified in the configuration. Providers are the plugins that Terraform uses to interact with APIs of infrastructure platforms (like AWS, Azure, or GCP), and each provider has its own plugin that implements the resources and data sources for that platform. Second, it initializes the backend, which is where Terraform stores its state data. The backend can be local (default) or remote (like S3, Azure Blob Storage, or Terraform Cloud). Third, it downloads any modules that are referenced in the configuration. Fourth, it sets up the local settings and caches. This command is safe to run multiple times and will only perform actions that are necessary (like downloading new provider versions). It must be run whenever you add a new provider to your configuration, update provider versions, or change backend configurations."
+    },
+    {
+      "id": 4,
+      "question": "What command shows the execution plan before applying changes?",
+      "options": [
+        "terraform plan",
+        "terraform preview",
+        "terraform show",
+        "terraform apply --dry-run"
+      ],
+      "correctAnswer": "terraform plan",
+      "explanation": "terraform plan generates and shows an execution plan of the changes Terraform will make to reach the desired state.",
+      "detailedAnswer": "The terraform plan command is one of the most important commands in the Terraform workflow. It generates a detailed execution plan that shows exactly what Terraform will do when you run terraform apply. This plan includes the specific actions that will be performed (create, update, delete, or read for data sources), the resources that will be affected, and the order in which these actions will occur. The plan is generated by Terraform reading the current state (from the state file) and comparing it with the desired state (from the configuration files). The output shows a diff-like view with green '+' signs indicating resources that will be created, red '-' signs indicating resources that will be destroyed, and '~' signs indicating resources that will be updated. The plan command does not modify any infrastructure - it is purely a preview. It also shows the values of computed attributes that will be determined during apply. Running plan before apply is a best practice as it allows you to review and verify the changes before they are made, catching potential errors or unintended modifications. You can save the plan to a file using the -out flag and then pass that file to terraform apply for a more controlled application of changes."
+    },
+    {
+      "id": 5,
+      "question": "What command is used to apply Terraform configuration changes?",
+      "options": [
+        "terraform apply",
+        "terraform execute",
+        "terraform deploy",
+        "terraform run"
+      ],
+      "correctAnswer": "terraform apply",
+      "explanation": "terraform apply reads the configuration and state, generates a plan, and applies the changes to reach the desired state.",
+      "detailedAnswer": "The terraform apply command is used to apply the changes required to reach the desired state of the infrastructure as defined in the Terraform configuration files. When executed without arguments, it will automatically generate an execution plan (similar to running terraform plan first) and then apply that plan if the user confirms. The command reads the current state from the state file, compares it with the desired state from the configuration, and determines what actions need to be taken. It then performs those actions in the correct order to provision or modify the infrastructure. By default, terraform apply will prompt for confirmation before applying changes, showing the plan that will be executed. The user can type 'yes' to confirm or 'no' to abort. To skip this confirmation prompt and apply automatically (useful in automation scripts), you can use the -auto-approve flag. If you have previously saved a plan to a file using terraform plan -out=<filename>, you can pass that file to terraform apply to apply exactly what was planned, which ensures consistency between planning and applying. The apply command is idempotent, meaning running it multiple times with the same configuration will not cause issues - Terraform will only make the changes necessary to reach the desired state."
+    },
+    {
+      "id": 6,
+      "question": "What command destroys all infrastructure managed by Terraform?",
+      "options": [
+        "terraform destroy",
+        "terraform delete",
+        "terraform remove",
+        "terraform cleanup"
+      ],
+      "correctAnswer": "terraform destroy",
+      "explanation": "terraform destroy removes all resources defined in the Terraform configuration from the infrastructure.",
+      "detailedAnswer": "The terraform destroy command is used to destroy all the infrastructure resources that are managed by a particular Terraform configuration. When executed, it will read the current state file to determine what resources exist and need to be destroyed. It creates a plan showing all the resources that will be destroyed and asks for confirmation before proceeding. Like terraform apply, you can use -auto-approve to skip the confirmation prompt. This is a powerful and potentially dangerous command, as it will remove all infrastructure resources that Terraform is managing. It is commonly used when tearing down infrastructure that is no longer needed, such as when decommissioning a project or when you need to start fresh with a new configuration. It is important to note that terraform destroy only removes resources that are in Terraform's state - it cannot destroy resources that were created manually or outside of Terraform. To destroy specific resources rather than everything, you can use the -target flag to specify individual resources to destroy. Additionally, Terraform destroys resources in reverse order of their creation (to respect dependencies), ensuring that dependent resources are removed before the resources they depend on."
+    },
+    {
+      "id": 7,
+      "question": "What is Terraform state?",
+      "options": [
+        "A file that stores the current state of managed infrastructure",
+        "A configuration file",
+        "A log of all Terraform operations",
+        "A backup of infrastructure"
+      ],
+      "correctAnswer": "A file that stores the current state of managed infrastructure",
+      "explanation": "Terraform state is a file that stores the current state of all infrastructure resources managed by Terraform, allowing it to track and manage changes.",
+      "detailedAnswer": "Terraform state is a critical component of how Terraform works. It is a JSON file (named terraform.tfstate by default) that stores a complete and up-to-date record of all the infrastructure resources that Terraform has created or is managing. This state file serves several important purposes: it maps real-world resources to the configuration, it tracks metadata such as resource IDs that are needed for API calls, it allows Terraform to detect drift between the configuration and actual infrastructure, and it enables Terraform to destroy or modify resources correctly. The state file contains information about each resource including its type, name, provider, dependencies, and all the attributes (both those defined in configuration and those returned by the provider). By default, the state file is stored locally in the working directory. However, for team collaboration, it is recommended to use a remote backend (like S3, Azure Blob Storage, or Terraform Cloud) to store the state centrally. This prevents state file conflicts and allows multiple team members to work with the same Terraform configuration. The state file is updated automatically after each successful terraform apply. It is important to never manually edit the state file, as this can cause inconsistencies between what Terraform thinks exists and what actually exists in your infrastructure."
+    },
+    {
+      "id": 8,
+      "question": "What does the variable block define in Terraform?",
+      "options": [
+        "Input values that can be customized without changing the configuration",
+        "Output values exported from the configuration",
+        "Resource configurations",
+        "Provider settings"
+      ],
+      "correctAnswer": "Input values that can be customized without changing the configuration",
+      "explanation": "Variables in Terraform allow users to define input values that can be customized for different environments or configurations.",
+      "detailedAnswer": "The variable block in Terraform defines input variables that allow users to customize aspects of their Terraform configuration without modifying the main configuration files. This makes configurations more reusable, flexible, and maintainable. Variables can be defined with a name, optional description, optional type constraints, optional default values, and validation rules. Variables can be provided through several methods, in order of precedence: Command-line flags (-var or -var-file), Environment variables (TF_VAR_<name>), A terraform.tfvars or .auto.tfvars file in the current directory, A terraform.tfvars file specified with -var-file. Common use cases for variables include parameterizing resource names, sizes, or configurations for different environments (development, staging, production), making configurations portable across different teams or projects, and allowing for customization without changing the core infrastructure definition. Type constraints allow you to specify the expected type of a variable (string, number, bool, list, map, etc.), which helps catch configuration errors early. Validation rules can be added to ensure that variable values meet specific requirements before they are used. Variables are referenced in the configuration using the var.<NAME> syntax."
+    },
+    {
+      "id": 9,
+      "question": "What does the output block do in Terraform?",
+      "options": [
+        "Export values from the Terraform configuration for use by other systems",
+        "Import values into the configuration",
+        "Store secret values",
+        "Define resource dependencies"
+      ],
+      "correctAnswer": "Export values from the Terraform configuration for use by other systems",
+      "explanation": "Outputs in Terraform allow users to export values from their configuration that can be queried and used by other systems or configurations.",
+      "detailedAnswer": "The output block in Terraform is used to export values from the Terraform configuration that may be useful for other systems, other Terraform configurations, or for the user to see. Outputs are essentially return values for a Terraform module or the root module. Outputs can expose any value that is known within the Terraform configuration, including resource attributes, variables, local values, or computed values from expressions. Outputs are only shown when explicitly requested using the terraform output command. By default, all output values are shown, but you can filter to specific outputs by name. Outputs can be marked as sensitive (using the sensitive = true parameter) to prevent their values from being shown in the command-line output, which is useful for values that contain secrets or sensitive information. Outputs are often used to display connection strings, IP addresses, DNS names, or other important information after infrastructure has been provisioned. They are also crucial when using modules - a child module can expose outputs that can be accessed by the parent module using the module.<MODULE_NAME>.<OUTPUT_NAME> syntax."
+    },
+    {
+      "id": 10,
+      "question": "What is a Terraform module?",
+      "options": [
+        "A collection of Terraform configuration files in a directory",
+        "A single resource definition",
+        "A provider plugin",
+        "A state file"
+      ],
+      "correctAnswer": "A collection of Terraform configuration files in a directory",
+      "explanation": "A Terraform module is a collection of .tf and/or .tf.json files in a directory that defines a set of infrastructure resources.",
+      "detailedAnswer": "A Terraform module is a collection of Terraform configuration files (with .tf or .tf.json extensions) that are grouped together in a directory. Modules are the primary way to package and reuse Terraform configuration across different projects and organizations. A module can be as simple as a single directory with a few resources, or as complex as an entire multi-resource configuration that manages a complete architecture. Every Terraform configuration has at least one module, known as the root module, which consists of all the .tf files in the main working directory. Modules can call other modules, allowing for hierarchical composition of infrastructure. There are two types of modules: root modules (the main configuration directory) and child modules (which can be called from other modules). Child modules can be loaded from local paths or from remote sources like GitHub, Bitbucket, GitLab, Mercurial, S3 buckets, or the Terraform Registry. Using modules provides several benefits: Code reuse across multiple projects, Organization of complex infrastructure into logical components, Encapsulation of implementation details behind a simpler interface, Versioning of infrastructure components, and Sharing of configurations across teams. When a module is called, its resources are treated as part of the calling module's configuration, and their state is stored in the same state file."
+    },
+    {
+      "id": 11,
+      "question": "What is the purpose of a provider in Terraform?",
+      "options": [
+        "To provide the API interactions and resource definitions for a specific platform",
+        "To manage Terraform state",
+        "To store Terraform configurations",
+        "To run Terraform commands"
+      ],
+      "correctAnswer": "To provide the API interactions and resource definitions for a specific platform",
+      "explanation": "A provider in Terraform is a plugin that provides the API interactions and resource definitions for a specific infrastructure platform.",
+      "detailedAnswer": "A provider in Terraform is a plugin that provides the API interactions and resource definitions for a specific infrastructure platform or service. Providers are the fundamental building blocks of Terraform that enable it to manage infrastructure across different cloud providers, SaaS platforms, and other APIs. Each provider implements a set of resources (the infrastructure objects that can be managed) and data sources (read-only information that can be queried). For example, the AWS provider allows Terraform to create and manage AWS resources like EC2 instances, S3 buckets, and VPCs. The Azure provider does the same for Azure resources. Providers are specified in the configuration using a provider block, which can include configuration like API credentials, region settings, or other provider-specific parameters. Terraform uses these providers to translate the declarative configuration into API calls that create, read, update, and delete the actual infrastructure resources. Providers can be downloaded from the Terraform Registry (registry.terraform.io) or from private registries. Each provider has its own version, and provider versions can be constrained in the configuration using the version parameter or in a required_providers block. When terraform init is run, Terraform downloads the specified providers and their plugins. Providers can also be configured with aliases to allow multiple configurations for the same provider, which is useful when managing resources in different regions or with different credentials."
+    },
+    {
+      "id": 12,
+      "question": "What does the lifecycle block allow you to customize in Terraform?",
+      "options": [
+        "Resource creation, update, and destruction behavior",
+        "Provider configuration",
+        "Variable defaults",
+        "Module inputs"
+      ],
+      "correctAnswer": "Resource creation, update, and destruction behavior",
+      "explanation": "The lifecycle block allows customization of how a resource is created, updated, or destroyed by Terraform.",
+      "detailedAnswer": "The lifecycle block in Terraform is used within a resource configuration to customize the behavior of how that resource is created, updated, and destroyed throughout its lifecycle. This is useful when you need to control specific aspects of resource management that are not covered by the default Terraform behavior. The lifecycle block supports several parameters: create_before_destroy (boolean): When set to true, Terraform will create a new resource before destroying the old one during updates. This is useful for resources that cannot be destroyed without first creating a replacement (like database instances or load balancers), as it prevents service interruption. Default is false. prevent_destroy (boolean): When set to true, Terraform will not destroy the resource, even if it is removed from the configuration or if terraform destroy is run. This is useful for protecting critical resources from accidental deletion. ignore_changes (list): A list of resource attributes that Terraform should ignore when determining if the resource needs to be updated. This prevents Terraform from making changes to these attributes, even if they are changed externally (drift). replace_triggered_by (list of references): Allows you to specify that a resource should be replaced when certain values change, even if those values are not normally part of the resource's update logic. preconditions and postconditions: Define conditions that must be true before or after certain actions. These lifecycle customizations are particularly useful for managing stateful resources, handling dependencies, or dealing with external changes to infrastructure. They provide fine-grained control over how Terraform interacts with specific resources."
+    },
+    {
+      "id": 13,
+      "question": "What is a data source in Terraform?",
+      "options": [
+        "A read-only query of information from a provider",
+        "A resource that stores data",
+        "A variable input",
+        "A module output"
+      ],
+      "correctAnswer": "A read-only query of information from a provider",
+      "explanation": "A data source in Terraform allows users to query and use information from a provider without creating or managing infrastructure.",
+      "detailedAnswer": "A data source in Terraform is a way to query and use information from a provider without creating or managing any infrastructure resources. Data sources are read-only and are used to fetch information that already exists, either within your infrastructure or from external APIs. They are useful for getting information like existing VPC IDs, AMI IDs, IP addresses, or configuration details that you need to reference in your configuration but don't need to create. Data sources are defined using a data block in the Terraform configuration, and they are referenced using the data.<TYPE>.<NAME>.<ATTRIBUTE> syntax. Common use cases for data sources include: Looking up existing infrastructure that was created outside of Terraform, Getting dynamic values like the latest AMI ID or zone information, Fetching configuration details from cloud providers, Querying information from other Terraform state files, and Accessing data from external APIs or services. Unlike resources, data sources do not modify infrastructure - they only read information. Data sources are also refreshed every time Terraform runs (unless cached), ensuring that your configuration always has access to the most up-to-date information. Terraform has many built-in data sources for each provider, and custom data sources can be implemented by provider developers."
+    },
+    {
+      "id": 14,
+      "question": "What is the purpose of the depends_on argument?",
+      "options": [
+        "To explicitly specify dependencies between resources",
+        "To define variable dependencies",
+        "To set provider configurations",
+        "To import existing infrastructure"
+      ],
+      "correctAnswer": "To explicitly specify dependencies between resources",
+      "explanation": "The depends_on argument is used to explicitly specify that one resource depends on another, requiring it to be created first.",
+      "detailedAnswer": "The depends_on argument in Terraform is used to explicitly specify dependencies between resources. By default, Terraform analyzes the configuration and automatically determines dependencies based on resource references (like using one resource's attributes in another resource's definition). However, there are cases where resources have dependencies that Terraform cannot infer automatically. This is where depends_on comes in - it allows you to explicitly state that one resource must be created before another, even if there is no direct reference between them. The depends_on argument accepts a list of resource addresses (in the format resource.<TYPE>.<NAME>) that must be created before the current resource. This is useful in several scenarios: When a resource needs to wait for another resource to be fully provisioned and available, even if there's no direct attribute reference, When managing resources that have implicit dependencies (like security groups and instances), When you want to control the order of operations for reasons beyond what Terraform can infer, and When working with resources from different providers that have dependencies. It is important to note that depends_on should be used sparingly, as Terraform's automatic dependency detection is usually sufficient. Overuse of depends_on can make configurations harder to understand and maintain. Also, circular dependencies (where resource A depends on resource B, which depends on resource A) are not allowed and will cause Terraform to fail."
+    },
+    {
+      "id": 15,
+      "question": "What is remote state in Terraform?",
+      "options": [
+        "Storing Terraform state in a shared, central location for team collaboration",
+        "Accessing infrastructure remotely",
+        "Running Terraform commands on remote servers",
+        "Managing resources in different regions"
+      ],
+      "correctAnswer": "Storing Terraform state in a shared, central location for team collaboration",
+      "explanation": "Remote state allows multiple team members to access and work with the same Terraform state file by storing it in a shared location.",
+      "detailedAnswer": "Remote state in Terraform refers to the practice of storing Terraform's state file in a shared, central location rather than locally on a user's machine. This enables team collaboration, where multiple team members can work with the same Terraform configuration and state without causing conflicts or inconsistencies. By default, Terraform stores state locally in a file called terraform.tfstate in the working directory. However, this local storage approach has limitations for team collaboration: only one person can safely apply changes at a time, state files can be accidentally deleted or modified, and there is no centralized view of the current infrastructure. Remote state solves these problems by storing the state file in a shared backend like Amazon S3, Azure Blob Storage, Google Cloud Storage, Terraform Cloud, or other supported backends. When using remote state, Terraform will automatically read from and write to the remote backend, ensuring that all team members are working with the same state. Remote backends also typically provide features like state locking (to prevent concurrent modifications), state versioning (to allow rollback), and access controls (to manage permissions). To use remote state, you configure a backend in your Terraform configuration using a backend block, specifying the type of backend and its configuration. Once configured, running terraform init will set up the remote backend, and subsequent Terraform commands will automatically use it for state storage."
+    }
+  ]
+}

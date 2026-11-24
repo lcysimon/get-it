@@ -5,6 +5,8 @@ import dataEngineeringMidLevel from './data-engineering-mid-level.json';
 import dataStreaming from './data-streaming.json';
 import dataLake from './data-lake.json';
 import apacheSpark from './apache-spark.json';
+import terraform from './terraform.json';
+import kafka from './kafka.json';
 
 // Combine all quizzes into an array
 export const quizzes = [
@@ -13,7 +15,9 @@ export const quizzes = [
   dataEngineeringMidLevel,
   dataStreaming,
   dataLake,
-  apacheSpark
+  apacheSpark,
+  terraform,
+  kafka
 ];
 
 // Extract unique categories

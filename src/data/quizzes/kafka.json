@@ -1,0 +1,203 @@
+{
+  "id": 8,
+  "title": "Apache Kafka",
+  "description": "Deep dive into Apache Kafka event streaming platform",
+  "category": "Data",
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is Apache Kafka?",
+      "options": [
+        "Distributed event streaming platform",
+        "Batch processing framework",
+        "Database management system",
+        "Message queue only"
+      ],
+      "correctAnswer": "Distributed event streaming platform",
+      "explanation": "Apache Kafka is a distributed event streaming platform designed for high-throughput, fault-tolerant, low-latency event processing.",
+      "detailedAnswer": "Apache Kafka is an open-source distributed event streaming platform originally developed at LinkedIn in 2010 and later open-sourced as an Apache project in 2011. It is designed to handle high-throughput, fault-tolerant, and low-latency event streaming, making it one of the most popular platforms for real-time data pipelines and streaming applications. Kafka's core architecture is based on the publish-subscribe model, where producers publish events to topics, and consumers subscribe to those topics to read and process the events. The platform is built to be distributed across multiple servers called brokers, which allows it to scale horizontally to handle massive volumes of data while maintaining high availability and durability. Kafka achieves fault tolerance through data replication - each partition of a topic is replicated across multiple brokers, and if a broker fails, another broker can take over as the leader for those partitions. Kafka's architecture enables it to handle millions of events per second with sub-millisecond latency, making it suitable for a wide range of use cases including real-time analytics, event-driven architectures, message queues, log aggregation, clickstream tracking, and data integration across microservices. Kafka's durability is achieved through persistent storage of events on disk, and its retention policies allow events to be stored for extended periods (from hours to years), enabling replay of historical data for new consumers or reprocessing scenarios."
+    },
+    {
+      "id": 2,
+      "question": "What is a Kafka topic?",
+      "options": [
+        "Category or feed name to which events are published",
+        "Database table",
+        "Processing engine",
+        "Storage location"
+      ],
+      "correctAnswer": "Category or feed name to which events are published",
+      "explanation": "A Kafka topic is a category or feed name to which events are published by producers and from which consumers read.",
+      "detailedAnswer": "A Kafka topic is a category, feed name, or logical channel to which events (also called messages or records) are published by producers. Topics serve as the primary abstraction for organizing and categorizing events within Kafka, allowing producers and consumers to communicate without needing to know about each other's existence. Each topic is identified by a unique name within the Kafka cluster and can contain multiple partitions, which enables parallel processing and horizontal scaling of data. Topics are durable, meaning that events published to a topic are retained for a configurable period (based on time or size), even after they have been consumed by subscribers. This retention allows consumers to replay events from the past, which is useful for recovery, reprocessing, or adding new consumer applications. Kafka supports two types of topics: regular topics for standard event streaming, and internal topics that are used by Kafka itself for various purposes such as storing group coordination data. Topics can be created automatically when first used (if auto.create.topics.enable is true) or manually through administrative commands. The partition count for a topic is determined at creation time and cannot be decreased, though it can be increased later to handle greater throughput. Topics form the foundation of Kafka's event streaming model, enabling the decoupling of producers and consumers."
+    },
+    {
+      "id": 3,
+      "question": "What is a Kafka partition?",
+      "options": [
+        "Ordered, immutable sequence of events within a topic",
+        "Database shard",
+        "Processing thread",
+        "Backup copy"
+      ],
+      "correctAnswer": "Ordered, immutable sequence of events within a topic",
+      "explanation": "A partition is an ordered, immutable sequence of events within a topic. Each topic is split into partitions for scalability and parallelism.",
+      "detailedAnswer": "A Kafka partition is a fundamental organizational unit within a Kafka topic that represents an ordered, immutable sequence of events. Each partition is a logical division of the topic's data, allowing Kafka to distribute data across multiple brokers and achieve horizontal scalability. Events within a partition are strictly ordered by their offset, which is a sequential ID assigned by Kafka as events are appended to the partition. This ordering guarantees that events are read in the same order they were written within each partition. It's important to note that ordering is only guaranteed within a single partition, not across multiple partitions within a topic. Partitions also enable parallel processing, as different consumers can read from different partitions simultaneously, dramatically increasing throughput. Each partition is assigned to a single broker as its leader, which handles all read and write requests for that partition, while zero or more brokers can act as followers, replicating the data for fault tolerance. The partition leader is automatically elected among the replicas if the current leader fails. When a topic is created, the number of partitions is specified, and this determines the maximum degree of parallelism for both producers and consumers. More partitions allow for higher throughput but also increase overhead and ZooKeeper load. The partitioning strategy determines how events are distributed across partitions: by default, producers use a round-robin strategy, or can specify a custom partitioner based on event keys to ensure that events with the same key always go to the same partition."
+    },
+    {
+      "id": 4,
+      "question": "What is a Kafka broker?",
+      "options": [
+        "Server that stores topic partitions and serves client requests",
+        "Client application that produces events",
+        "Client application that consumes events",
+        "Database server"
+      ],
+      "correctAnswer": "Server that stores topic partitions and serves client requests",
+      "explanation": "A Kafka broker is a server that stores topic partitions and serves client requests for producing and consuming events.",
+      "detailedAnswer": "A Kafka broker is a server that forms part of a Kafka cluster and is responsible for storing topic partitions and serving client requests. Each broker in a Kafka cluster hosts a subset of the partitions for all topics, and multiple brokers together provide the scalability, fault tolerance, and high availability that Kafka is known for. When a producer sends events to a topic, the broker receives these events and appends them to the appropriate partition on disk. When consumers request events from a topic, the broker reads the events from its local disk and returns them. Each broker also maintains metadata about the cluster, including information about which brokers are currently alive, which partitions they host, and which broker is the leader for each partition. Kafka brokers use Apache ZooKeeper (or in newer versions, KRaft mode) for cluster coordination, which includes electing a controller broker that manages cluster-wide operations like partition leadership election, topic creation and deletion, and detecting broker failures. The brokers communicate with each other to replicate data, ensuring that each partition has multiple replicas across different brokers for fault tolerance. When a broker fails, the controller detects this and elects new leaders for the partitions that were on the failed broker from among the replicas. Brokers expose their functionality to clients through a binary protocol over TCP, typically on port 9092. They also expose a REST API through Kafka's Connect component for data integration."
+    },
+    {
+      "id": 5,
+      "question": "What is a Kafka producer?",
+      "options": [
+        "Client application that publishes events to topics",
+        "Client that reads events",
+        "Server that stores events",
+        "Database client"
+      ],
+      "correctAnswer": "Client application that publishes events to topics",
+      "explanation": "A Kafka producer is a client application that publishes (writes) events to Kafka topics.",
+      "detailedAnswer": "A Kafka producer is a client application or process that publishes (writes) events to one or more Kafka topics. Producers are responsible for creating and sending events to the Kafka cluster, and they play a crucial role in the event streaming ecosystem. When a producer sends events, it specifies which topic the events should be published to, and optionally can provide a key for the event, which determines which partition within the topic the event will be written to (using a partitioner). If no key is provided, the producer uses a round-robin partitioner to distribute events evenly across all partitions of the topic. Producers can send events synchronously (waiting for acknowledgment from the broker before continuing) or asynchronously (queuing events and sending them in the background), with various configuration options for balancing between throughput and reliability. The producer includes a buffer for holding events before they are sent to the broker, and it can be configured to batch multiple events together to improve throughput. Producers also support various acknowledgment modes: acks=0 (fire-and-forget, no acknowledgment from broker), acks=1 (leader acknowledgment, fastest but data may be lost if leader fails before replication), and acks=all or acks=-1 (all replicas acknowledgment, most durable but slowest as it waits for all in-sync replicas to acknowledge). Modern Kafka producers are designed to be highly efficient, capable of handling millions of events per second with low latency. Kafka provides client libraries for producers in various programming languages including Java, Scala, Python, Go, Node.js, and others."
+    },
+    {
+      "id": 6,
+      "question": "What is a Kafka consumer?",
+      "options": [
+        "Client application that subscribes to and reads events",
+        "Client that publishes events",
+        "Server that stores events",
+        "Processing engine"
+      ],
+      "correctAnswer": "Client application that subscribes to and reads events",
+      "explanation": "A Kafka consumer is a client application that subscribes to and reads events from Kafka topics.",
+      "detailedAnswer": "A Kafka consumer is a client application or process that subscribes to and reads events from one or more Kafka topics. Consumers are responsible for processing the events that they read from Kafka. Unlike traditional message queues where messages are removed once consumed, Kafka consumers do not remove events from the topic - events remain in the topic until they expire based on the topic's retention policy. This allows multiple consumers to read the same events independently and at their own pace. Kafka supports two modes for consumers: the older high-level Consumer API (deprecated) and the newer Consumer Groups API (recommended). With consumer groups, multiple consumer instances can work together to consume events from a topic in parallel, with each instance reading from different partitions. This enables horizontal scaling of consumption. Each consumer in a group reads from exclusive partitions, ensuring that each event is processed by only one consumer in the group. If a consumer fails or is slow, Kafka will rebalance the partitions among the remaining consumers in the group. Consumers track their position (offset) in each partition they are reading from, allowing them to resume from where they left off if they are restarted. This offset can be committed manually or automatically. Kafka provides client libraries for consumers in various programming languages. Consumers can also be configured with various options including offset commit strategies, session timeouts, heartbeat intervals, and more."
+    },
+    {
+      "id": 7,
+      "question": "What is a consumer group?",
+      "options": [
+        "Set of consumer instances that work together to consume from topics",
+        "Collection of topics",
+        "Group of producers",
+        "Set of brokers"
+      ],
+      "correctAnswer": "Set of consumer instances that work together to consume from topics",
+      "explanation": "A consumer group is a set of consumer instances that work together to consume and process events from one or more topics.",
+      "detailedAnswer": "A consumer group in Apache Kafka is a set of consumer instances that work together to consume and process events from one or more topics. Consumer groups enable parallel processing of events and provide fault tolerance for consumers. Each consumer in a group reads from exclusive partitions of the subscribed topics, ensuring that each event is processed by only one consumer in the group. This parallel consumption allows for horizontal scaling of event processing. When a new consumer joins a group, Kafka will trigger a rebalance, redistributing partitions among all consumers in the group. Similarly, if a consumer fails or leaves the group, a rebalance will be triggered to redistribute its partitions to the remaining consumers. Consumer groups also track the offset (position) of each partition they are reading from. When a consumer processes events, it periodically commits its current offset to Kafka, indicating which events have been successfully processed. If a consumer fails, another consumer in the group can take over its partitions and resume processing from the last committed offset. Consumer groups are identified by a unique group.id, which is used for offset tracking and group management. The group.id is specified when creating the consumer, and all consumers with the same group.id belong to the same group. Kafka supports dynamic membership in consumer groups - consumers can join and leave the group without disrupting the processing of other consumers. Consumer groups also support various configurations for controlling rebalance behavior, session timeouts, and offset commit strategies."
+    },
+    {
+      "id": 8,
+      "question": "What is ZooKeeper's role in traditional Kafka?",
+      "options": [
+        "Maintain cluster metadata and coordinate brokers",
+        "Store events",
+        "Process events",
+        "Serve client requests"
+      ],
+      "correctAnswer": "Maintain cluster metadata and coordinate brokers",
+      "explanation": "ZooKeeper maintains cluster metadata and coordinates between brokers in traditional Kafka deployments.",
+      "detailedAnswer": "ZooKeeper played a crucial role in traditional Apache Kafka deployments (prior to version 3.3.0) by providing a centralized service for maintaining cluster metadata and coordinating between brokers. As a distributed, hierarchical key-value store, ZooKeeper was used to store critical information that Kafka needed to operate, including: the list of brokers in the cluster, the topics and their partitions, which broker was the leader for each partition, the configuration of topics (including partition counts and replication factors), and access control lists (ACLs). ZooKeeper's primary responsibilities for Kafka included: electing a controller broker (a special broker that manages cluster-wide operations like partition leadership election, topic creation and deletion), detecting broker failures and triggering leader election for affected partitions, maintaining the list of active brokers and notifying the cluster when brokers joined or left, storing topic metadata including partition counts and replication factors, and maintaining the list of in-sync replicas (ISR) for each partition. ZooKeeper's design provided high availability through a quorum-based architecture, where data was replicated across multiple ZooKeeper servers (called an ensemble), and the system could tolerate the failure of individual servers as long as a majority remained operational. However, using ZooKeeper as a separate dependency added complexity to Kafka deployments and created a single point of failure if the ZooKeeper ensemble itself became unavailable. To address these limitations, Kafka 3.3.0 and later introduced KRaft mode (Kafka Raft), which replaces ZooKeeper with a built-in consensus protocol based on the Raft algorithm. In KRaft mode, Kafka brokers themselves maintain the cluster metadata and coordinate operations, eliminating the dependency on ZooKeeper and simplifying the architecture while improving reliability and performance."
+    },
+    {
+      "id": 9,
+      "question": "What is the Kafka Connect API?",
+      "options": [
+        "Framework for building data pipelines to integrate Kafka with external systems",
+        "API for producing and consuming events",
+        "API for managing topics",
+        "API for monitoring brokers"
+      ],
+      "correctAnswer": "Framework for building data pipelines to integrate Kafka with external systems",
+      "explanation": "Kafka Connect is a framework for building data pipelines that integrate Kafka with external systems like databases, file systems, and cloud services.",
+      "detailedAnswer": "Kafka Connect is a framework included with Apache Kafka that provides a standardized way to build and manage data pipelines for integrating Kafka with external systems. It is designed to make it easier to move data in and out of Kafka by providing a common framework for developing connectors that can read from (source connectors) or write to (sink connectors) various data systems. Kafka Connect provides several key benefits: Standardization of connector development through a common API and framework, Centralized management and configuration of connectors through a REST API, Scalability through distributed workers that can run multiple connectors in parallel, Fault tolerance through automatic detection and recovery from connector failures, and Offset management for tracking data position in both Kafka topics and external systems. Kafka Connect runs as a service (the Connect worker) that manages the execution of connectors. Connectors are plugins that implement the actual data movement logic, and they can be developed by anyone and published for others to use. Kafka provides many built-in connectors for common data sources and sinks, and there is a vibrant ecosystem of community-developed connectors. Kafka Connect supports two modes of operation: standalone mode (single worker, suitable for development and testing) and distributed mode (multiple workers, suitable for production). Connectors are configured using JSON files that specify the connector class, connection details, and other parameters. The Connect REST API allows for dynamic management of connectors, including adding, removing, and reconfiguring connectors without restarting the service."
+    },
+    {
+      "id": 10,
+      "question": "What is Kafka Streams?",
+      "options": [
+        "Library for building stream processing applications with Kafka",
+        "High-level consumer API",
+        "Kafka monitoring tool",
+        "Kafka management interface"
+      ],
+      "correctAnswer": "Library for building stream processing applications with Kafka",
+      "explanation": "Kafka Streams is a client library for building stream processing applications that consume from and produce to Kafka topics.",
+      "detailedAnswer": "Kafka Streams is a client library for building real-time stream processing applications that consume from, process, and produce to Apache Kafka topics. It is a lightweight library that can be integrated into any Java application, allowing developers to build powerful stream processing applications using simple, functional APIs. Kafka Streams provides a higher-level abstraction compared to the basic Producer and Consumer APIs, making it easier to build complex stream processing pipelines without the need for specialized processing frameworks. Key features of Kafka Streams include: Simple APIs for common stream processing operations including filtering, mapping, joining, aggregating, and windowing, Exactly-once processing semantics to ensure that each event is processed exactly one time, even in the case of failures or retries, Event-time processing with support for late-arriving events, Stateful processing with automatic state management and fault tolerance, Scalability through partitioning, where the library automatically parallelizes processing based on the partitions of the input topics, Fault tolerance through automatic recovery from failures, including the ability to resume processing from the correct offset, At-least-once delivery guarantees by default, with exactly-once delivery available when combined with idempotent producers and transactional writes, and Integration with Kafka's ecosystem, including Kafka Connect for data integration. Kafka Streams applications are lightweight and can be run in any environment that supports Java, including containers, virtual machines, or bare metal servers. Multiple instances of the same Kafka Streams application can run in parallel, automatically sharing the work based on partition assignment. The library provides DSL (Domain Specific Language) and Processor API for building applications. The DSL provides a declarative approach using high-level abstractions like KStream and KTable, while the Processor API provides a more low-level, imperative approach for building custom processing logic."
+    },
+    {
+      "id": 11,
+      "question": "What is a compacted topic in Kafka?",
+      "options": [
+        "Topic that retains only the latest value for each key",
+        "Topic with compressed messages",
+        "Topic with small partitions",
+        "Topic with limited retention"
+      ],
+      "correctAnswer": "Topic that retains only the latest value for each key",
+      "explanation": "A compacted topic retains only the latest value for each key, allowing it to be used as a key-value log.",
+      "detailedAnswer": "A compacted topic in Apache Kafka is a topic that is configured with the log.cleanup.policy set to compact (or compact,delete), which causes Kafka to retain only the latest value for each key in the topic. This cleanup policy is particularly useful for topics that are used as key-value logs, where the latest value for a key is the most important one. With compaction, Kafka will periodically clean up old messages in each partition by removing messages with the same key but keeping only the most recent one. This is done in the background by a compaction thread that runs on each broker. The compaction process works by scanning the log for each partition and building an in-memory map of the latest value for each key. It then rewrites the log, keeping only the latest value for each key and maintaining the order of keys. The compaction process does not remove messages immediately - it operates on a configurable schedule and only cleans up segments that meet certain criteria (like being older than a certain age or having a certain number of messages). Compacted topics are useful for various use cases, including: Storing configuration data where the latest value for a key is the current configuration, Implementing changelogs where each change is represented by a new value for a key, Building event sourcing systems where the latest state for an entity is stored as the latest value for its key, and Creating a durable, distributed key-value store on top of Kafka. It is important to note that compaction only works for topics where messages have keys, and it does not guarantee that all messages will be compacted away - messages without keys will still remain in the topic until they expire based on the retention policy."
+    },
+    {
+      "id": 12,
+      "question": "What is the purpose of Kafka's idempotent producer?",
+      "options": [
+        "To ensure exactly-once semantics for message production",
+        "To produce messages in order",
+        "To produce messages faster",
+        "To compress messages"
+      ],
+      "correctAnswer": "To ensure exactly-once semantics for message production",
+      "explanation": "Idempotent producer ensures that messages are not duplicated even if they are retried due to transient errors.",
+      "detailedAnswer": "The idempotent producer feature in Apache Kafka is designed to ensure exactly-once semantics for message production, preventing message duplication even when messages are retried due to transient errors or network issues. Prior to idempotent producers, if a producer failed to receive an acknowledgment from the broker, it would not know whether the message was successfully written or not. In this case, the producer might retry sending the message, potentially resulting in duplicate messages in the topic. With idempotent producers enabled (by setting enable.idempotence=true in the producer configuration), Kafka guarantees that each message will be written exactly once, even if the producer retries. This is achieved through a combination of mechanisms: Each message is assigned a unique sequence number by the producer, The broker tracks the sequence numbers for each producer and partition, If a duplicate message (with the same sequence number) is received, the broker will reject it, The producer will not retry messages that have already been acknowledged. This exactly-once guarantee is important for applications where duplicate messages would cause problems, such as financial transactions or inventory management systems. Idempotent producers also provide additional benefits, including automatic retries with exponential backoff for transient errors, and a maximum of five in-flight requests per partition to maintain ordering while allowing for some parallelism. When idempotent producers are combined with transactional writes (using Kafka's transactions API), Kafka can provide end-to-end exactly-once semantics, ensuring that messages are produced, consumed, and processed exactly once across multiple partitions or topics. This is achieved through the use of a transaction coordinator and a two-phase commit protocol."
+    },
+    {
+      "id": 13,
+      "question": "What is a KTable in Kafka Streams?",
+      "options": [
+        "Represents a changelog stream with updates for each key",
+        "Static table of data",
+        "Stream of events",
+        "Collection of topics"
+      ],
+      "correctAnswer": "Represents a changelog stream with updates for each key",
+      "explanation": "A KTable is a stream abstraction that represents a changelog of updates for each key, where each update is a new value for that key.",
+      "detailedAnswer": "A KTable in Kafka Streams is an abstraction that represents a changelog stream of updates for each key. It is one of the two primary abstractions in the Kafka Streams DSL, along with KStream. While a KStream represents a stream of events where each event is independent, a KTable represents a stream of updates where each update is a new value for a specific key. A KTable can be thought of as a combination of a table and a stream - it has the characteristics of a table (where each key has a current value) and a stream (where updates to that value arrive over time). KTables are created from Kafka topics that are configured for compaction (log.cleanup.policy=compact), where Kafka retains only the latest value for each key. When you create a KTable from a Kafka topic, Kafka Streams will read the topic and maintain an in-memory representation of the current value for each key. As new messages with the same key arrive, Kafka Streams will update the KTable with the new value. KTables support various operations including: filter (filter based on value), mapValues (transform values), join (join with other KTables based on keys), leftJoin (left join with other KTables), and aggregate (aggregate values). KTables can be created from Kafka topics using the builder.table() method, or they can be created from KStreams using various aggregation and join operations. When you write a KTable back to a Kafka topic, Kafka Streams will produce a changelog stream that contains only the updates, rather than the full state of the table. This makes KTables efficient for representing stateful data that changes over time."
+    },
+    {
+      "id": 14,
+      "question": "What is a KStream in Kafka Streams?",
+      "options": [
+        "Represents a stream of events with each message as an independent unit",
+        "Stream of key-value pairs",
+        "Batch processing stream",
+        "Static collection of data"
+      ],
+      "correctAnswer": "Represents a stream of events with each message as an independent unit",
+      "explanation": "A KStream represents an unbounded, append-only stream of events where each message is treated as an independent unit.",
+      "detailedAnswer": "A KStream in Kafka Streams is an abstraction that represents an unbounded, append-only stream of events where each message is treated as an independent unit. It is one of the two primary abstractions in the Kafka Streams DSL, along with KTable. A KStream represents a stream of immutable events that are appended to one or more Kafka topics. Each event in a KStream has a key and a value, and the events are ordered within each partition of the underlying Kafka topics. KStreams are created from Kafka topics using the builder.stream() method, and they support various operations for processing the events, including: filter (filter based on key or value), map (transform keys and values), flatMap (transform to zero, one, or more events), mapValues (transform values only), filterNot (inverse filter), and branch (split into multiple KStreams based on predicates). KStreams can also be joined with other KStreams or KTables, aggregated, or written to other Kafka topics. KStreams are processed in a continuous, streaming fashion, with events being processed as they arrive. The processing can be stateless (where each event is processed independently) or stateful (where events are processed using state that is maintained and updated over time). KStreams can be used to implement various stream processing patterns, including filtering, transformation, enrichment, and routing. When you write a KStream to a Kafka topic, Kafka Streams will produce messages to the topic in the same format as the input, maintaining the key-value pairs and ordering within partitions."
+    },
+    {
+      "id": 15,
+      "question": "What is the purpose of Kafka Schema Registry?",
+      "options": [
+        "To manage and validate schemas for Kafka message formats",
+        "To register consumers with topics",
+        "To manage Kafka cluster configuration",
+        "To monitor Kafka brokers"
+      ],
+      "correctAnswer": "To manage and validate schemas for Kafka message formats",
+      "explanation": "Kafka Schema Registry is a tool for managing and validating schemas for message formats like Avro, JSON, and Protobuf in Kafka.",
+      "detailedAnswer": "Kafka Schema Registry is an optional but highly recommended component of the Apache Kafka ecosystem that provides a centralized repository for managing and validating schemas for Kafka message formats. It is designed to solve the problem of schema management in distributed event streaming systems where producers and consumers need to agree on the format and structure of messages. Schema Registry provides several key benefits: It ensures compatibility between producers and consumers by validating that messages conform to registered schemas, It enables schema evolution by allowing schemas to change over time while maintaining backward and forward compatibility, It provides a centralized repository for storing and managing schemas, making them easy to discover and reuse, It enables better data governance by providing visibility into the schemas used across the organization. Schema Registry supports various schema formats including Avro, JSON Schema, and Protobuf. When a producer wants to send a message to Kafka, it first registers the schema with Schema Registry (or uses an existing schema). The producer then includes the schema ID in the message, allowing consumers to retrieve the schema from Schema Registry and deserialize the message. Schema Registry supports various compatibility modes for schema evolution, including: BACKWARD (consumers can read data written with the new schema), FORWARD (producers can write data that consumers with the old schema can read), FULL (both backward and forward compatibility), and NONE (no compatibility checks). Schema Registry is typically deployed as a separate service alongside Kafka brokers, and it integrates with Kafka producers and consumers through client libraries and serializers/deserializers (SerDes). Schema Registry also provides a REST API for managing schemas programmatically, making it easy to integrate with other systems and tools."
+    }
+  ]
+}
